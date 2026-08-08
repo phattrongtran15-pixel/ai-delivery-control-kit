@@ -11,21 +11,21 @@
     "created_at": "2026-08-08T19:38:29Z"
   },
   "published_source": {
-    "commit": "332c62c16ca573ce3e6ae277ab5f10cad0d25465",
-    "tag": "v0.2.0",
-    "release_url": "https://github.com/phattrongtran15-pixel/ai-delivery-control-kit/releases/tag/v0.2.0",
-    "release_published_at": "2026-08-08T19:46:32Z"
+    "commit": "5978da17f783dac6d50ec4ba78bfd8ed163e3023",
+    "tag": "v0.2.1",
+    "release_url": "https://github.com/phattrongtran15-pixel/ai-delivery-control-kit/releases/tag/v0.2.1",
+    "release_published_at": "2026-08-08T19:49:34Z"
   },
   "continuous_integration": {
     "workflow": "test",
     "matrix": ["Python 3.10", "Python 3.11", "Python 3.12"],
     "branch_push_run": {
       "status": "PASS",
-      "url": "https://github.com/phattrongtran15-pixel/ai-delivery-control-kit/actions/runs/31275258340"
+      "url": "https://github.com/phattrongtran15-pixel/ai-delivery-control-kit/actions/runs/31275385037"
     },
     "tag_push_run": {
       "status": "PASS",
-      "url": "https://github.com/phattrongtran15-pixel/ai-delivery-control-kit/actions/runs/31275260439"
+      "url": "https://github.com/phattrongtran15-pixel/ai-delivery-control-kit/actions/runs/31275386707"
     }
   },
   "claim_boundary": {

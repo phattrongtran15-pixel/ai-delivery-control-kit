@@ -2,14 +2,14 @@
   "schema_version": "OSS-RELEASE-VERIFICATION-v1",
   "project_id": "OSS_RECOVERY_DIVIDEND-01",
   "version": "0.2.1",
-  "verified_at": "2026-08-08T19:49:17.418105+00:00",
+  "verified_at": "2026-08-08T19:50:41.033318+00:00",
   "status": "PASS",
   "tests": "16/16 PASS",
   "cli_examples": "2/2 PASS",
   "compileall": "PASS",
   "wheel_build": "PASS",
   "wheel_name": "ai_delivery_control-0.2.1-py3-none-any.whl",
-  "wheel_sha256": "75e598e1e297aee5bb7eab43b0d610acada63842143402f2c0ab43f8c76c8c3f",
+  "wheel_sha256": "56fb3b0c5649a4eb5284f19ab57f634313401456a2bcee1f5662d76ef5257f0c",
   "publication_scan": {
     "private_path_hits": 0,
     "secret_pattern_hits": 0,
@@ -80,10 +80,10 @@
         "--no-deps",
         "--no-build-isolation",
         "--wheel-dir",
-        "C:\\Users\\phatt\\AppData\\Local\\Temp\\ai-delivery-control-wheel-nocsan85"
+        "C:\\Users\\phatt\\AppData\\Local\\Temp\\ai-delivery-control-wheel-jo7r9cyb"
       ],
       "returncode": 0,
-      "stdout_tail": "Processing c:\\users\\phatt\\documents\\codex\\2026-08-08\\hi-long-timenoseee\\oss-recovery-dividend\n  Preparing metadata (pyproject.toml): started\n  Preparing metadata (pyproject.toml): finished with status 'done'\nBuilding wheels for collected packages: ai-delivery-control\n  Building wheel for ai-delivery-control (pyproject.toml): started\n  Building wheel for ai-delivery-control (pyproject.toml): finished with status 'done'\n  Created wheel for ai-delivery-control: filename=ai_delivery_control-0.2.1-py3-none-any.whl size=10075 sha256=75e598e1e297aee5bb7eab43b0d610acada63842143402f2c0ab43f8c76c8c3f\n  Stored in directory: c:\\users\\phatt\\appdata\\local\\pip\\cache\\wheels\\12\\b0\\f4\\ce954924aa78916f2f1bb72abe57958c27c90c1914b807ee3d\nSuccessfully built ai-delivery-control\n",
+      "stdout_tail": "Processing c:\\users\\phatt\\documents\\codex\\2026-08-08\\hi-long-timenoseee\\oss-recovery-dividend\n  Preparing metadata (pyproject.toml): started\n  Preparing metadata (pyproject.toml): finished with status 'done'\nBuilding wheels for collected packages: ai-delivery-control\n  Building wheel for ai-delivery-control (pyproject.toml): started\n  Building wheel for ai-delivery-control (pyproject.toml): finished with status 'done'\n  Created wheel for ai-delivery-control: filename=ai_delivery_control-0.2.1-py3-none-any.whl size=10077 sha256=56fb3b0c5649a4eb5284f19ab57f634313401456a2bcee1f5662d76ef5257f0c\n  Stored in directory: c:\\users\\phatt\\appdata\\local\\pip\\cache\\wheels\\12\\b0\\f4\\ce954924aa78916f2f1bb72abe57958c27c90c1914b807ee3d\nSuccessfully built ai-delivery-control\n",
       "stderr_tail": "\n[notice] A new release of pip is available: 24.0 -> 26.2.1\n[notice] To update, run: python.exe -m pip install --upgrade pip\n"
     }
   ],
@@ -170,7 +170,7 @@
     },
     {
       "path": "README.md",
-      "sha256": "4dcb421d7871aaead03871728e266469b4b16aa310a0d7f1c5252df972dc22f8",
+      "sha256": "27db8360e21a8ecbf276c7d85ec53e847f5e6ef5288f5df484f1dce0709fc434",
       "size_bytes": 3525
     },
     {
@@ -185,12 +185,12 @@
     },
     {
       "path": "reports/OSS_RECOVERY_DIVIDEND-01.md",
-      "sha256": "afa0cbabdce2eeefdbf141e1ef47c94e3b0bb40c46c460b14c4c10c5aaacd8f0",
+      "sha256": "a20566dbc9a7d8528afb712739014a9a1a1d9e561316a75e9cab97d7cc852006",
       "size_bytes": 2234
     },
     {
       "path": "reports/PUBLICATION_RECEIPT.json",
-      "sha256": "9c9582b065864382c14039f56c00981b81d8ae074ccf52a7f70296609b9cc78f",
+      "sha256": "4b4e91167960cd26ff24c5e3290f80343ded7b2ddf380d095746f30703e85c92",
       "size_bytes": 1378
     },
     {
