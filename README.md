@@ -65,7 +65,7 @@ No demand, revenue, production readiness, or security claim is inferred from rep
 
 - Local build and tests: `VERIFIED` when the test receipt is present.
 - Public repository and release: `VERIFIED` at [phattrongtran15-pixel/ai-delivery-control-kit](https://github.com/phattrongtran15-pixel/ai-delivery-control-kit).
-- Public CI: `VERIFIED` for Python 3.10, 3.11, and 3.12 on commit `34cd7a573ac9ffb5a3350c66d2cbd82a15c247ac`.
+- Public CI: `VERIFIED` for Python 3.10, 3.11, and 3.12 on release commit `332c62c16ca573ce3e6ae277ab5f10cad0d25465`.
 - External demand: `MEASUREMENT_MISSING` until a real user action is recorded.
 - Revenue: `0 VERIFIED` until transaction evidence exists.
 

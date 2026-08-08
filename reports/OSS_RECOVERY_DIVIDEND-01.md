@@ -42,7 +42,7 @@ Demand, `FIRST_VERIFIED_VALUE`, and revenue are separate gates and cannot be inf
 
 `PUBLIC_RELEASE_VERIFIED`
 
-- Unit tests: `9/9 PASS`.
+- Unit tests: `15/15 PASS`.
 - CLI examples: `2/2 PASS`.
 - Python compilation: `PASS`.
 - Wheel build: `PASS`.
@@ -52,8 +52,8 @@ Demand, `FIRST_VERIFIED_VALUE`, and revenue are separate gates and cannot be inf
 Public evidence:
 
 - Repository: `https://github.com/phattrongtran15-pixel/ai-delivery-control-kit`.
-- Release: `https://github.com/phattrongtran15-pixel/ai-delivery-control-kit/releases/tag/v0.1.0`.
-- Public CI: `PASS` on Python 3.10, 3.11, and 3.12 for commit `34cd7a573ac9ffb5a3350c66d2cbd82a15c247ac`.
+- Release: `https://github.com/phattrongtran15-pixel/ai-delivery-control-kit/releases/tag/v0.2.0`.
+- Public CI: `PASS` on Python 3.10, 3.11, and 3.12 for commit `332c62c16ca573ce3e6ae277ab5f10cad0d25465`.
 - Publication receipt: `reports/PUBLICATION_RECEIPT.json`.
 
 Separate gates remain unchanged:
