@@ -60,11 +60,12 @@ No demand, revenue, production readiness, or security claim is inferred from rep
 ## Project status
 
 - Local build and tests: `VERIFIED` when the test receipt is present.
-- Public repository: `ADOPTION_PENDING` until a GitHub URL exists.
+- Public repository and release: `VERIFIED` at [phattrongtran15-pixel/ai-delivery-control-kit](https://github.com/phattrongtran15-pixel/ai-delivery-control-kit).
+- Public CI: `VERIFIED` for Python 3.10, 3.11, and 3.12 on commit `34cd7a573ac9ffb5a3350c66d2cbd82a15c247ac`.
 - External demand: `MEASUREMENT_MISSING` until a real user action is recorded.
 - Revenue: `0 VERIFIED` until transaction evidence exists.
 
-See [the recovery report](reports/OSS_RECOVERY_DIVIDEND-01.md) and [evidence model](docs/evidence-model.md).
+See [the recovery report](reports/OSS_RECOVERY_DIVIDEND-01.md), [publication receipt](reports/PUBLICATION_RECEIPT.json), and [evidence model](docs/evidence-model.md).
 
 ## License
 

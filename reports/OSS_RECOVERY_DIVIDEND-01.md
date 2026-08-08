@@ -40,7 +40,7 @@ Demand, `FIRST_VERIFIED_VALUE`, and revenue are separate gates and cannot be inf
 
 ## Current status
 
-`LOCAL_DONE_VERIFIED`
+`PUBLIC_RELEASE_VERIFIED`
 
 - Unit tests: `9/9 PASS`.
 - CLI examples: `2/2 PASS`.
@@ -49,10 +49,16 @@ Demand, `FIRST_VERIFIED_VALUE`, and revenue are separate gates and cannot be inf
 - Publication scan: `PASS` with zero private-path or secret-pattern hits.
 - Evidence: `reports/VERIFICATION_RECEIPT.json`.
 
+Public evidence:
+
+- Repository: `https://github.com/phattrongtran15-pixel/ai-delivery-control-kit`.
+- Release: `https://github.com/phattrongtran15-pixel/ai-delivery-control-kit/releases/tag/v0.1.0`.
+- Public CI: `PASS` on Python 3.10, 3.11, and 3.12 for commit `34cd7a573ac9ffb5a3350c66d2cbd82a15c247ac`.
+- Publication receipt: `reports/PUBLICATION_RECEIPT.json`.
+
 Separate gates remain unchanged:
 
-- Public GitHub delivery: `HOLD — GitHub CLI missing; remote not created`.
-- OpenAI application: `HOLD — public repository URL and account identifiers missing`.
+- OpenAI application: `SUBMISSION_HOLD — ChatGPT email and OpenAI Organization ID require account-owner verification`.
 - External demand: `MEASUREMENT_MISSING`.
 - `FIRST_VERIFIED_VALUE`: `NOT_CLAIMED`.
 - Revenue: `0 VERIFIED`.

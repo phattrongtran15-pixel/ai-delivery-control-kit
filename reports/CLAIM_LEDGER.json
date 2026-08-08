@@ -30,6 +30,12 @@
       "claim": "This toolkit has generated revenue.",
       "state": "MEASUREMENT_MISSING",
       "verified_revenue": 0
+    },
+    {
+      "claim_id": "CLM-006",
+      "claim": "The toolkit is available as a public GitHub repository and tagged release with passing public CI.",
+      "state": "VERIFIED_PUBLIC",
+      "evidence": "reports/PUBLICATION_RECEIPT.json"
     }
   ]
 }

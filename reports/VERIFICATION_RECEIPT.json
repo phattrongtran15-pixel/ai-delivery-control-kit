@@ -2,20 +2,20 @@
   "schema_version": "OSS-RELEASE-VERIFICATION-v1",
   "project_id": "OSS_RECOVERY_DIVIDEND-01",
   "version": "0.1.0",
-  "verified_at": "2026-08-08T17:15:05.908119+00:00",
+  "verified_at": "2026-08-08T19:40:14.878726+00:00",
   "status": "PASS",
   "tests": "9/9 PASS",
   "cli_examples": "2/2 PASS",
   "compileall": "PASS",
   "wheel_build": "PASS",
   "wheel_name": "ai_delivery_control-0.1.0-py3-none-any.whl",
-  "wheel_sha256": "d9f17d18351e726908c14c9f5596a97614acc89c214c14698ebd47b091e92527",
+  "wheel_sha256": "bc6364a558a66dbb754dbd85bcf49a0dadbdbe1ecfc418f616551fc7daa9cf95",
   "publication_scan": {
     "private_path_hits": 0,
     "secret_pattern_hits": 0,
     "status": "PASS"
   },
-  "public_file_count_excluding_receipt": 29,
+  "public_file_count_excluding_receipt": 30,
   "commands": [
     {
       "command": [
@@ -80,10 +80,10 @@
         "--no-deps",
         "--no-build-isolation",
         "--wheel-dir",
-        "C:\\Users\\phatt\\AppData\\Local\\Temp\\ai-delivery-control-wheel-5nlpmvpl"
+        "C:\\Users\\phatt\\AppData\\Local\\Temp\\ai-delivery-control-wheel-zvyhhfwk"
       ],
       "returncode": 0,
-      "stdout_tail": "Processing c:\\users\\phatt\\documents\\codex\\2026-08-08\\hi-long-timenoseee\\oss-recovery-dividend\n  Preparing metadata (pyproject.toml): started\n  Preparing metadata (pyproject.toml): finished with status 'done'\nBuilding wheels for collected packages: ai-delivery-control\n  Building wheel for ai-delivery-control (pyproject.toml): started\n  Building wheel for ai-delivery-control (pyproject.toml): finished with status 'done'\n  Created wheel for ai-delivery-control: filename=ai_delivery_control-0.1.0-py3-none-any.whl size=8952 sha256=d9f17d18351e726908c14c9f5596a97614acc89c214c14698ebd47b091e92527\n  Stored in directory: c:\\users\\phatt\\appdata\\local\\pip\\cache\\wheels\\12\\b0\\f4\\ce954924aa78916f2f1bb72abe57958c27c90c1914b807ee3d\nSuccessfully built ai-delivery-control\n",
+      "stdout_tail": "Processing c:\\users\\phatt\\documents\\codex\\2026-08-08\\hi-long-timenoseee\\oss-recovery-dividend\n  Preparing metadata (pyproject.toml): started\n  Preparing metadata (pyproject.toml): finished with status 'done'\nBuilding wheels for collected packages: ai-delivery-control\n  Building wheel for ai-delivery-control (pyproject.toml): started\n  Building wheel for ai-delivery-control (pyproject.toml): finished with status 'done'\n  Created wheel for ai-delivery-control: filename=ai_delivery_control-0.1.0-py3-none-any.whl size=9074 sha256=bc6364a558a66dbb754dbd85bcf49a0dadbdbe1ecfc418f616551fc7daa9cf95\n  Stored in directory: c:\\users\\phatt\\appdata\\local\\pip\\cache\\wheels\\12\\b0\\f4\\ce954924aa78916f2f1bb72abe57958c27c90c1914b807ee3d\nSuccessfully built ai-delivery-control\n",
       "stderr_tail": "\n[notice] A new release of pip is available: 24.0 -> 26.2.1\n[notice] To update, run: python.exe -m pip install --upgrade pip\n"
     }
   ],
@@ -160,23 +160,28 @@
     },
     {
       "path": "README.md",
-      "sha256": "79c3b3bfaac5130fa70182a70197fb292364b9fba1e1514c6e393c5de56ac034",
-      "size_bytes": 2817
+      "sha256": "ccae6170b7fa2c8376ab330daf13ea69959009d3260665c1688ebdbedf39ac46",
+      "size_bytes": 3080
     },
     {
       "path": "reports/CLAIM_LEDGER.json",
-      "sha256": "2a47565c5a279553b1f5657ae51e6ae25d007a08e43f624c53088b3cf23d85e6",
-      "size_bytes": 1126
+      "sha256": "a4a5a139dd921ab0048bf091d9d89ec1ee50ce4ff5b95ab7807b9be2126608ef",
+      "size_bytes": 1371
     },
     {
       "path": "reports/OPENAI_APPLICATION_DRAFT.md",
-      "sha256": "a694cfdef1faf1c04c3db6eba6d892c90f27a33f2bbb39932e563e5037231643",
-      "size_bytes": 1441
+      "sha256": "2465f59fa98a495da00d3f095c25e780a515a2c1fd15b897ca0ff3878c683995",
+      "size_bytes": 1531
     },
     {
       "path": "reports/OSS_RECOVERY_DIVIDEND-01.md",
-      "sha256": "3a6b899c721b0f97b1c3bca4cafd06d9d2b652f58add61fb620b2b5734d8282c",
-      "size_bytes": 1907
+      "sha256": "b9068de436c9acc40d6712d2e13c0a4433c5d6b47480bc601e73164d3bbabdd4",
+      "size_bytes": 2232
+    },
+    {
+      "path": "reports/PUBLICATION_RECEIPT.json",
+      "sha256": "199f2f720e732c91032235e4556f5a16f51afaca979d9db5e15b19174e2c0df1",
+      "size_bytes": 1378
     },
     {
       "path": "schemas/project-assessment.schema.json",

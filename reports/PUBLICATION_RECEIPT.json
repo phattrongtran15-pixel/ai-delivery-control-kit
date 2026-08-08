@@ -1,0 +1,38 @@
+{
+  "schema_version": "OSS-PUBLICATION-RECEIPT-v1",
+  "project_id": "OSS_RECOVERY_DIVIDEND-01",
+  "status": "PASS",
+  "publisher_account": "phattrongtran15-pixel",
+  "repository": {
+    "name_with_owner": "phattrongtran15-pixel/ai-delivery-control-kit",
+    "visibility": "PUBLIC",
+    "url": "https://github.com/phattrongtran15-pixel/ai-delivery-control-kit",
+    "default_branch": "main",
+    "created_at": "2026-08-08T19:38:29Z"
+  },
+  "published_source": {
+    "commit": "34cd7a573ac9ffb5a3350c66d2cbd82a15c247ac",
+    "tag": "v0.1.0",
+    "release_url": "https://github.com/phattrongtran15-pixel/ai-delivery-control-kit/releases/tag/v0.1.0",
+    "release_published_at": "2026-08-08T19:38:54Z"
+  },
+  "continuous_integration": {
+    "workflow": "test",
+    "matrix": ["Python 3.10", "Python 3.11", "Python 3.12"],
+    "branch_push_run": {
+      "status": "PASS",
+      "url": "https://github.com/phattrongtran15-pixel/ai-delivery-control-kit/actions/runs/31274928397"
+    },
+    "tag_push_run": {
+      "status": "PASS",
+      "url": "https://github.com/phattrongtran15-pixel/ai-delivery-control-kit/actions/runs/31274928024"
+    }
+  },
+  "claim_boundary": {
+    "public_release": "VERIFIED",
+    "openai_application": "SUBMISSION_HOLD_ACCOUNT_FIELDS",
+    "external_demand": "MEASUREMENT_MISSING",
+    "first_verified_value": "NOT_CLAIMED",
+    "verified_revenue": 0
+  }
+}

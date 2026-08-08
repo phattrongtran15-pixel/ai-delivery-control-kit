@@ -1,6 +1,6 @@
 # Codex for Open Source — application draft
 
-This document contains no private account identifiers. Submit only after the public repository exists and all account fields are verified.
+This document contains no private account identifiers. The public repository now exists; submit only after the remaining account-owned fields are verified.
 
 ## Maintainer role
 
@@ -17,6 +17,6 @@ Credits would support pull-request review, issue triage, release checks, test ge
 ## Required fields still external
 
 - ChatGPT-account email: `UNKNOWN — verify in form`
-- Public GitHub username: `UNKNOWN — publication blocked until GitHub CLI/auth is available`
-- Public repository URL: `MISSING`
+- Public GitHub username: `phattrongtran15-pixel — VERIFIED BY AUTHENTICATED GITHUB CLI`
+- Public repository URL: `https://github.com/phattrongtran15-pixel/ai-delivery-control-kit — VERIFIED PUBLIC`
 - OpenAI Organization ID: `UNKNOWN — verify in account`
