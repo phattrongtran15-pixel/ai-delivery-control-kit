@@ -22,7 +22,10 @@
     "machine_or_agent_identity_required",
     "designated_folder_enforcement_required",
     "inter_agent_data_exchange",
-    "untrusted_inbox_content"
+    "untrusted_inbox_content",
+    "downstream_execution_binding_verified",
+    "business_demand_verified",
+    "gateway_resource_budget_approved"
   ],
   "properties": {
     "project_id": { "type": "string", "minLength": 1 },
@@ -42,6 +45,9 @@
     "machine_or_agent_identity_required": { "type": "boolean" },
     "designated_folder_enforcement_required": { "type": "boolean" },
     "inter_agent_data_exchange": { "type": "boolean" },
-    "untrusted_inbox_content": { "type": "boolean" }
+    "untrusted_inbox_content": { "type": "boolean" },
+    "downstream_execution_binding_verified": { "type": "boolean" },
+    "business_demand_verified": { "type": "boolean" },
+    "gateway_resource_budget_approved": { "type": "boolean" }
   }
 }

@@ -1,15 +1,15 @@
 {
   "schema_version": "OSS-RELEASE-VERIFICATION-v1",
   "project_id": "OSS_RECOVERY_DIVIDEND-01",
-  "version": "0.2.0",
-  "verified_at": "2026-08-08T19:47:27.906167+00:00",
+  "version": "0.2.1",
+  "verified_at": "2026-08-08T19:49:17.418105+00:00",
   "status": "PASS",
-  "tests": "15/15 PASS",
+  "tests": "16/16 PASS",
   "cli_examples": "2/2 PASS",
   "compileall": "PASS",
   "wheel_build": "PASS",
-  "wheel_name": "ai_delivery_control-0.2.0-py3-none-any.whl",
-  "wheel_sha256": "a90fbf4372cc152b8048282bd26222a50decdc9705e7c81e7d888246c12e4c60",
+  "wheel_name": "ai_delivery_control-0.2.1-py3-none-any.whl",
+  "wheel_sha256": "75e598e1e297aee5bb7eab43b0d610acada63842143402f2c0ab43f8c76c8c3f",
   "publication_scan": {
     "private_path_hits": 0,
     "secret_pattern_hits": 0,
@@ -31,7 +31,7 @@
       ],
       "returncode": 0,
       "stdout_tail": "",
-      "stderr_tail": "justifies_gateway) ... ok\ntest_fifty_agents_is_scale_signal_not_automatic_approval (test_assessment.AssessmentTests.test_fifty_agents_is_scale_signal_not_automatic_approval) ... ok\ntest_identity_and_folder_controls_survive_without_gateway (test_assessment.AssessmentTests.test_identity_and_folder_controls_survive_without_gateway) ... ok\ntest_inter_agent_inbox_adds_provenance_and_injection_controls (test_assessment.AssessmentTests.test_inter_agent_inbox_adds_provenance_and_injection_controls) ... ok\ntest_invalid_stage_fails_closed (test_assessment.AssessmentTests.test_invalid_stage_fails_closed) ... ok\ntest_pre_value_prefers_inline_controls (test_assessment.AssessmentTests.test_pre_value_prefers_inline_controls) ... ok\ntest_protected_actions_keep_owner_approval (test_assessment.AssessmentTests.test_protected_actions_keep_owner_approval) ... ok\ntest_reusable_commands_are_preserved_without_gateway_activation (test_assessment.AssessmentTests.test_reusable_commands_are_preserved_without_gateway_activation) ... ok\ntest_scale_can_create_gateway_candidate (test_assessment.AssessmentTests.test_scale_can_create_gateway_candidate) ... ok\ntest_single_agent_does_not_justify_gateway (test_assessment.AssessmentTests.test_single_agent_does_not_justify_gateway) ... ok\ntest_verified_concurrency_contention_justifies_gateway (test_assessment.AssessmentTests.test_verified_concurrency_contention_justifies_gateway) ... ok\ntest_verified_inline_incident_justifies_gateway (test_assessment.AssessmentTests.test_verified_inline_incident_justifies_gateway) ... ok\ntest_owner_hours_is_required (test_work_package.WorkPackageTests.test_owner_hours_is_required) ... ok\ntest_protected_action_requires_approval_reference (test_work_package.WorkPackageTests.test_protected_action_requires_approval_reference) ... ok\ntest_valid_package_passes (test_work_package.WorkPackageTests.test_valid_package_passes) ... ok\n\n----------------------------------------------------------------------\nRan 15 tests in 0.001s\n\nOK\n"
+      "stderr_tail": "signal_not_automatic_approval) ... ok\ntest_gateway_pilot_needs_demand_binding_and_budget (test_assessment.AssessmentTests.test_gateway_pilot_needs_demand_binding_and_budget) ... ok\ntest_identity_and_folder_controls_survive_without_gateway (test_assessment.AssessmentTests.test_identity_and_folder_controls_survive_without_gateway) ... ok\ntest_inter_agent_inbox_adds_provenance_and_injection_controls (test_assessment.AssessmentTests.test_inter_agent_inbox_adds_provenance_and_injection_controls) ... ok\ntest_invalid_stage_fails_closed (test_assessment.AssessmentTests.test_invalid_stage_fails_closed) ... ok\ntest_pre_value_prefers_inline_controls (test_assessment.AssessmentTests.test_pre_value_prefers_inline_controls) ... ok\ntest_protected_actions_keep_owner_approval (test_assessment.AssessmentTests.test_protected_actions_keep_owner_approval) ... ok\ntest_reusable_commands_are_preserved_without_gateway_activation (test_assessment.AssessmentTests.test_reusable_commands_are_preserved_without_gateway_activation) ... ok\ntest_scale_can_create_gateway_candidate (test_assessment.AssessmentTests.test_scale_can_create_gateway_candidate) ... ok\ntest_single_agent_does_not_justify_gateway (test_assessment.AssessmentTests.test_single_agent_does_not_justify_gateway) ... ok\ntest_verified_concurrency_contention_justifies_gateway (test_assessment.AssessmentTests.test_verified_concurrency_contention_justifies_gateway) ... ok\ntest_verified_inline_incident_justifies_gateway (test_assessment.AssessmentTests.test_verified_inline_incident_justifies_gateway) ... ok\ntest_owner_hours_is_required (test_work_package.WorkPackageTests.test_owner_hours_is_required) ... ok\ntest_protected_action_requires_approval_reference (test_work_package.WorkPackageTests.test_protected_action_requires_approval_reference) ... ok\ntest_valid_package_passes (test_work_package.WorkPackageTests.test_valid_package_passes) ... ok\n\n----------------------------------------------------------------------\nRan 16 tests in 0.001s\n\nOK\n"
     },
     {
       "command": [
@@ -42,7 +42,7 @@
         "examples/pre_value_project.json"
       ],
       "returncode": 0,
-      "stdout_tail": "{\n  \"schema_version\": \"AI-DELIVERY-CONTROL-ASSESSMENT-v1.1\",\n  \"project_id\": \"EXAMPLE-PRE-VALUE-01\",\n  \"stage\": \"pre_value\",\n  \"decision\": \"INLINE_CONTROLS_FIRST\",\n  \"reason\": \"Current signals support scoped capabilities, inline checks, evidence, and human approval before centralization.\",\n  \"signal_score\": 0,\n  \"signals\": [],\n  \"required_controls\": [\n    \"AUTHENTICATED_AGENT_IDENTITY\",\n    \"CALLER_IDENTITY_NOT_SELF_ASSERTED\",\n    \"DEFAULT_DENY_OUTSIDE_ALLOWED_ROOTS\",\n    \"DESIGNATED_PATH_BOUNDARY\",\n    \"EVIDENCE_LOG\",\n    \"PATH_NORMALIZATION\",\n    \"RESTORE_PATH\",\n    \"RON_APPROVAL_FOR_PROTECTED_ACTIONS\",\n    \"SCOPED_CAPABILITIES\",\n    \"VERIFICATION_BEFORE_DONE\"\n  ],\n  \"evidence_gaps\": [\n    \"NO_ACCEPTED_VALUE_EVIDENCE\",\n    \"SINGLE_AGENT_NO_CONCURRENCY_EVIDENCE\",\n    \"NO_CENTRALIZATION_SIGNAL\"\n  ],\n  \"asset_disposition\": \"FROZEN_REUSABLE_ASSET\",\n  \"asset_reuse_actions\": [\n    \"INVENTORY_COMMAND_CONTRACTS\",\n    \"EXTRACT_COMMANDS_FROM_GATEWAY_RUNTIME\",\n    \"TEST_COMMANDS_INDEPENDENTLY\",\n    \"DO_NOT_AUTO_ACTIVATE_GATEWAY\"\n  ],\n  \"claim_boundary\": \"DECISION_AID_NOT_SECURITY_CERTIFICATION\"\n}\n",
+      "stdout_tail": "{\n  \"schema_version\": \"AI-DELIVERY-CONTROL-ASSESSMENT-v1.1\",\n  \"project_id\": \"EXAMPLE-PRE-VALUE-01\",\n  \"stage\": \"pre_value\",\n  \"decision\": \"INLINE_CONTROLS_FIRST\",\n  \"reason\": \"Current signals support scoped capabilities, inline checks, evidence, and human approval before centralization.\",\n  \"signal_score\": 0,\n  \"signals\": [],\n  \"required_controls\": [\n    \"AUTHENTICATED_AGENT_IDENTITY\",\n    \"CALLER_IDENTITY_NOT_SELF_ASSERTED\",\n    \"DEFAULT_DENY_OUTSIDE_ALLOWED_ROOTS\",\n    \"DESIGNATED_PATH_BOUNDARY\",\n    \"EVIDENCE_LOG\",\n    \"PATH_NORMALIZATION\",\n    \"RESTORE_PATH\",\n    \"RON_APPROVAL_FOR_PROTECTED_ACTIONS\",\n    \"SCOPED_CAPABILITIES\",\n    \"VERIFICATION_BEFORE_DONE\"\n  ],\n  \"evidence_gaps\": [\n    \"NO_ACCEPTED_VALUE_EVIDENCE\",\n    \"SINGLE_AGENT_NO_CONCURRENCY_EVIDENCE\",\n    \"NO_CENTRALIZATION_SIGNAL\"\n  ],\n  \"activation_state\": \"HOLD_NO_CURRENT_NEED\",\n  \"activation_blockers\": [],\n  \"asset_disposition\": \"FROZEN_REUSABLE_ASSET\",\n  \"asset_reuse_actions\": [\n    \"INVENTORY_COMMAND_CONTRACTS\",\n    \"EXTRACT_COMMANDS_FROM_GATEWAY_RUNTIME\",\n    \"TEST_COMMANDS_INDEPENDENTLY\",\n    \"DO_NOT_AUTO_ACTIVATE_GATEWAY\"\n  ],\n  \"claim_boundary\": \"DECISION_AID_NOT_SECURITY_CERTIFICATION\"\n}\n",
       "stderr_tail": ""
     },
     {
@@ -80,10 +80,10 @@
         "--no-deps",
         "--no-build-isolation",
         "--wheel-dir",
-        "C:\\Users\\phatt\\AppData\\Local\\Temp\\ai-delivery-control-wheel-4a34nphj"
+        "C:\\Users\\phatt\\AppData\\Local\\Temp\\ai-delivery-control-wheel-nocsan85"
       ],
       "returncode": 0,
-      "stdout_tail": "Processing c:\\users\\phatt\\documents\\codex\\2026-08-08\\hi-long-timenoseee\\oss-recovery-dividend\n  Preparing metadata (pyproject.toml): started\n  Preparing metadata (pyproject.toml): finished with status 'done'\nBuilding wheels for collected packages: ai-delivery-control\n  Building wheel for ai-delivery-control (pyproject.toml): started\n  Building wheel for ai-delivery-control (pyproject.toml): finished with status 'done'\n  Created wheel for ai-delivery-control: filename=ai_delivery_control-0.2.0-py3-none-any.whl size=9830 sha256=a90fbf4372cc152b8048282bd26222a50decdc9705e7c81e7d888246c12e4c60\n  Stored in directory: c:\\users\\phatt\\appdata\\local\\pip\\cache\\wheels\\12\\b0\\f4\\ce954924aa78916f2f1bb72abe57958c27c90c1914b807ee3d\nSuccessfully built ai-delivery-control\n",
+      "stdout_tail": "Processing c:\\users\\phatt\\documents\\codex\\2026-08-08\\hi-long-timenoseee\\oss-recovery-dividend\n  Preparing metadata (pyproject.toml): started\n  Preparing metadata (pyproject.toml): finished with status 'done'\nBuilding wheels for collected packages: ai-delivery-control\n  Building wheel for ai-delivery-control (pyproject.toml): started\n  Building wheel for ai-delivery-control (pyproject.toml): finished with status 'done'\n  Created wheel for ai-delivery-control: filename=ai_delivery_control-0.2.1-py3-none-any.whl size=10075 sha256=75e598e1e297aee5bb7eab43b0d610acada63842143402f2c0ab43f8c76c8c3f\n  Stored in directory: c:\\users\\phatt\\appdata\\local\\pip\\cache\\wheels\\12\\b0\\f4\\ce954924aa78916f2f1bb72abe57958c27c90c1914b807ee3d\nSuccessfully built ai-delivery-control\n",
       "stderr_tail": "\n[notice] A new release of pip is available: 24.0 -> 26.2.1\n[notice] To update, run: python.exe -m pip install --upgrade pip\n"
     }
   ],
@@ -105,8 +105,8 @@
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "f40251b7f9de358502ce962d9e55d5dd759be69292fd8201e599a541c63dc898",
-      "size_bytes": 825
+      "sha256": "35296937a4f6c527b1a10279103fd958de4012da5481f51a667c0b836bb91ed1",
+      "size_bytes": 1070
     },
     {
       "path": "CITATION.cff",
@@ -120,13 +120,13 @@
     },
     {
       "path": "docs/anti-patterns/gateway-first-before-value.md",
-      "sha256": "623ab82a7f6db0da1e3ee9a24e66769c2da37d7293a883ffd6727f09f11812f5",
-      "size_bytes": 1580
+      "sha256": "0412bdf038ae93f66e9be7eeb576778354a98ee1a2216d27c1470f53c16036f5",
+      "size_bytes": 1850
     },
     {
       "path": "docs/case-study-gateway-first-delay.md",
-      "sha256": "0c734318fb4fd8c9968cce6f01e0d9e088336bb618760d1ef739fb7cb06c5ec6",
-      "size_bytes": 3938
+      "sha256": "134a5fdbd805bece839c70180ac4264f2760fadae0f25cc9d65c0be060d6fd35",
+      "size_bytes": 4424
     },
     {
       "path": "docs/command-library-recovery.md",
@@ -145,13 +145,13 @@
     },
     {
       "path": "docs/multi-agent-control-boundary.md",
-      "sha256": "d83a7604ebb5252ad8bd5e901dfdf8548e16a3f7bf1b8555222a1668c5254f7f",
-      "size_bytes": 1418
+      "sha256": "227b52f2898a524c7b346af6f8a0fc33fa9cd9a22b5140b9ca359677a2868f95",
+      "size_bytes": 1982
     },
     {
       "path": "examples/pre_value_project.json",
-      "sha256": "87e344167aa45133e5b3e3c5223afe5e31403d20cb0902759cc4511e1d30a32e",
-      "size_bytes": 647
+      "sha256": "20687b643f34e39adea020a5de0be115b6c37ce54e8e89e4355c52680682555a",
+      "size_bytes": 779
     },
     {
       "path": "examples/work_package.json",
@@ -165,7 +165,7 @@
     },
     {
       "path": "pyproject.toml",
-      "sha256": "596c509b2577f3fc72a332a8a77380c23af4c7a7f9fcbeb44df37af345017615",
+      "sha256": "486fcf7634414fec0699aa5ab02a896a8f9f9528fec8738bf899f089db51a64f",
       "size_bytes": 814
     },
     {
@@ -195,8 +195,8 @@
     },
     {
       "path": "schemas/project-assessment.schema.json",
-      "sha256": "bc92526149f43e823db82540f18e95c32ea09d637aa7f0e67bc172dc2f5b7434",
-      "size_bytes": 1952
+      "sha256": "68ce09ac1c309b648b212476658ae93dd7e42bdd3bd66aca46c68b07a9b74255",
+      "size_bytes": 2255
     },
     {
       "path": "schemas/work-package.schema.json",
@@ -215,7 +215,7 @@
     },
     {
       "path": "src/ai_delivery_control/__init__.py",
-      "sha256": "6e5ea1d109ffede72027e495f861ef7900c2d0a98053d1d16c0b1f906552e434",
+      "sha256": "f69366a19e3930627ce2ddc30007ecd4cc872322c7e0d7b15109227eda756261",
       "size_bytes": 206
     },
     {
@@ -225,8 +225,8 @@
     },
     {
       "path": "src/ai_delivery_control/assessment.py",
-      "sha256": "77f54b2f38be29ad1b16b5288e64fe5869b22a93352575a7a8b8742a7e804ea6",
-      "size_bytes": 6719
+      "sha256": "f308d4a15f5ab03a0c1c87e8114dbea272cb8ccea04532a25b74bc6189d3087a",
+      "size_bytes": 7678
     },
     {
       "path": "src/ai_delivery_control/cli.py",
@@ -240,8 +240,8 @@
     },
     {
       "path": "tests/test_assessment.py",
-      "sha256": "4a656b66b8f15bdc470c258ff7d8486a16c2424911afb23645cf79a3d39f5f72",
-      "size_bytes": 4678
+      "sha256": "d351b9c1c699d01f2ae682a006c78a6d6e821758b9c3c851daef07df8c6818dc",
+      "size_bytes": 5593
     },
     {
       "path": "tests/test_work_package.py",

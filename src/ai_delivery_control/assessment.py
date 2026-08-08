@@ -60,6 +60,9 @@ def assess_gateway_need(data: dict[str, Any]) -> dict[str, Any]:
     designated_folder_required = _boolean(data, "designated_folder_enforcement_required")
     inter_agent_exchange = _boolean(data, "inter_agent_data_exchange")
     untrusted_inbox_content = _boolean(data, "untrusted_inbox_content")
+    downstream_binding_verified = _boolean(data, "downstream_execution_binding_verified")
+    business_demand_verified = _boolean(data, "business_demand_verified")
+    gateway_budget_approved = _boolean(data, "gateway_resource_budget_approved")
 
     signals: list[str] = []
     score = 0
@@ -116,6 +119,18 @@ def assess_gateway_need(data: dict[str, Any]) -> dict[str, Any]:
         decision = "INLINE_CONTROLS_FIRST"
         reason = "Current signals support scoped capabilities, inline checks, evidence, and human approval before centralization."
 
+    activation_blockers: list[str] = []
+    if decision == "INLINE_CONTROLS_FIRST":
+        activation_state = "HOLD_NO_CURRENT_NEED"
+    else:
+        if not downstream_binding_verified:
+            activation_blockers.append("DOWNSTREAM_EXECUTION_BINDING_NOT_VERIFIED")
+        if not business_demand_verified:
+            activation_blockers.append("BUSINESS_DEMAND_NOT_VERIFIED")
+        if not gateway_budget_approved:
+            activation_blockers.append("GATEWAY_RESOURCE_BUDGET_NOT_APPROVED")
+        activation_state = "READY_FOR_BOUNDED_PILOT" if not activation_blockers else "HOLD_ACTIVATION_BLOCKERS"
+
     required_controls = [
         "SCOPED_CAPABILITIES",
         "EVIDENCE_LOG",
@@ -159,6 +174,8 @@ def assess_gateway_need(data: dict[str, Any]) -> dict[str, Any]:
         "signals": signals,
         "required_controls": sorted(set(required_controls)),
         "evidence_gaps": evidence_gaps,
+        "activation_state": activation_state,
+        "activation_blockers": activation_blockers,
         "asset_disposition": asset_disposition,
         "asset_reuse_actions": asset_reuse_actions,
         "claim_boundary": "DECISION_AID_NOT_SECURITY_CERTIFICATION",

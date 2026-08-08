@@ -16,5 +16,8 @@
   "machine_or_agent_identity_required": true,
   "designated_folder_enforcement_required": true,
   "inter_agent_data_exchange": false,
-  "untrusted_inbox_content": false
+  "untrusted_inbox_content": false,
+  "downstream_execution_binding_verified": false,
+  "business_demand_verified": false,
+  "gateway_resource_budget_approved": false
 }

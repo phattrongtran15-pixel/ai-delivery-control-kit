@@ -11,6 +11,7 @@ The project cannot deliver one bounded user outcome because a shared control pla
 - Multiple responsibilities are hidden under the word `Gateway`.
 - The owner becomes a command runner or log courier.
 - No trigger connects the Gateway to a real incident, buyer requirement, or multi-team scale problem.
+- The entry Gateway is discussed as complete while downstream service/container/executor binding remains unverified.
 
 ## Decision test
 
@@ -30,3 +31,5 @@ If all answers are no, use the smallest enforceable controls and ship the bounde
 The anti-pattern is resolved when project execution no longer depends on speculative central infrastructure and protected actions remain fail-closed.
 
 Do not confuse deactivating the Gateway runtime with deleting its useful commands. Freeze, inventory, extract, and test reusable command contracts independently; reactivate central coordination only after a direct concurrency or external-control trigger exists.
+
+Even after a need is identified, activation stays on hold without verified downstream end-to-end binding, real demand, and an approved resource budget.

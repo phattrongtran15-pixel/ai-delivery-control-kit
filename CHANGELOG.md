@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.1 — 2026-08-09
+
+- Separated Gateway necessity from activation readiness.
+- Added downstream end-to-end binding, verified demand, and approved resource budget as activation gates.
+- Added a fail-closed `HOLD_ACTIVATION_BLOCKERS` state.
+
 ## 0.2.0 — 2026-08-09
 
 - Updated GitHub Actions runtime dependencies to current major releases.

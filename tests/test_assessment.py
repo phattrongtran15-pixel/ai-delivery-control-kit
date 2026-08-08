@@ -23,6 +23,9 @@ def base_payload():
         "designated_folder_enforcement_required": True,
         "inter_agent_data_exchange": False,
         "untrusted_inbox_content": False,
+        "downstream_execution_binding_verified": False,
+        "business_demand_verified": False,
+        "gateway_resource_budget_approved": False,
     }
 
 
@@ -84,6 +87,21 @@ class AssessmentTests(unittest.TestCase):
         result = assess_gateway_need(payload)
         self.assertEqual(result["decision"], "GATEWAY_JUSTIFIED")
         self.assertIn("VERIFIED_CONCURRENCY_CONTENTION", result["signals"])
+        self.assertEqual(result["activation_state"], "HOLD_ACTIVATION_BLOCKERS")
+        self.assertIn("DOWNSTREAM_EXECUTION_BINDING_NOT_VERIFIED", result["activation_blockers"])
+
+    def test_gateway_pilot_needs_demand_binding_and_budget(self):
+        payload = base_payload()
+        payload.update(
+            verified_concurrency_contention=True,
+            downstream_execution_binding_verified=True,
+            business_demand_verified=True,
+            gateway_resource_budget_approved=True,
+        )
+        result = assess_gateway_need(payload)
+        self.assertEqual(result["decision"], "GATEWAY_JUSTIFIED")
+        self.assertEqual(result["activation_state"], "READY_FOR_BOUNDED_PILOT")
+        self.assertEqual(result["activation_blockers"], [])
 
     def test_scale_can_create_gateway_candidate(self):
         payload = base_payload()

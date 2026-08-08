@@ -33,6 +33,8 @@ At one active agent, a concurrency chokepoint has no present workload to coordin
 
 Identity, path boundaries, provenance, inbox validation, and prompt-injection defenses remain useful controls even without a centralized Gateway. They can run inline for one agent and migrate behind a Gateway only when scale or a direct incident justifies that move.
 
+The owner identified a further boundary: an entry Gateway cannot compensate for unverified coordination among downstream components. Policy evaluation at the first door is not end-to-end execution evidence. If client/agent, operating-system service, container/runtime, and executor lanes are not bound and tested together, activation remains `HOLD` even when a Gateway need is identified. `OWNER_CONFIRMED_ARCHITECTURE_BOUNDARY`
+
 ## Recovery rule
 
 Separate the controls, then justify each one:
@@ -60,5 +62,6 @@ Capability boundary
 - It does not prove that inline controls are sufficient for every project.
 - It does not prove production security.
 - It does not prove a concurrency bottleneck while only one agent is active.
+- It does not prove downstream end-to-end coordination.
 - It does not establish market demand for this toolkit.
 - It does not establish revenue.
