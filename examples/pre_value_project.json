@@ -1,0 +1,13 @@
+{
+  "project_id": "EXAMPLE-PRE-VALUE-01",
+  "stage": "pre_value",
+  "active_agents": 2,
+  "independent_teams": 1,
+  "shared_policy_surfaces": 1,
+  "accepted_value_events": 0,
+  "protected_actions": true,
+  "multi_tenant": false,
+  "regulated_or_high_sensitivity_data": false,
+  "confirmed_enterprise_requirement": false,
+  "verified_inline_control_incident": false
+}

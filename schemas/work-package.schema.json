@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/ai-delivery-control/work-package.schema.json",
+  "title": "Finite Work Package",
+  "type": "object",
+  "required": [
+    "work_package_id",
+    "objective",
+    "owner",
+    "owner_hours_required",
+    "inputs",
+    "output",
+    "acceptance",
+    "evidence",
+    "next_action",
+    "protected_actions"
+  ],
+  "properties": {
+    "work_package_id": { "type": "string", "minLength": 1 },
+    "objective": { "type": "string", "minLength": 1 },
+    "owner": { "type": "string", "minLength": 1 },
+    "owner_hours_required": { "type": "number", "minimum": 0 },
+    "inputs": { "type": "array", "items": { "type": "string" } },
+    "output": { "type": "string", "minLength": 1 },
+    "acceptance": { "type": "string", "minLength": 1 },
+    "evidence": { "type": "array", "items": { "type": "string" } },
+    "next_action": { "type": "string", "minLength": 1 },
+    "protected_actions": { "type": "array", "items": { "type": "string" } },
+    "ron_approval_reference": { "type": "string" }
+  }
+}

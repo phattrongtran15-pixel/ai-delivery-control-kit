@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/ai-delivery-control/project-assessment.schema.json",
+  "title": "AI Delivery Control Project Assessment",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "project_id",
+    "stage",
+    "active_agents",
+    "independent_teams",
+    "shared_policy_surfaces",
+    "accepted_value_events",
+    "protected_actions",
+    "multi_tenant",
+    "regulated_or_high_sensitivity_data",
+    "confirmed_enterprise_requirement",
+    "verified_inline_control_incident"
+  ],
+  "properties": {
+    "project_id": { "type": "string", "minLength": 1 },
+    "stage": { "enum": ["pre_value", "early_value", "scaling", "enterprise"] },
+    "active_agents": { "type": "integer", "minimum": 0 },
+    "independent_teams": { "type": "integer", "minimum": 0 },
+    "shared_policy_surfaces": { "type": "integer", "minimum": 0 },
+    "accepted_value_events": { "type": "integer", "minimum": 0 },
+    "protected_actions": { "type": "boolean" },
+    "multi_tenant": { "type": "boolean" },
+    "regulated_or_high_sensitivity_data": { "type": "boolean" },
+    "confirmed_enterprise_requirement": { "type": "boolean" },
+    "verified_inline_control_incident": { "type": "boolean" }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "work_package_id": "WP-EXAMPLE-01",
+  "objective": "Produce and verify one bounded public documentation artifact",
+  "owner": "Codex under Ron approval",
+  "owner_hours_required": 0.25,
+  "inputs": ["sanitized case evidence", "acceptance contract"],
+  "output": "One public report with a reproducible verification receipt",
+  "acceptance": "Public URL resolves and local checks pass",
+  "evidence": ["test receipt", "public URL"],
+  "next_action": "Review first external user signal",
+  "protected_actions": ["PUBLICATION"],
+  "ron_approval_reference": "OWNER_MESSAGE_2026-08-08"
+}

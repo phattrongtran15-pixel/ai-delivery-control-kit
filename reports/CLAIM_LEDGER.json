@@ -1,0 +1,35 @@
+{
+  "schema_version": "OSS-CLAIM-LEDGER-v1",
+  "project_id": "OSS_RECOVERY_DIVIDEND-01",
+  "claims": [
+    {
+      "claim_id": "CLM-001",
+      "claim": "The Gateway incident delayed progress by approximately two weeks.",
+      "state": "OWNER_REPORTED",
+      "public_wording": "The owner reported approximately two weeks of delay."
+    },
+    {
+      "claim_id": "CLM-002",
+      "claim": "The interval produced zero accepted customer value.",
+      "state": "OWNER_REPORTED",
+      "public_wording": "The owner reported no accepted user/customer value from that interval."
+    },
+    {
+      "claim_id": "CLM-003",
+      "claim": "The recovered clean baseline passed 12 architecture tests.",
+      "state": "VERIFIED_LOCAL",
+      "evidence": "AI_OS_TEAM INSTALL_RECEIPT and controlled Git tag; private paths omitted"
+    },
+    {
+      "claim_id": "CLM-004",
+      "claim": "This toolkit has external demand.",
+      "state": "MEASUREMENT_MISSING"
+    },
+    {
+      "claim_id": "CLM-005",
+      "claim": "This toolkit has generated revenue.",
+      "state": "MEASUREMENT_MISSING",
+      "verified_revenue": 0
+    }
+  ]
+}

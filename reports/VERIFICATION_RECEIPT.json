@@ -1,0 +1,244 @@
+{
+  "schema_version": "OSS-RELEASE-VERIFICATION-v1",
+  "project_id": "OSS_RECOVERY_DIVIDEND-01",
+  "version": "0.1.0",
+  "verified_at": "2026-08-08T17:15:05.908119+00:00",
+  "status": "PASS",
+  "tests": "9/9 PASS",
+  "cli_examples": "2/2 PASS",
+  "compileall": "PASS",
+  "wheel_build": "PASS",
+  "wheel_name": "ai_delivery_control-0.1.0-py3-none-any.whl",
+  "wheel_sha256": "d9f17d18351e726908c14c9f5596a97614acc89c214c14698ebd47b091e92527",
+  "publication_scan": {
+    "private_path_hits": 0,
+    "secret_pattern_hits": 0,
+    "status": "PASS"
+  },
+  "public_file_count_excluding_receipt": 29,
+  "commands": [
+    {
+      "command": [
+        "C:\\Users\\phatt\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "returncode": 0,
+      "stdout_tail": "",
+      "stderr_tail": "test_confirmed_enterprise_requirement_justifies_gateway (test_assessment.AssessmentTests.test_confirmed_enterprise_requirement_justifies_gateway) ... ok\ntest_invalid_stage_fails_closed (test_assessment.AssessmentTests.test_invalid_stage_fails_closed) ... ok\ntest_pre_value_prefers_inline_controls (test_assessment.AssessmentTests.test_pre_value_prefers_inline_controls) ... ok\ntest_protected_actions_keep_owner_approval (test_assessment.AssessmentTests.test_protected_actions_keep_owner_approval) ... ok\ntest_scale_can_create_gateway_candidate (test_assessment.AssessmentTests.test_scale_can_create_gateway_candidate) ... ok\ntest_verified_inline_incident_justifies_gateway (test_assessment.AssessmentTests.test_verified_inline_incident_justifies_gateway) ... ok\ntest_owner_hours_is_required (test_work_package.WorkPackageTests.test_owner_hours_is_required) ... ok\ntest_protected_action_requires_approval_reference (test_work_package.WorkPackageTests.test_protected_action_requires_approval_reference) ... ok\ntest_valid_package_passes (test_work_package.WorkPackageTests.test_valid_package_passes) ... ok\n\n----------------------------------------------------------------------\nRan 9 tests in 0.001s\n\nOK\n"
+    },
+    {
+      "command": [
+        "C:\\Users\\phatt\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "-m",
+        "ai_delivery_control",
+        "assess",
+        "examples/pre_value_project.json"
+      ],
+      "returncode": 0,
+      "stdout_tail": "{\n  \"schema_version\": \"AI-DELIVERY-CONTROL-ASSESSMENT-v1\",\n  \"project_id\": \"EXAMPLE-PRE-VALUE-01\",\n  \"stage\": \"pre_value\",\n  \"decision\": \"INLINE_CONTROLS_FIRST\",\n  \"reason\": \"Current signals support scoped capabilities, inline checks, evidence, and human approval before centralization.\",\n  \"signal_score\": 0,\n  \"signals\": [],\n  \"required_controls\": [\n    \"EVIDENCE_LOG\",\n    \"RESTORE_PATH\",\n    \"RON_APPROVAL_FOR_PROTECTED_ACTIONS\",\n    \"SCOPED_CAPABILITIES\",\n    \"VERIFICATION_BEFORE_DONE\"\n  ],\n  \"evidence_gaps\": [\n    \"NO_ACCEPTED_VALUE_EVIDENCE\",\n    \"NO_CENTRALIZATION_SIGNAL\"\n  ],\n  \"claim_boundary\": \"DECISION_AID_NOT_SECURITY_CERTIFICATION\"\n}\n",
+      "stderr_tail": ""
+    },
+    {
+      "command": [
+        "C:\\Users\\phatt\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "-m",
+        "ai_delivery_control",
+        "validate-work-package",
+        "examples/work_package.json"
+      ],
+      "returncode": 0,
+      "stdout_tail": "{\n  \"schema_version\": \"FINITE-WORK-PACKAGE-VALIDATION-v1\",\n  \"work_package_id\": \"WP-EXAMPLE-01\",\n  \"status\": \"PASS\",\n  \"errors\": [],\n  \"owner_hours_required\": 0.25\n}\n",
+      "stderr_tail": ""
+    },
+    {
+      "command": [
+        "C:\\Users\\phatt\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "-m",
+        "compileall",
+        "-q",
+        "src",
+        "tests"
+      ],
+      "returncode": 0,
+      "stdout_tail": "",
+      "stderr_tail": ""
+    },
+    {
+      "command": [
+        "C:\\Users\\phatt\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "-m",
+        "pip",
+        "wheel",
+        ".",
+        "--no-deps",
+        "--no-build-isolation",
+        "--wheel-dir",
+        "C:\\Users\\phatt\\AppData\\Local\\Temp\\ai-delivery-control-wheel-5nlpmvpl"
+      ],
+      "returncode": 0,
+      "stdout_tail": "Processing c:\\users\\phatt\\documents\\codex\\2026-08-08\\hi-long-timenoseee\\oss-recovery-dividend\n  Preparing metadata (pyproject.toml): started\n  Preparing metadata (pyproject.toml): finished with status 'done'\nBuilding wheels for collected packages: ai-delivery-control\n  Building wheel for ai-delivery-control (pyproject.toml): started\n  Building wheel for ai-delivery-control (pyproject.toml): finished with status 'done'\n  Created wheel for ai-delivery-control: filename=ai_delivery_control-0.1.0-py3-none-any.whl size=8952 sha256=d9f17d18351e726908c14c9f5596a97614acc89c214c14698ebd47b091e92527\n  Stored in directory: c:\\users\\phatt\\appdata\\local\\pip\\cache\\wheels\\12\\b0\\f4\\ce954924aa78916f2f1bb72abe57958c27c90c1914b807ee3d\nSuccessfully built ai-delivery-control\n",
+      "stderr_tail": "\n[notice] A new release of pip is available: 24.0 -> 26.2.1\n[notice] To update, run: python.exe -m pip install --upgrade pip\n"
+    }
+  ],
+  "files": [
+    {
+      "path": ".gitattributes",
+      "sha256": "54abd2f912751fcd969d51d108e7aa0fcbb2b4591dd2aae84b31706aa1ce4e4d",
+      "size_bytes": 209
+    },
+    {
+      "path": ".github/workflows/test.yml",
+      "sha256": "bc3ef6123f093561394080ee4e61db4f5adc38a1247239b81d3f86e627be796e",
+      "size_bytes": 630
+    },
+    {
+      "path": ".gitignore",
+      "sha256": "7ef0d130d4138d46faba9812ac28bc2ca4fffdd9621357e21a59351446ed38c6",
+      "size_bytes": 82
+    },
+    {
+      "path": "CHANGELOG.md",
+      "sha256": "c70be7b83c183715be3e70a57b81433ea64972ab11f8884cf6f2e43beb0c7fea",
+      "size_bytes": 247
+    },
+    {
+      "path": "CITATION.cff",
+      "sha256": "636034cd7f985b16bff70a962b46360dbc15aeb2fdb435e45d1a7ddb92162213",
+      "size_bytes": 205
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "sha256": "d4be12d8fc37c890339c043bafd3d0e796d4e83cd5beeafbf3084e477236d08b",
+      "size_bytes": 634
+    },
+    {
+      "path": "docs/anti-patterns/gateway-first-before-value.md",
+      "sha256": "3ea1042d025379b17768317afadafe237ffb998d9c915d2e0477eda6ca12bf4a",
+      "size_bytes": 1141
+    },
+    {
+      "path": "docs/case-study-gateway-first-delay.md",
+      "sha256": "a5b7d00e52b079c80c245f568f1fbc5368b9bc6ca3de9248ca9c07f0ec03a234",
+      "size_bytes": 2273
+    },
+    {
+      "path": "docs/demand-validation.md",
+      "sha256": "9c9e485ffca17a992a6dd49de43cc7b18625d53c930c53af872d10805f140407",
+      "size_bytes": 1106
+    },
+    {
+      "path": "docs/evidence-model.md",
+      "sha256": "4a710f77956298d1aee868965a94b6d9ad90593932d461faf7a3938262145502",
+      "size_bytes": 1293
+    },
+    {
+      "path": "examples/pre_value_project.json",
+      "sha256": "b470d42223a3153218f0cfa69ee9befe0673714badcbd42aeb51035cdc0b5454",
+      "size_bytes": 367
+    },
+    {
+      "path": "examples/work_package.json",
+      "sha256": "b62b8e4ef9d5818c0b52899d1b029bb43e4fe3ba20aa0b71fb352ccc0e23a27c",
+      "size_bytes": 586
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "0eabc0596c6deb997ca07b461b8b9c80b35ca03aacdbdd85e309a2b51baf3b27",
+      "size_bytes": 1060
+    },
+    {
+      "path": "pyproject.toml",
+      "sha256": "f4dc266f5c9a8587d954e300179bc48fd5e1d12f9b07e9dc41055b2a8d19a541",
+      "size_bytes": 814
+    },
+    {
+      "path": "README.md",
+      "sha256": "79c3b3bfaac5130fa70182a70197fb292364b9fba1e1514c6e393c5de56ac034",
+      "size_bytes": 2817
+    },
+    {
+      "path": "reports/CLAIM_LEDGER.json",
+      "sha256": "2a47565c5a279553b1f5657ae51e6ae25d007a08e43f624c53088b3cf23d85e6",
+      "size_bytes": 1126
+    },
+    {
+      "path": "reports/OPENAI_APPLICATION_DRAFT.md",
+      "sha256": "a694cfdef1faf1c04c3db6eba6d892c90f27a33f2bbb39932e563e5037231643",
+      "size_bytes": 1441
+    },
+    {
+      "path": "reports/OSS_RECOVERY_DIVIDEND-01.md",
+      "sha256": "3a6b899c721b0f97b1c3bca4cafd06d9d2b652f58add61fb620b2b5734d8282c",
+      "size_bytes": 1907
+    },
+    {
+      "path": "schemas/project-assessment.schema.json",
+      "sha256": "b427bb8dccd213f7eec49cb1aae81b182bfe4d937551ee7834e02a545923808f",
+      "size_bytes": 1273
+    },
+    {
+      "path": "schemas/work-package.schema.json",
+      "sha256": "09c83f03ceb6b3c2f220ebc9edd211271438fcfc536d63e2c98f590eecdab095",
+      "size_bytes": 1087
+    },
+    {
+      "path": "scripts/verify_release.py",
+      "sha256": "f61d97df61dc2e7c873a30eec6201faef43f84bf49648387094a117938562acb",
+      "size_bytes": 5992
+    },
+    {
+      "path": "SECURITY.md",
+      "sha256": "57a5a18a3f1acce15c5b5808cdf003290cd75c93bda49c0c34c6db2f266f09da",
+      "size_bytes": 419
+    },
+    {
+      "path": "src/ai_delivery_control/__init__.py",
+      "sha256": "ed5b0232543b30cb9404bed9a4f448d939be3677eb8b6ab4871ad1ac2c8c31d5",
+      "size_bytes": 206
+    },
+    {
+      "path": "src/ai_delivery_control/__main__.py",
+      "sha256": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d",
+      "size_bytes": 48
+    },
+    {
+      "path": "src/ai_delivery_control/assessment.py",
+      "sha256": "14b0c6d8ce9ef3b558b32219bc672508c417a9d8d5c947fa9e8d0d09d5f946e6",
+      "size_bytes": 4693
+    },
+    {
+      "path": "src/ai_delivery_control/cli.py",
+      "sha256": "92201d92132fed5bbb9227e73e706356a03a95a5dc423df612c3dd6d089dfcaf",
+      "size_bytes": 2098
+    },
+    {
+      "path": "src/ai_delivery_control/work_package.py",
+      "sha256": "a8c5da41efa6dbf3c15c74414fc1a1bacf2ca662a6b509ad9315d2810ecc93f4",
+      "size_bytes": 1880
+    },
+    {
+      "path": "tests/test_assessment.py",
+      "sha256": "169f766fdf0cd21e4a11a756008d9e1c01f3f9ec38fba7c6167d94b0081974bc",
+      "size_bytes": 2263
+    },
+    {
+      "path": "tests/test_work_package.py",
+      "sha256": "2b3b13d63816b20ad9dc1671a43b1da082ce806e649a8e5b8485289590aad09e",
+      "size_bytes": 1274
+    }
+  ],
+  "claim_boundary": {
+    "local_build": "DONE_VERIFIED",
+    "public_repository": "ADOPTION_PENDING",
+    "external_demand": "MEASUREMENT_MISSING",
+    "first_verified_value": "NOT_CLAIMED",
+    "verified_revenue": 0
+  }
+}
