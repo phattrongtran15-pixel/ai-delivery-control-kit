@@ -8,6 +8,7 @@
     "project_id",
     "stage",
     "active_agents",
+    "peak_concurrent_agents",
     "independent_teams",
     "shared_policy_surfaces",
     "accepted_value_events",
@@ -15,12 +16,19 @@
     "multi_tenant",
     "regulated_or_high_sensitivity_data",
     "confirmed_enterprise_requirement",
-    "verified_inline_control_incident"
+    "verified_inline_control_incident",
+    "verified_concurrency_contention",
+    "reusable_gateway_assets",
+    "machine_or_agent_identity_required",
+    "designated_folder_enforcement_required",
+    "inter_agent_data_exchange",
+    "untrusted_inbox_content"
   ],
   "properties": {
     "project_id": { "type": "string", "minLength": 1 },
     "stage": { "enum": ["pre_value", "early_value", "scaling", "enterprise"] },
     "active_agents": { "type": "integer", "minimum": 0 },
+    "peak_concurrent_agents": { "type": "integer", "minimum": 0 },
     "independent_teams": { "type": "integer", "minimum": 0 },
     "shared_policy_surfaces": { "type": "integer", "minimum": 0 },
     "accepted_value_events": { "type": "integer", "minimum": 0 },
@@ -28,6 +36,12 @@
     "multi_tenant": { "type": "boolean" },
     "regulated_or_high_sensitivity_data": { "type": "boolean" },
     "confirmed_enterprise_requirement": { "type": "boolean" },
-    "verified_inline_control_incident": { "type": "boolean" }
+    "verified_inline_control_incident": { "type": "boolean" },
+    "verified_concurrency_contention": { "type": "boolean" },
+    "reusable_gateway_assets": { "type": "boolean" },
+    "machine_or_agent_identity_required": { "type": "boolean" },
+    "designated_folder_enforcement_required": { "type": "boolean" },
+    "inter_agent_data_exchange": { "type": "boolean" },
+    "untrusted_inbox_content": { "type": "boolean" }
   }
 }

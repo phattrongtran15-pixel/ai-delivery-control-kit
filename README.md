@@ -20,6 +20,8 @@ The toolkit is deliberately **not anti-Gateway**. It separates four control laye
 - A Work Package validator that requires `OWNER_HOURS_REQUIRED`.
 - A sanitized case study of a two-week infrastructure-first delay.
 - A reusable anti-pattern card and demand-validation contract.
+- A command-library recovery pattern that preserves useful capabilities without activating an unnecessary Gateway runtime.
+- A multi-agent control boundary covering identity, designated paths, inbox/provenance defense, and congestion evidence.
 - JSON Schemas, examples, unit tests, and CI.
 
 ## Quick start
@@ -45,6 +47,8 @@ The installed command is also available as `ai-delivery-control`.
 | `GATEWAY_JUSTIFIED` | A verified incident or confirmed external requirement directly justifies Gateway enforcement. |
 
 The result is a decision aid, not security certification.
+
+For a one-agent system, the tool explicitly separates `GATEWAY_RUNTIME = HOLD` from `COMMAND_ASSETS = FROZEN_REUSABLE_ASSET`. See [command-library recovery](docs/command-library-recovery.md).
 
 ## Evidence discipline
 

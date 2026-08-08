@@ -44,6 +44,7 @@ def assess_gateway_need(data: dict[str, Any]) -> dict[str, Any]:
         raise ValueError(f"stage must be one of {sorted(VALID_STAGES)}")
 
     active_agents = _non_negative_int(data, "active_agents")
+    peak_concurrent_agents = _non_negative_int(data, "peak_concurrent_agents")
     independent_teams = _non_negative_int(data, "independent_teams")
     shared_policy_surfaces = _non_negative_int(data, "shared_policy_surfaces")
     accepted_value_events = _non_negative_int(data, "accepted_value_events")
@@ -53,13 +54,22 @@ def assess_gateway_need(data: dict[str, Any]) -> dict[str, Any]:
     regulated_data = _boolean(data, "regulated_or_high_sensitivity_data")
     enterprise_requirement = _boolean(data, "confirmed_enterprise_requirement")
     inline_incident = _boolean(data, "verified_inline_control_incident")
+    concurrency_incident = _boolean(data, "verified_concurrency_contention")
+    reusable_gateway_assets = _boolean(data, "reusable_gateway_assets")
+    identity_required = _boolean(data, "machine_or_agent_identity_required")
+    designated_folder_required = _boolean(data, "designated_folder_enforcement_required")
+    inter_agent_exchange = _boolean(data, "inter_agent_data_exchange")
+    untrusted_inbox_content = _boolean(data, "untrusted_inbox_content")
 
     signals: list[str] = []
     score = 0
 
-    if active_agents >= 10:
+    if active_agents >= 50:
         score += 2
-        signals.append("TEN_OR_MORE_ACTIVE_AGENTS")
+        signals.append("FIFTY_OR_MORE_ACTIVE_AGENTS")
+    if peak_concurrent_agents >= 2:
+        score += 2
+        signals.append("CONCURRENT_AGENT_EXECUTION")
     if independent_teams >= 2:
         score += 2
         signals.append("MULTIPLE_INDEPENDENT_TEAMS")
@@ -81,14 +91,19 @@ def assess_gateway_need(data: dict[str, Any]) -> dict[str, Any]:
     if inline_incident:
         score += 4
         signals.append("VERIFIED_INLINE_CONTROL_INCIDENT")
+    if concurrency_incident:
+        score += 4
+        signals.append("VERIFIED_CONCURRENCY_CONTENTION")
 
     evidence_gaps: list[str] = []
     if accepted_value_events == 0:
         evidence_gaps.append("NO_ACCEPTED_VALUE_EVIDENCE")
+    if active_agents <= 1 and peak_concurrent_agents <= 1:
+        evidence_gaps.append("SINGLE_AGENT_NO_CONCURRENCY_EVIDENCE")
     if not signals:
         evidence_gaps.append("NO_CENTRALIZATION_SIGNAL")
 
-    if enterprise_requirement or inline_incident:
+    if enterprise_requirement or inline_incident or concurrency_incident:
         decision = "GATEWAY_JUSTIFIED"
         reason = "A direct, verified trigger exists. Scope the Gateway to that trigger."
     elif score >= 7 and accepted_value_events >= 1:
@@ -111,9 +126,31 @@ def assess_gateway_need(data: dict[str, Any]) -> dict[str, Any]:
         required_controls.append("RON_APPROVAL_FOR_PROTECTED_ACTIONS")
     if regulated_data:
         required_controls.extend(["DATA_CLASSIFICATION", "LEAST_PRIVILEGE"])
+    if identity_required:
+        required_controls.extend(["AUTHENTICATED_AGENT_IDENTITY", "CALLER_IDENTITY_NOT_SELF_ASSERTED"])
+    if designated_folder_required:
+        required_controls.extend(["DESIGNATED_PATH_BOUNDARY", "PATH_NORMALIZATION", "DEFAULT_DENY_OUTSIDE_ALLOWED_ROOTS"])
+    if inter_agent_exchange:
+        required_controls.extend(["MESSAGE_PROVENANCE", "INBOX_SCHEMA_VALIDATION", "IDEMPOTENCY_KEY"])
+    if untrusted_inbox_content:
+        required_controls.extend(
+            ["PROMPT_INJECTION_DEFENSE", "DATA_INSTRUCTION_SEPARATION", "UNTRUSTED_CONTENT_QUARANTINE"]
+        )
+
+    if reusable_gateway_assets:
+        asset_disposition = "FROZEN_REUSABLE_ASSET"
+        asset_reuse_actions = [
+            "INVENTORY_COMMAND_CONTRACTS",
+            "EXTRACT_COMMANDS_FROM_GATEWAY_RUNTIME",
+            "TEST_COMMANDS_INDEPENDENTLY",
+            "DO_NOT_AUTO_ACTIVATE_GATEWAY",
+        ]
+    else:
+        asset_disposition = "NO_REUSABLE_GATEWAY_ASSET_REPORTED"
+        asset_reuse_actions = []
 
     return {
-        "schema_version": "AI-DELIVERY-CONTROL-ASSESSMENT-v1",
+        "schema_version": "AI-DELIVERY-CONTROL-ASSESSMENT-v1.1",
         "project_id": project_id,
         "stage": stage,
         "decision": decision,
@@ -122,5 +159,7 @@ def assess_gateway_need(data: dict[str, Any]) -> dict[str, Any]:
         "signals": signals,
         "required_controls": sorted(set(required_controls)),
         "evidence_gaps": evidence_gaps,
+        "asset_disposition": asset_disposition,
+        "asset_reuse_actions": asset_reuse_actions,
         "claim_boundary": "DECISION_AID_NOT_SECURITY_CERTIFICATION",
     }

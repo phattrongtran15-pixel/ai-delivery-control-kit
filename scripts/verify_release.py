@@ -15,6 +15,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 RECEIPT = ROOT / "reports" / "VERIFICATION_RECEIPT.json"
+PUBLICATION_RECEIPT = ROOT / "reports" / "PUBLICATION_RECEIPT.json"
 
 PRIVATE_PATTERNS = [
     # Build the needles from fragments so this verification source does not
@@ -93,9 +94,27 @@ def main() -> int:
     env = os.environ.copy()
     env["PYTHONPATH"] = str(ROOT / "src")
     command_evidence: list[dict[str, object]] = []
-    command_evidence.append(
-        run([sys.executable, "-m", "unittest", "discover", "-s", "tests", "-p", "test_*.py", "-v"], env)
+    test_evidence = run(
+        [sys.executable, "-m", "unittest", "discover", "-s", "tests", "-p", "test_*.py", "-v"], env
     )
+    command_evidence.append(test_evidence)
+    test_output = f"{test_evidence['stdout_tail']}\n{test_evidence['stderr_tail']}"
+    test_match = re.search(r"Ran (\d+) tests?", test_output)
+    if not test_match:
+        raise RuntimeError("unable to determine executed unit-test count")
+    test_count = int(test_match.group(1))
+
+    pyproject_text = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
+    version_match = re.search(r'^version\s*=\s*"([^"]+)"', pyproject_text, re.MULTILINE)
+    if not version_match:
+        raise RuntimeError("unable to determine project version")
+    project_version = version_match.group(1)
+
+    public_repository_state = "ADOPTION_PENDING"
+    if PUBLICATION_RECEIPT.is_file():
+        publication = json.loads(PUBLICATION_RECEIPT.read_text(encoding="utf-8"))
+        if publication.get("status") == "PASS" and publication.get("repository", {}).get("visibility") == "PUBLIC":
+            public_repository_state = "VERIFIED"
     command_evidence.append(
         run([sys.executable, "-m", "ai_delivery_control", "assess", "examples/pre_value_project.json"], env)
     )
@@ -144,10 +163,10 @@ def main() -> int:
     receipt = {
         "schema_version": "OSS-RELEASE-VERIFICATION-v1",
         "project_id": "OSS_RECOVERY_DIVIDEND-01",
-        "version": "0.1.0",
+        "version": project_version,
         "verified_at": datetime.now(timezone.utc).isoformat(),
         "status": "PASS",
-        "tests": "9/9 PASS",
+        "tests": f"{test_count}/{test_count} PASS",
         "cli_examples": "2/2 PASS",
         "compileall": "PASS",
         "wheel_build": "PASS",
@@ -159,7 +178,7 @@ def main() -> int:
         "files": inventory,
         "claim_boundary": {
             "local_build": "DONE_VERIFIED",
-            "public_repository": "ADOPTION_PENDING",
+            "public_repository": public_repository_state,
             "external_demand": "MEASUREMENT_MISSING",
             "first_verified_value": "NOT_CLAIMED",
             "verified_revenue": 0
