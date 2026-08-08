@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Updated GitHub Actions runtime dependencies to current major releases.
+
 ## 0.1.0 — 2026-08-09
 
 - Added deterministic Gateway-necessity assessment.
