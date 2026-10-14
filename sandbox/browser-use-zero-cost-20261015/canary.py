@@ -61,7 +61,7 @@ async def main():
         assert before == {"clicked": False, "marker": MARKER}, before
         print("NEGATIVE_CANARY_PASS: no-click not accepted", flush=True)
         from browser_use import Browser
-        browser = Browser(headless=True)
+        browser = Browser(headless=True, chromium_sandbox=False, args=['--no-sandbox', '--disable-dev-shm-usage'])
         try:
             await browser.start()
             page = await browser.new_page(f"http://127.0.0.1:{port}/")
