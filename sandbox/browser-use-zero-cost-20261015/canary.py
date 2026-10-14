@@ -64,8 +64,16 @@ async def main():
         browser = Browser(headless=True, chromium_sandbox=False, args=['--no-sandbox', '--disable-dev-shm-usage'])
         try:
             await browser.start()
-            page = await browser.new_page(f"http://127.0.0.1:{port}/")
-            assert await page.get_title() == "Browser Use Canary"
+            page = await browser.new_page()
+            await page.goto(f"http://127.0.0.1:{port}/")
+            title = ""
+            for _ in range(30):
+                title = await page.get_title()
+                if title == "Browser Use Canary":
+                    break
+                await asyncio.sleep(0.2)
+            print(f"READ_BACK_NAV: url={await page.get_url()!r} title={title!r}", flush=True)
+            assert title == "Browser Use Canary", {"title": title, "url": await page.get_url()}
             elements = await page.get_elements_by_css_selector("#canary-action")
             assert len(elements) == 1, len(elements)
             await elements[0].click()
