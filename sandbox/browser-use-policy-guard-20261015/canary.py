@@ -48,8 +48,15 @@ async def run(mode):
                         enable_default_extensions=False,allowed_domains=["127.0.0.1"],
                         highlight_elements=False,paint_order_filtering=False,cross_origin_iframes=False)
         await browser.start();page=await browser.new_page();await page.goto(origin)
-        assert await page.get_title()=="Guarded Autonomous Agent Local Sandbox"
-        assert len(await page.get_elements_by_css_selector("#safe"))==1
+        title=""
+        for _ in range(35):
+            title=await page.get_title()
+            elements=await page.get_elements_by_css_selector("#safe")
+            if title=="Guarded Autonomous Agent Local Sandbox" and len(elements)==1:
+                break
+            await asyncio.sleep(.25)
+        print("PAGE_PREFLIGHT: title="+repr(title)+" safe_count="+str(len(elements)),flush=True)
+        assert title=="Guarded Autonomous Agent Local Sandbox" and len(elements)==1
         await browser.get_browser_state_summary(include_screenshot=False)
         selector=await browser.get_selector_map()
         safe_indices=[i for i,n in selector.items() if (n.attributes or {}).get("id")=="safe"]
