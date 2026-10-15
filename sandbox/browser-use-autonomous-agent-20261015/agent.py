@@ -82,7 +82,8 @@ async def main():
             await asyncio.sleep(.2)
         assert title == "Autonomous Agent Local Sandbox", f"BAD_PAGE_TITLE:{title!r}"
         print("LOCAL_PAGE_READY: " + title, flush=True)
-        llm = ChatOllama(model="qwen2.5:1.5b", num_ctx=16384, temperature=0)
+        llm = ChatOllama(model="qwen2.5:1.5b", host="http://127.0.0.1:11434",
+                         timeout=300, ollama_options={"num_ctx": 16384, "temperature": 0})
         task = (
             "You are operating only the currently open local sandbox webpage. "
             "Click exactly once the visible button labeled 'Record approved result'. "
