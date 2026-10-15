@@ -1,0 +1,65 @@
+name: browser-use-autonomous-ai-zero-dollar
+on:
+  push:
+    branches: [sandbox/browser-use-autonomous-agent-20261015]
+    paths:
+      - .github/workflows/browser-use-autonomous-ai-zero-dollar.yml
+      - sandbox/browser-use-autonomous-agent-20261015/**
+permissions:
+  contents: read
+concurrency:
+  group: browser-use-autonomous-ai-zero-dollar-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  autonomous-agent-isolated:
+    if: github.repository == 'phattrongtran15-pixel/ai-delivery-control-kit'
+    runs-on: ubuntu-latest
+    timeout-minutes: 22
+    env:
+      OPENAI_API_KEY: ''
+      BROWSER_USE_API_KEY: ''
+      ANTHROPIC_API_KEY: ''
+      GOOGLE_API_KEY: ''
+      GITHUB_TOKEN: ''
+      OPENROUTER_API_KEY: ''
+      ANONYMIZED_TELEMETRY: 'false'
+      BROWSER_USE_DISABLE_EXTENSIONS: '1'
+      DO_NOT_TRACK: '1'
+      OLLAMA_HOST: '127.0.0.1:11434'
+      OLLAMA_NUM_PARALLEL: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install browser-use pinned package and Chromium
+        run: |
+          python -m pip install --disable-pip-version-check 'browser-use==0.13.11' 'playwright'
+          python -m playwright install chromium
+      - name: Install SHA256-verified Ollama open model runtime (no model API)
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/ollama"
+          curl --fail --location --retry 2 --connect-timeout 25 \
+            'https://github.com/ollama/ollama/releases/download/v0.34.0/ollama-linux-amd64.tar.zst' \
+            -o "$RUNNER_TEMP/ollama-linux-amd64.tar.zst"
+          echo 'cf95886728959aa09910bb34de5cca1cc5a8f68003b5597197d3f2c2d57c0804  '"$RUNNER_TEMP/ollama-linux-amd64.tar.zst" | sha256sum --check -
+          if ! command -v zstd >/dev/null; then
+            sudo apt-get update -qq && sudo apt-get install -y -qq zstd
+          fi
+          tar --zstd -xf "$RUNNER_TEMP/ollama-linux-amd64.tar.zst" -C "$RUNNER_TEMP/ollama"
+          echo "$RUNNER_TEMP/ollama/bin" >> "$GITHUB_PATH"
+          "$RUNNER_TEMP/ollama/bin/ollama" --version
+          "$RUNNER_TEMP/ollama/bin/ollama" serve > "$RUNNER_TEMP/ollama-server.log" 2>&1 &
+          for i in $(seq 1 45); do
+            if curl --silent --fail http://127.0.0.1:11434/api/tags >/dev/null; then break; fi
+            sleep 2
+          done
+          curl --fail http://127.0.0.1:11434/api/tags >/dev/null
+          "$RUNNER_TEMP/ollama/bin/ollama" pull qwen2.5:1.5b
+          "$RUNNER_TEMP/ollama/bin/ollama" list
+      - name: Live offline model selecting a browser action + independent destination read-back
+        run: python sandbox/browser-use-autonomous-agent-20261015/agent.py
