@@ -44,3 +44,5 @@ jobs:
             echo "M4_CANARY_ATTEMPT_PASS=${n}"
           done
           echo 'M4_THREE_INDEPENDENT_CANARIES_PASS'
+      - name: Deterministic replay 3x under strict ActionGuard with independent HTTP verifier
+        run: python sandbox/browser-use-m4-close-20261024/m4_deterministic_replay.py
