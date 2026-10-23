@@ -47,7 +47,13 @@ async def run(mode):
                         args=["--no-sandbox","--disable-dev-shm-usage"],
                         enable_default_extensions=False,allowed_domains=["127.0.0.1"],
                         highlight_elements=False,paint_order_filtering=False,cross_origin_iframes=False)
-        await browser.start();page=await browser.new_page();await page.goto(origin)
+        await browser.start()
+        # Navigate the agent-focused BrowserSession tab instead of a detached Page.
+        await browser.navigate_to(origin)
+        current_focused=await browser.get_current_page_url()
+        print("FOCUSED_TAB_PREFLIGHT:"+json.dumps({"actual":current_focused,"expected":origin},sort_keys=True),flush=True)
+        assert current_focused==origin,"FOCUSED_TAB_URL_MISMATCH"
+        page=await browser.must_get_current_page()
         title=""
         for _ in range(35):
             title=await page.get_title()
