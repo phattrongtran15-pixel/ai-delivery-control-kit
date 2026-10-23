@@ -70,6 +70,7 @@ async def run(mode):
             try:
                 from types import SimpleNamespace
                 current=await browser_session.get_current_page_url()
+                print("ORIGIN_DIAGNOSTIC:"+json.dumps({"actual":current,"expected":origin},sort_keys=True),flush=True)
                 elem=None
                 if target in ("safe","unsafe"):
                     current_page=await browser_session.must_get_current_page()
