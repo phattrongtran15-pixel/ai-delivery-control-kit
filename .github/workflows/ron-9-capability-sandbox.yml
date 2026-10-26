@@ -1,0 +1,147 @@
+name: RON 9-capability GitHub-only staging
+on:
+  push:
+    branches: [sandbox/upstream-browser-skill-farm-20261026]
+    paths:
+      - sandbox/upstream-browser-skill-farm-20261026/**
+      - .github/workflows/ron-9-capability-sandbox.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: ron-nine-capability-${{ github.ref }
+  cancel-in-progress: false
+
+jobs:
+  source-download:
+    if: github.repository == 'phattrongtran15-pixel/ai-delivery-control-kit'
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        include:
+          - {repo: browseros-ai/BrowserOS, sha: 3eb6946d80df4633bcee0eaef2e815af653f333c, id: browseros, core: 'false', role: gui_multi_agent}
+          - {repo: browser-use/browser-use, sha: 3df5806a0d097a1546d92c49bcf1b28c9972c3bd, id: browser_use, core: 'true', role: agent_browser}
+          - {repo: microsoft/playwright-mcp, sha: 0c4107acbecb75472b23c05c0e42471a0011874f, id: playwright_mcp, core: 'true', role: mcp_multi_session}
+          - {repo: OpenAdaptAI/OpenAdapt, sha: a016fd67ed28a14ef624f765840b9ab92448e8cc, id: openadapt, core: 'false', role: learn_record_replay}
+          - {repo: browserbase/stagehand, sha: 8023f34161d650c196dc343d2c232fb5e129a826, id: stagehand, core: 'false', role: cache_actions}
+          - {repo: mem0ai/mem0, sha: 2c81af3bbe27d9bccb09c772d583df9e9be72ee5, id: mem0, core: 'true', role: memory}
+          - {repo: n8n-io/n8n, sha: 003c47d247523f5fc04bb0c6741551ba830fcfa0, id: n8n, core: 'false', role: automation}
+          - {repo: vercel-labs/skills, sha: a80e4c9d12d607631249d4d7d059f835d4b2f13a, id: skills, core: 'true', role: skill_distribution}
+          - {repo: xyflow/xyflow, sha: bb63f4cc345acf4e6c73e0371be3ea3ca01b2a18, id: xyflow, core: 'false', role: capability_tree}
+          - {repo: iflytek/skillhub, sha: daee5efd6a6d32589aaef2d14ca1bff76b1c12c1, id: skillhub, core: 'false', role: skill_registry}
+          - {repo: browserless/browserless, sha: 6cfdcab581a1d5950c7ce7bab91b1a6928d49f19, id: browserless, core: 'false', role: session_farm}
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    env:
+      UPSTREAM: ${{ matrix.repo }
+      PIN: ${{ matrix.sha }
+      CORE: ${{ matrix.core }
+      SOURCE_ID: ${{ matrix.id }
+      GIT_TERMINAL_PROMPT: '0'
+      GIT_LFS_SKIP_SMUDGE: '1'
+    steps:
+      - name: Fetch pinned upstream source in GitHub runner
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p source downloaded
+          cd source
+          git init -q
+          git remote add origin "https://github.com/${UPSTREAM}.git"
+          git -c protocol.version=2 fetch -q --depth=1 --filter=blob:none origin "${PIN}"
+          if [ "${CORE}" != "true" ]; then
+            git sparse-checkout init --cone
+            git sparse-checkout set __nonexistent_root_only__
+          fi
+          git checkout --detach -q FETCH_HEAD
+          test "$(git rev-parse HEAD)" = "${PIN}"
+          echo "PIN_VERIFIED=${PIN}"
+          git show -s --format='%H%n%cs%n%s' HEAD > ../downloaded/commit.txt
+          if [ -f README.md ]; then cp README.md ../downloaded/README.md; fi
+          if [ -f package.json ]; then cp package.json ../downloaded/package.json; fi
+          cd ..
+          tar --exclude=.git -czf "downloaded/${SOURCE_ID}.tar.gz" -C source .
+          du -h "downloaded/${SOURCE_ID}.tar.gz"
+          printf '{"repo":"%s","pin":"%s","full_checkout":%s,"verified":true,"run":"%s"}\n' \
+            "${UPSTREAM}" "${PIN}" "${CORE}" "$GITHUB_RUN_ID" > downloaded/receipt.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: source-${{ matrix.id }
+          path: downloaded/
+          retention-days: 30
+          if-no-files-found: warn
+
+  browser-and-skill:
+    if: github.repository == 'phattrongtran15-pixel/ai-delivery-control-kit'
+    runs-on: ubuntu-latest
+    timeout-minutes: 22
+    env:
+      OPENAI_API_KEY: ''
+      ANTHROPIC_API_KEY: ''
+      BROWSER_USE_API_KEY: ''
+      GOOGLE_API_KEY: ''
+      OPENROUTER_API_KEY: ''
+      ANONYMIZED_TELEMETRY: 'false'
+      DO_NOT_TRACK: '1'
+      BROWSER_USE_DISABLE_EXTENSIONS: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install pinned browser adapter
+        run: |
+          python -m pip install --disable-pip-version-check 'browser-use==0.13.11' 'playwright' 'psutil'
+          python -m playwright install chromium
+      - name: Existing policy guard unit tests
+        run: python sandbox/browser-use-policy-guard-20261015/test_policy.py
+      - name: Reuse successful M4 independent browser replay test
+        run: python sandbox/browser-use-m4-close-20261024/m4_deterministic_replay.py
+      - name: Multi-session real Chromium UAT and staging skill proposal
+        run: python sandbox/upstream-browser-skill-farm-20261026/capability_farm.py produce
+      - name: Install and run upstream Playwright MCP and Skills CLI
+        shell: bash
+        run: |
+          set -euo pipefail
+          timeout 150s npx --yes @playwright/mcp@0.0.83 --help > evidence/playwright-mcp-help.txt
+          timeout 150s npx --yes skills@1.7.4 --help > evidence/vercel-skills-help.txt
+          test -s evidence/playwright-mcp-help.txt
+          test -s evidence/vercel-skills-help.txt
+          echo RON_CLI_RUNTIME_SMOKE_PASS
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ron-browser-skill-evidence
+          path: evidence/
+          retention-days: 30
+          if-no-files-found: error
+
+  cross-job-consumer:
+    if: github.repository == 'phattrongtran15-pixel/ai-delivery-control-kit'
+    needs: browser-and-skill
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@v4
+        with:
+          name: ron-browser-skill-evidence
+          path: handoff/
+      - name: Second simulated AI actor verifies approved skill
+        run: python sandbox/upstream-browser-skill-farm-20261026/capability_farm.py consume
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ron-cross-job-reuse-evidence
+          path: evidence/
+          retention-days: 30
+          if-no-files-found: warn
