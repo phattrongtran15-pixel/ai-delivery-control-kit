@@ -9,7 +9,7 @@ on:
 permissions:
   contents: read
 concurrency:
-  group: ron-nine-capability-${{ github.ref }
+  group: ron-nine-capability-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
@@ -34,10 +34,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 18
     env:
-      UPSTREAM: ${{ matrix.repo }
-      PIN: ${{ matrix.sha }
-      CORE: ${{ matrix.core }
-      SOURCE_ID: ${{ matrix.id }
+      UPSTREAM: ${{ matrix.repo }}
+      PIN: ${{ matrix.sha }}
+      CORE: ${{ matrix.core }}
+      SOURCE_ID: ${{ matrix.id }}
       GIT_TERMINAL_PROMPT: '0'
       GIT_LFS_SKIP_SMUDGE: '1'
     steps:
@@ -68,7 +68,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: source-${{ matrix.id }
+          name: source-${{ matrix.id }}
           path: downloaded/
           retention-days: 30
           if-no-files-found: warn
