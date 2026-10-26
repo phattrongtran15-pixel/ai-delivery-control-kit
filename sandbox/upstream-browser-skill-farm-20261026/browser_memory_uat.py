@@ -138,7 +138,7 @@ async def main():
                     with LOCK:RECEIPT["actors"]=[x["actor"] for x in trace]
                     dashboard=await browser.new_page(viewport={"width":1200,"height":740})
                     await dashboard.goto(origin+"dashboard")
-                    assert await dashboard.locator("tbody tr").count()==3 if await dashboard.locator("tbody").count() else await dashboard.locator("tr").count()==4
+                    assert await dashboard.locator("tr").count()==4, "DASHBOARD_ACTOR_ROWS_MISMATCH"
                     await dashboard.screenshot(path=str(OUT/"live-actor-monitor.png"),full_page=True)
                     assert (await dashboard.locator("body").inner_text()).count("cloud-agent")>=2
                     stats=export(db,OUT)
