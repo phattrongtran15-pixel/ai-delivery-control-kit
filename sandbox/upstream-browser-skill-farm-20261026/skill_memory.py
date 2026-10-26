@@ -5,7 +5,7 @@ import argparse, hashlib, json, sqlite3
 from pathlib import Path
 from datetime import datetime, timezone
 
-ACTORS = {"local-agent-A","cloud-agent-B","cloud-agent-C"}
+ACTORS = {"local-agent-A","cloud-agent-B","cloud-agent-C"} | {"actor-"+str(i).zfill(2) for i in range(1,49)}
 def sha(obj):
     return hashlib.sha256(json.dumps(obj,sort_keys=True,separators=(",",":")).encode()).hexdigest()
 def now():
