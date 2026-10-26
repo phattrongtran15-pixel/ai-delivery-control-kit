@@ -1,0 +1,28 @@
+{
+  "id": "staging.browser.0fbf4a4a127a640e",
+  "name": "ron-browser-procedural-memory",
+  "version": "0.1.0-staging",
+  "status": "STAGING_APPROVED_TEST_ONLY",
+  "canonical_skillstore_registered": false,
+  "real_policygate_decision": false,
+  "origin": "127.0.0.1",
+  "allowed_actors": [
+    "local-agent-A",
+    "cloud-agent-B",
+    "cloud-agent-C"
+  ],
+  "allowed_action": "click #safe",
+  "prohibited": [
+    "real account credentials",
+    "cross-account cookies",
+    "unsafe button",
+    "production effects"
+  ],
+  "verified_runs": [
+    40348604443,
+    40348875505
+  ],
+  "evidence_kind": "GitHub Actions live browser + independent HTTP receipt",
+  "source": "https://github.com/phattrongtran15-pixel/ai-delivery-control-kit/tree/sandbox/upstream-browser-skill-farm-20261026",
+  "artifact_retention_days": 30
+}
