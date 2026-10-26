@@ -16,7 +16,7 @@ on:
 permissions:
   contents: read
 concurrency:
-  group: ron-browser-five-gates-${{ github.ref }
+  group: ron-browser-five-gates-${{ github.ref }}
   cancel-in-progress: false
 jobs:
   build-dossier:
@@ -77,7 +77,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.sha }
+          ref: ${{ github.sha }}
           fetch-depth: 0
           persist-credentials: false
       - uses: actions/setup-python@v5
