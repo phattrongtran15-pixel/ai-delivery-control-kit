@@ -123,6 +123,94 @@ jobs:
           retention-days: 30
           if-no-files-found: error
 
+
+  procedural-skill-memory:
+    if: github.repository == 'phattrongtran15-pixel/ai-delivery-control-kit'
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    env:
+      OPENAI_API_KEY: ''
+      ANTHROPIC_API_KEY: ''
+      BROWSER_USE_API_KEY: ''
+      GOOGLE_API_KEY: ''
+      OPENROUTER_API_KEY: ''
+      DO_NOT_TRACK: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Playwright Chromium for real browser procedure test
+        run: |
+          python -m pip install --disable-pip-version-check playwright
+          python -m playwright install chromium
+      - name: Record verified skill, retrieve across actors, reuse action cache, screenshot monitor
+        run: python sandbox/upstream-browser-skill-farm-20261026/browser_memory_uat.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ron-procedural-skill-memory
+          path: evidence/
+          retention-days: 30
+          if-no-files-found: warn
+
+  independent-memory-consumer:
+    if: github.repository == 'phattrongtran15-pixel/ai-delivery-control-kit'
+    needs: procedural-skill-memory
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@v4
+        with:
+          name: ron-procedural-skill-memory
+          path: handoff/
+      - name: Actual SQLite FTS5 persistent memory, independent runner and actor
+        run: python sandbox/upstream-browser-skill-farm-20261026/skill_memory.py consumer-check --db handoff/stage-memory.sqlite3
+
+  live-mcp-multiclient:
+    if: github.repository == 'phattrongtran15-pixel/ai-delivery-control-kit'
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    env:
+      OPENAI_API_KEY: ''
+      ANTHROPIC_API_KEY: ''
+      GOOGLE_API_KEY: ''
+      DO_NOT_TRACK: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install official MCP protocol client SDK
+        working-directory: sandbox/upstream-browser-skill-farm-20261026
+        run: npm install --no-save --no-audit --no-fund '@modelcontextprotocol/sdk@1.32.0'
+      - name: Launch REAL Playwright MCP HTTP server and test two independently connected clients
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p evidence
+          npx --yes @playwright/mcp@0.0.83 --port 8931 --browser chrome --no-sandbox --headless --isolated > evidence/mcp-server.log 2>&1 &
+          mcp_pid=$!
+          trap 'kill "$mcp_pid" 2>/dev/null || true' EXIT
+          node sandbox/upstream-browser-skill-farm-20261026/mcp_multiclient.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ron-live-mcp-multiclient
+          path: evidence/
+          retention-days: 30
+          if-no-files-found: warn
+
   cross-job-consumer:
     if: github.repository == 'phattrongtran15-pixel/ai-delivery-control-kit'
     needs: browser-and-skill
