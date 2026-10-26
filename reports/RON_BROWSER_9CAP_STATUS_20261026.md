@@ -1,58 +1,70 @@
-# RON-SHO — Actual 9-capability acceptance readback
-**Date:** 26 October 2026 | **Source:** GitHub Actions + GitHub repository readback | **Authority:** staging only.
-**Direct answer:** **NOT FULL 9/9.** A successful CI run is not full production capability acceptance.
+# RON-SHO — 9 tiêu chí Browser Intelligence | Kết quả thực tế
+**Ngày:** 2026-10-26 | **Môi trường:** GitHub Actions staging ONLY | **Production:** NOT ACCEPTED
 
-## Source-of-truth evidence
-- **Latest successful integration run** [40349665708](https://github.com/phattrongtran15-pixel/ai-delivery-control-kit/actions/runs/40349665708) — six jobs SUCCESS, source download SKIPPED intentionally to reduce repeated bandwidth; five evidence artifacts. Commit `16267315ce211a188cbb13a0244ae6c363a33518`.
-- **11 upstream source downloads** [40342982007](https://github.com/phattrongtran15-pixel/ai-delivery-control-kit/actions/runs/40342982007) — 11 pinned repo snapshots archived (4 full, 7 sparse/root only); this is **NOT 11 production deployments**.
-- **Existing baseline M4** [40019468606](https://github.com/phattrongtran15-pixel/ai-delivery-control-kit/actions/runs/40019468606) — deterministic browser replay and independent HTTP verifier.
-- **Current branch** [sandbox/upstream-browser-skill-farm-20261026](https://github.com/phattrongtran15-pixel/ai-delivery-control-kit/tree/sandbox/upstream-browser-skill-farm-20261026). No other implementation branches, no merge to main.
+## Kết luận
+**Chưa FULL 9/9 trong AIOS.** Đã tăng từ 3 actor thử nghiệm lên **48 phiên MCP thực**, kèm **48 actor thử nghiệm tra cứu và tái sử dụng cùng một skill**, và vận hành được **Archify CLI 3.2.0 thật** với source evidence. Đây là actor/session độc lập trong sandbox, **không phải 48 mô hình AI/48 GPT login đang hoạt động**.
 
-## Nine fixed criteria — staged proof vs full product gap
+## GitHub evidence
+- Run hoàn thành thành công: https://github.com/phattrongtran15-pixel/ai-delivery-control-kit/actions/runs/40354279483
+- Code commit đã chạy và verified: `40ce3365ce755a69eb4de1035a2bb11821784e1f`
+- MCP actor farm logs, JSON receipts và monitor PNG: https://github.com/phattrongtran15-pixel/ai-delivery-control-kit/actions/runs/40354279483/artifacts/12664957943
+- Shared procedural memory, FTS5, 48-context browser replay và monitor PNG: https://github.com/phattrongtran15-pixel/ai-delivery-control-kit/actions/runs/40354279483/artifacts/12664583708
+- Native Archify workflow HTML, graph evidence, atomizer, validation/negative test: https://github.com/phattrongtran15-pixel/ai-delivery-control-kit/actions/runs/40354279483/artifacts/12664337823
+- Skill distribution vào hai agent homes giả lập (Codex/Kilo): https://github.com/phattrongtran15-pixel/ai-delivery-control-kit/actions/runs/40354279483/artifacts/12664053067
+- Replay, MCP two-client, cross-job receipts: các artifacts còn lại cùng run.
+- Working branch: https://github.com/phattrongtran15-pixel/ai-delivery-control-kit/tree/sandbox/upstream-browser-skill-farm-20261026
 
-| # | Non-negotiable capability | Real tested GitHub evidence | Actual status | Required to claim FULL |
+### Scale readback (không diễn giải thành số AI dùng LLM)
+| Test | 12 | 24 | 48 | Ranh giới |
 |---|---|---|---|---|
-| 1 | Browser nhìn thấy/giám sát nhiều AI | Actual browser-rendered monitor screenshot from 3 simulated role-labelled actor contexts; 3/6/10/15 real Chromium context tests | PARTIAL | Run real BrowserOS/monitor with live independent AI agent sessions and observable work/trace |
-| 2 | MCP nhiều phiên cô lập | Two real independent Streamable HTTP MCP clients called Playwright MCP navigate/evaluate, cookie A/B isolation pass | STAGING VERIFIED | Connect different real AIOS clients through a governed remote MCP gateway with account isolation |
-| 3 | AI học và phát triển kỹ năng | Browser A recorded a successful safe action; proposed a skill, independent fixture verified, staging gate approved | PARTIAL | Actual autonomous skill synthesis/expansion, regression quality and Ron/PolicyGate acceptance |
-| 4 | Ghi thao tác, replay, verify | M4 real browser deterministic replay 3/3 plus independent HTTP evidence; browser action trace stored | STAGING VERIFIED (limited) | Rich event/screenshot recording and OpenAdapt replay integration on real sites |
-| 5 | Cache thao tác để chạy nhanh | Version/UI fingerprint keyed SQLite action cache, cold resolution vs hit recorded and used to drive action | PARTIAL | Stagehand or equivalent runtime cache with measured p50/p95 speedup and UI-drift fallback |
-| 6 | Bộ nhớ tìm kiếm xuyên agent | SQLite FTS5 pre-action discovery across separate Python subprocesses and separate GitHub jobs; integrity and authorization negative tests | STAGING VERIFIED (limited) | Persistent governed Mem0/semantic memory with concurrent real Local/Cloud agents |
-| 7 | Automation | GitHub push-triggered Actions pipeline, independent tests and artifact handoff | STAGING VERIFIED (GitHub) | Real n8n workflows or authorized end-to-end event scheduling, retries, idempotency |
-| 8 | Share memory | Vercel Skills CLI installed same staging skill to Codex and Kilo test homes (2 copies, hash receipt); artifacts consumed in new job | STAGING VERIFIED (limited) | RonSkillStore canonical projection and actual Local/Cloud actor read/write under PolicyGate |
-| 9 | Cây phát triển năng lực | Versioned Mermaid tree, runtime-generated lineage + JSON DAG artifacts | PARTIAL | Live interactive xyflow-backed graph, skill ancestry/metrics and approved registry synchronization |
+| Playwright MCP client sessions (isolated cookies) | 12/12 PASS | 24/24 PASS | **48/48 PASS** | 48 client sessions mở, tối đa 6 tool actions in-flight tại thời điểm test |
+| Pre-action FTS5 skill lookup -> cached browser action | 12/12 PASS | 24/24 PASS | **48/48 PASS** | 48 actor giả lập; tối đa 8 thao tác đồng thời; không có LLM |
+| Unsafe clicks | 0 | 0 | **0** | Independent local HTTP receipt |
+| 48 batch navigation p95 | — | — | **1,687 ms** | Synthetic localhost fixture, không phải ChatGPT Web |
+| 48 batch lookup + action p95 | — | — | **802.2 ms** | Cache warm, không phải độ tăng tốc Stagehand |
 
-**Strict final acceptance:** **0/9 FULL** across live RON-SHO AIOS. The staging proofs improve implementation readiness but do not certify production.
+## Ma trận CHÍNH XÁC 9 tiêu chí
+| # | Tiêu chí | Bằng chứng đã chạy | FULL AIOS? / thiếu gì |
+|---|---|---|---|
+| 1 | Browser nhìn thấy / giám sát nhiều AI | 48-row dashboard thực sự render bằng browser, PNG receipt | **CHƯA** — actor giả lập, chưa BrowserOS GUI giám sát 48 AI thật |
+| 2 | MCP đa phiên cô lập | 48 MCP Streamable HTTP clients, isolate/cookie check sau fanout | **CHƯA** — chưa có cross-host authenticated AIOS gateway và 48 client AI thực |
+| 3 | AI học và phát triển kỹ năng | Browser A tạo Skill Candidate từ thao tác đúng, verifier đọc outcome, staging reviewer duyệt | **CHƯA** — không có autonomous model-driven skill synthesis, Ron/PolicyGate production acceptance |
+| 4 | Ghi thao tác, replay, verify | M4 replay 3/3 + 48 browser replays, readback độc lập | **CHƯA** — thiếu đầy đủ event/screen recording và production recorder |
+| 5 | Cache thao tác nhanh | 48/48 cache hit, UI fingerprint/role matching, changed UI denied | **CHƯA** — chưa benchmark true Stagehand caching vs uncached workload |
+| 6 | Bộ nhớ tìm kiếm xuyên agent | SQLite FTS5 cross-processes, cross-GitHub jobs, 48 actors; digest/version gates | **CHƯA** — chưa Mem0 semantic store, durable online catalog, cross-host access |
+| 7 | Automation | GitHub Actions workflows và artifacts, replay verification, retry/failure cases | **CHƯA** — chưa n8n server workflow/persistent worker |
+| 8 | Share memory | One approved staging skill reused by 48 actor contexts, cross-job artifact, Vercel Skills CLI copies to Codex/Kilo test homes | **CHƯA** — chưa đồng bộ real AI Local ↔ Cloud và canonical RonSkillStore/PolicyGate |
+| 9 | Cây phát triển năng lực | 9 atoms, source-line SHA, Archify interactive HTML, runtime lineage DAG | **CHƯA** — chưa cây sống với version/growth metrics và verified AIOS registry sync |
 
-## New PASS evidence markers
-- `RON_REAL_MCP_TWO_CLIENT_SESSION_ISOLATION_PASS`
-- `RON_MEMORY_FTS5_MULTI_ACTOR_PREACTION_PASS`
-- `RON_RECORDED_VERIFIED_SKILL_CACHE_HIT_PASS`
-- `RON_LIVE_BROWSER_ACTOR_MONITOR_PASS`
-- `RON_FTS5_CROSS_JOB_CONSUMER_PASS:staging.browser.0fbf4a4a127a640e`
-- `RON_MULTI_AGENT_SKILL_COPY_COUNT=2`
-- `RON_VERCEL_SKILLS_TWO_AGENT_INSTALL_PASS`
-- `M4_DETERMINISTIC_REPLAY_3_OF_3_PASS`
+**Acceptance summary:** All nine criteria have scoped design/source/test evidence. **0/9 meet the strict FULL production standard**. `SOURCE_DOWNLOADED != EXECUTED != VERIFIED_STAGING != ACCEPTED`.
 
-## Exact staging assets
-- [Skill contract](https://github.com/phattrongtran15-pixel/ai-delivery-control-kit/blob/sandbox/upstream-browser-skill-farm-20261026/sandbox/upstream-browser-skill-farm-20261026/skills/ron-browser-procedural-memory/CONTRACT.json)
-- [Agent Skills SKILL.md](https://github.com/phattrongtran15-pixel/ai-delivery-control-kit/blob/sandbox/upstream-browser-skill-farm-20261026/sandbox/upstream-browser-skill-farm-20261026/skills/ron-browser-procedural-memory/SKILL.md)
-- [Procedure memory implementation](https://github.com/phattrongtran15-pixel/ai-delivery-control-kit/blob/sandbox/upstream-browser-skill-farm-20261026/sandbox/upstream-browser-skill-farm-20261026/skill_memory.py)
-- [Actual browser memory UAT](https://github.com/phattrongtran15-pixel/ai-delivery-control-kit/blob/sandbox/upstream-browser-skill-farm-20261026/sandbox/upstream-browser-skill-farm-20261026/browser_memory_uat.py)
-- [Actual Playwright MCP 2-client UAT](https://github.com/phattrongtran15-pixel/ai-delivery-control-kit/blob/sandbox/upstream-browser-skill-farm-20261026/sandbox/upstream-browser-skill-farm-20261026/mcp_multiclient.mjs)
-- [9-class capability tree](https://github.com/phattrongtran15-pixel/ai-delivery-control-kit/blob/sandbox/upstream-browser-skill-farm-20261026/sandbox/upstream-browser-skill-farm-20261026/CAPABILITY_TREE.md)
+## Hai vũ khí: evidence thực tế
+### ron-sho-ai-cloud-rea / capability atomizer
+- **G1** authorized scoped GitHub source + immutable commit: SOURCE_SUPPORTED.
+- **G2** Python AST/JS source path analysis, SHA provenance: SOURCE_SUPPORTED.
+- **G3** Real REA 6.7.0 provider invocation through authenticated AIOS Gateway/PolicyGate: **BLOCKED_NOT_RUN**.
+- **G4** Independent source graph citation validator: PASS (18 graph items); deliberate SHA tamper correctly rejected. This validates source citations only.
+- **G5** Actual plugin→PolicyGate→provider runtime & Ron acceptance: BLOCKED.
+- Ghidra/native binary decompilation: **NOT_APPLICABLE** for the Python/JS sources examined; no native binary was supplied/authorized. Never claim decompilation.
 
-## Safety and infrastructure
-- GitHub Actions hosted runner is ephemeral: no persistent always-on browser, no actual GPT login pool.
-- No Windows or Google Drive accessed/modified during this implementation stage. No canonical RonSkillStore, AIOS.db, protected production config, real tokens, or external account cookies touched.
-- Test-only reviewer state is NOT an actual Ron/PolicyGate decision.
-- GitHub Actions may have plan quotas; no paid LLM APIs were called.
-- Preserve existing SkillStore. Never introduce a second canonical database from a staging SQLite file.
-- Upstream license review required for BrowserOS (AGPL), Browserless (SSPL) and n8n (fair-code).
+### ron-sho-archify
+- Upstream `tt-a1i/archify` pinned `81c6be8d87090670c45d08a8f97f9d29c5af0bec`, version **3.2.0**.
+- Real `finalize workflow ... --repo-root . --quality standard --json` executed and **PASS**; interactive HTML + native receipts in GitHub artifact.
+- Source/citation graph 9 nodes and 9 edges passed independent integrity checks; **not a claim that all edges operated live in production**.
+- M5 full human/production acceptance: NOT ACCEPTED.
 
-## CURRENT SYSTEM STATE
-- Work ID: UNKNOWN. Branch checkpoint: `16267315ce211a188cbb13a0244ae6c363a33518`.
-- Source snapshots: 11; integrated CI artifacts latest: 5.
-- GitHub CI state: VERIFIED SUCCESS, scoped to staging.
-- Product complete: BLOCKED; not 9/9 accepted.
-- One next action: integrate the actual OpenAdapt recorder and Stagehand cached replay against the same guarded GitHub fixture, with independent before/after evidence and failure drift test; keep same branch and no production mutation.
+## Security, scope and cost
+- Only GitHub staging branch modified. **No Windows, C:/G:, real GPT login, API credential, production browser, canonical SkillStore, AIOS.db, or protected production merge**.
+- No paid LLM API calls. GitHub Actions minutes/storage remain subject to account quota.
+- Repo upstream license/terms need review for any production assembly (BrowserOS AGPL, Browserless SSPL, n8n fair-code).
+- GH hosted runners are ephemeral; there is no always-on multi-agent browser service. Artifacts retained 30 days and reproducible from the pinned workflow.
+- No extra competing Core or SkillStore created; SQLite here is a disposable staging fixture.
+
+## Checkpoint + Handoff
+- Project: ONE RON-SHO Browser Intelligence track; Work ID UNKNOWN (no canonical Work registered).
+- Status: `GITHUB_STAGING_VERIFIED`, `RON_ACCEPTANCE_NOT_GRANTED`.
+- Runtime environment: `GITHUB_HOSTED_RUNNER`, no Windows execution.
+- Repo: `phattrongtran15-pixel/ai-delivery-control-kit`; branch: `sandbox/upstream-browser-skill-farm-20261026`; accepted code baseline to review: `40ce3365ce755a69eb4de1035a2bb11821784e1f`.
+- Source: `sandbox/upstream-browser-skill-farm-20261026/mcp_actor_scale.mjs`, `browser_memory_scale.py`, `skill_memory.py`, `source_atomize_and_archify.py`; workflow: `.github/workflows/ron-9-capability-sandbox.yml`.
+- Rollback: delete/revert staging branch only. No production writes made.
+- **Exactly one next action:** Test one real **model-backed** Local-compatible agent and one real Cloud-compatible agent against a governed SkillStore/MCP adapter on GitHub staging, proving the same verified skill is recommended *before* browser action. Preserve all nine acceptance gates and do not touch production.
