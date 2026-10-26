@@ -1,0 +1,69 @@
+{
+  "captured_date": "2026-10-26",
+  "source": "GitHub REST commit listing, source pins only",
+  "purpose": "High-star upstream source snapshots on ephemeral GitHub runner, staged artifact archive",
+  "upstreams": [
+    {
+      "name": "browser-use/browser-use",
+      "sha": "3df5806a0d097a1546d92c49bcf1b28c9972c3bd",
+      "stars": 119187,
+      "role": "browser AI agent",
+      "smoke": "baseline browser-use M4 pinned 0.13.11"
+    },
+    {
+      "name": "microsoft/playwright-mcp",
+      "sha": "0c4107acbecb75472b23c05c0e42471a0011874f",
+      "stars": 38653,
+      "role": "MCP browser tools",
+      "smoke": "npm CLI help version 0.0.83"
+    },
+    {
+      "name": "vercel-labs/skills",
+      "sha": "a80e4c9d12d607631249d4d7d059f835d4b2f13a",
+      "stars": 36637,
+      "role": "skill distribution",
+      "smoke": "npm CLI help version 1.7.4"
+    },
+    {
+      "name": "mem0ai/mem0",
+      "sha": "2c81af3bbe27d9bccb09c772d583df9e9be72ee5",
+      "stars": 67841,
+      "role": "semantic agent memory",
+      "smoke": "source checkout only; no configured model backend"
+    },
+    {
+      "name": "browserbase/stagehand",
+      "sha": "8023f34161d650c196dc343d2c232fb5e129a826",
+      "stars": 25826,
+      "role": "browser action automation",
+      "smoke": "source checkout only; no Browserbase credentials"
+    },
+    {
+      "name": "browserless/browserless",
+      "sha": "6cfdcab581a1d5950c7ce7bab91b1a6928d49f19",
+      "stars": 13863,
+      "role": "browser farm infrastructure",
+      "smoke": "source checkout only; license review before deployment"
+    },
+    {
+      "name": "iflytek/skillhub",
+      "sha": "daee5efd6a6d32589aaef2d14ca1bff76b1c12c1",
+      "stars": 5299,
+      "role": "enterprise skill registry",
+      "smoke": "source checkout only; services require explicit provisioning"
+    },
+    {
+      "name": "langchain-ai/langgraph",
+      "sha": "dc1741ce96fcb86cd3f220dec05fa7ef31f36fb0",
+      "stars": 43929,
+      "role": "durable orchestrator",
+      "smoke": "source checkout only; avoid core replacement"
+    }
+  ],
+  "notes": [
+    "Stars are snapshot counts, not a benchmark.",
+    "Source download and real package execution are separately reported.",
+    "Production AIOS integration remains UNKNOWN.",
+    "Artifacts on GitHub Actions have retention limits."
+  ]
+}
