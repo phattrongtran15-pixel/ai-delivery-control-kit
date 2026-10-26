@@ -18,7 +18,7 @@ const originServer=http.createServer((req,res)=>{
 });
 await new Promise(resolve=>originServer.listen(0,"127.0.0.1",resolve));
 const fixture="http://127.0.0.1:"+originServer.address().port;
-const url=new URL("http://127.0.0.1:8931/mcp");
+const url=new URL("http://localhost:8931/mcp");
 const clients=[];
 async function connect(label){
   let last;
