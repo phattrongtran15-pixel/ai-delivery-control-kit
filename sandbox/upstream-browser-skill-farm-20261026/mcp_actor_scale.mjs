@@ -25,7 +25,7 @@ const fixture=http.createServer((req,res)=>{
       "<button id='safe'>Authorized synthetic action</button>");
   }
   if(u.pathname==="/dashboard"){
-    const rows=ledger.map((x,i)=>
+    const rows=ledger.filter(x=>x.phase===48).map((x,i)=>
       "<tr><td>"+String(i+1)+"</td><td>"+x.actor+"</td><td>"+x.phase+
       "</td><td>"+x.status+"</td><td>"+x.elapsed_ms+" ms</td></tr>").join("");
     res.writeHead(200,{"Content-Type":"text/html; charset=utf-8"});

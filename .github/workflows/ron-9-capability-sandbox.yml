@@ -350,6 +350,18 @@ jobs:
             tail -80 evidence/actor-farm/mcp-server.log
             exit 1
           }
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          path=Path("evidence/actor-farm/scale-receipt.json")
+          d=json.loads(path.read_text())
+          assert d["status"]=="PASS" and [x["contexts"] for x in d["groups"]]==[6,12,24,48],d
+          assert all(x["cookie_bleed"]==0 and x["success"]==x["contexts"] for x in d["groups"])
+          assert Path("evidence/actor-farm/actor-monitor-48.png").stat().st_size>1000
+          ledger=json.loads(Path("evidence/actor-farm/actor-ledger-48.json").read_text())
+          assert len({x["actor"] for x in ledger if x["phase"]==48})==48
+          print("RON_MCP_48_ACTOR_DASHBOARD_AND_PROVENANCE_VERIFIED")
+          PY
       - uses: actions/upload-artifact@v4
         if: always()
         with:

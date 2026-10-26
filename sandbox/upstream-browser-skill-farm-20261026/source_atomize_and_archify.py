@@ -24,7 +24,8 @@ read_paths=[
     BASE/"skill_memory.py",
     BASE/"browser_memory_uat.py",
     BASE/"capability_farm.py",
-    Path(".github/workflows/ron-9-capability-sandbox.yml")
+    Path(".github/workflows/ron-9-capability-sandbox.yml"),
+    BASE/"browser_memory_scale.py"
 ]
 
 def sha(data):
@@ -129,7 +130,7 @@ loc=lambda cap:{"path":citations[cap]["path"],"line":citations[cap]["start"],
                 "end_line":citations[cap]["end"]}
 workflow={
  "schema_version":2,"diagram_type":"workflow",
- "meta":{"title":"RON-SHO Browser Intelligence | 24 MCP clients",
+ "meta":{"title":"RON-SHO Browser Intelligence | 48 MCP clients",
    "subtitle":"GitHub staging: source-backed flow, not production AIOS",
    "output":"evidence/source-graph/ron-browser-intelligence.html",
    "quality_profile":"standard",
@@ -142,7 +143,7 @@ workflow={
  "mainPath":["monitor","mcp","learn","verify","search","cache","sharing"],
  "nodes":[
     {"id":"monitor","lane":"browser","col":0,"type":"frontend","label":"Actor monitor",
-      "sublabel":"6 / 12 / 24 MCP clients","sources":[loc("monitor")]},
+      "sublabel":"6 / 12 / 24 / 48 clients","sources":[loc("monitor")]},
     {"id":"mcp","lane":"control","col":1,"type":"backend","label":"Isolated MCP",
       "sublabel":"one context per client","sources":[loc("mcp")]},
     {"id":"learn","lane":"control","col":2,"type":"backend","label":"Propose skill",
@@ -169,7 +170,7 @@ workflow={
     {"from":"automation","to":"mcp","variant":"dashed"},
     {"from":"sharing","to":"tree","variant":"dashed"}],
  "cards":[
-    {"dot":"cyan","title":"Physical UAT","items":["6, 12 and 24 real MCP clients with isolated cookies","Actor names represent test clients, not LLM workers"]},
+    {"dot":"cyan","title":"Physical UAT","items":["6, 12, 24 and 48 real MCP clients with isolated cookies","Actor names represent test clients, not LLM workers"]},
     {"dot":"amber","title":"Authority boundary","items":["Staging skill approvals do not grant Ron/PolicyGate acceptance",
       "REA/Ghidra native runtime not invoked for Python/JS source"]}]
 }
