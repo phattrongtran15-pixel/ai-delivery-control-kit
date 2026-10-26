@@ -8,28 +8,28 @@
 4. Tải `ron-procedural-skill-memory`, xem `memory-actor-monitor-48.png`, `memory-48-actor-scale.json`.
 5. Tải `ron-rea-archify-source-workflow`; mở HTML `ron-browser-intelligence.html` để xem luồng và `source-verify.json` kiểm tra các liên kết code.
 
-## B. Chạy G1–G4 ở GitHub (không chạy production)
-1. Mở tab **Actions** tại https://github.com/phattrongtran15-pixel/ai-delivery-control-kit/actions
-2. Chọn `RON Browser Five Gates — dossier verifier` → **Run workflow**.
-3. Branch: `sandbox/upstream-browser-skill-farm-20261026`; chọn `verify_only`. Chỉ chạy định dạng/scope/nguồn/evidence hợp lệ, không gọi LLM trả phí.
-4. Mở lượt run vừa tạo. Kiểm tra job `build-dossier` và job `independent-verify`; cần **cả hai SUCCESS**.
-5. Tải artifact `ron-browser-five-gates-receipt`; đối chiếu `source_sha`, `gate_verdict.json`, `negative_tests.json`.
-6. Nếu `G5=HOLD`, đó là trạng thái đúng khi chưa có Work/Asset ID và Ron ký nghiệm thu. **Không nhấn merge vào main và không sửa gate_state.json để giả tạo ACCEPTED**.
+## B. Chạy lại G1–G4 ở GitHub (không chạy production)
+**Lưu ý quan trọng:** workflow hiện chỉ nằm trên nhánh staging. Theo quy tắc GitHub, nút **Run workflow** có thể chưa xuất hiện vì `workflow_dispatch` yêu cầu file workflow tồn tại trên nhánh mặc định. KHÔNG merge vào main chỉ để có nút.
+1. Mở [GitHub run Five Gates 40358101487](https://github.com/phattrongtran15-pixel/ai-delivery-control-kit/actions/runs/40358101487).
+2. Nhấn **Re-run jobs → Re-run all jobs** (nếu tài khoản có quyền). Cách này lặp lại đúng commit đã kiểm chứng, KHÔNG chạy commit mới.
+3. Kiểm tra hai job `build-dossier` và `independent-verify` đều SUCCESS; tải artifact `ron-five-gates-builder` (builder-receipt.json, negative-tests.json, likec4-validate.json) và `ron-browser-five-gates-receipt` (independent-verdict.json).
+4. So sánh `source_sha` giữa builder và independent verifier. `G5=HOLD` là trạng thái đúng cho đến khi Ron nghiệm thu có quyền.
+5. Để chạy **commit staging mới nhất**, phải có thay đổi đã phê duyệt trên nhánh staging; `push` vào đúng đường dẫn trong workflow sẽ tự kích hoạt CI mới.
 
-Tùy chọn bằng GitHub CLI (đã xác thực; phải có quyền `workflow_dispatch`):
+GitHub CLI (đã xác thực, có quyền Actions):
 ```bash
-gh workflow run ron-browser-five-gates.yml --repo phattrongtran15-pixel/ai-delivery-control-kit --ref 'sandbox/upstream-browser-skill-farm-20261026' -f mode=verify_only
+gh run rerun 40358101487 --repo phattrongtran15-pixel/ai-delivery-control-kit
 gh run list --repo phattrongtran15-pixel/ai-delivery-control-kit --workflow ron-browser-five-gates.yml --limit 5
 gh run view <REAL_RUN_ID> --repo phattrongtran15-pixel/ai-delivery-control-kit --log
 gh run download <REAL_RUN_ID> --repo phattrongtran15-pixel/ai-delivery-control-kit -n ron-browser-five-gates-receipt -D ./gates-evidence
 ```
-Chỉ thay `<REAL_RUN_ID>` bằng ID thật từ GitHub; không lấy ID ví dụ làm bằng chứng.
+Chỉ dùng `gh workflow run` sau khi workflow đã tồn tại trên default branch bằng một thay đổi được duyệt riêng. Không thay ID thật bằng số bịa đặt.
 
 ## C. Chạy lại bể browser 48 actor ở staging
-Chọn `RON 9-capability GitHub-only staging` → **Run workflow** trên cùng branch, sau đó xem `scaled-real-mcp-actors` và `procedural-skill-memory`. Mỗi lượt dùng GitHub-hosted runner/quota; đây là 48 MCP client + 48 actor giả lập, KHÔNG 48 GPT model sống.
+Mở [run browser 40354279483](https://github.com/phattrongtran15-pixel/ai-delivery-control-kit/actions/runs/40354279483) và chọn **Re-run jobs → Re-run all jobs** (hoặc `gh run rerun 40354279483 --repo phattrongtran15-pixel/ai-delivery-control-kit`); sau đó xem `scaled-real-mcp-actors` và `procedural-skill-memory`. Mỗi lượt dùng GitHub-hosted runner/quota; đây là 48 MCP client + 48 actor giả lập, KHÔNG 48 GPT model sống.
 
 ## D. Đọc bản đồng bộ Drive
-Vào `AI_OS_TEAM/02_PROJECTS/RON_SHO_5_GATE_PRODUCT_LIFECYCLE/BROWSER_INTELLIGENCE_9CAP_5_GATES_20261026`. Drive giữ bộ hồ sơ và runbook tương ứng với commit GitHub đã ghi trong MANIFEST; **không coi Drive là phiên bản live khi SHA lệch**.
+Mở [thư mục Drive đồng bộ](https://drive.google.com/drive/folders/1hK3uifKYpbQqO1ekzmhFtQ1zP2a1exDf): `AI_OS_TEAM/02_PROJECTS/RON_SHO_5_GATE_PRODUCT_LIFECYCLE/BROWSER_INTELLIGENCE_9CAP_5_GATES_20261026`. Drive giữ bộ hồ sơ và runbook tương ứng với commit GitHub đã ghi trong MANIFEST; **không coi Drive là phiên bản live khi SHA lệch**.
 
 ## E. Nghiệm thu G5 hoặc từ chối
 - Chỉ review G5 khi có Work ID/Asset ID thật từ registrar, binding PolicyGate, kiểm thử Local+Cloud AI dùng LLM thật, license/quota, restore UAT, successor ACK và evidence SHA khớp.

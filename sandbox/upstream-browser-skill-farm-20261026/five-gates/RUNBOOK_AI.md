@@ -44,7 +44,7 @@ python sandbox/upstream-browser-skill-farm-20261026/five-gates/scripts/validate_
  --root sandbox/upstream-browser-skill-farm-20261026/five-gates \
  --report evidence/five-gates/local-check.json
 ```
-The `validate_dossier.py` CLI is a **read-only dossier linter**, not a real AIOS gate transition. Its success cannot produce G5 acceptance. Use `gh workflow run ron-browser-five-gates.yml --ref 'sandbox/upstream-browser-skill-farm-20261026' -f mode=verify_only` only with proper GitHub authority. Inspect `GITHUB_SHA` from both builder and verifier receipts.
+The `validate_dossier.py` CLI is a **read-only dossier linter**, not a real AIOS gate transition. Its success cannot produce G5 acceptance. This workflow is currently staging-branch-only; `workflow_dispatch` is not a reliable trigger until the workflow exists on the default branch. To rerun the **previously verified SHA** with authorized GitHub Actions rights, use `gh run rerun 40358101487 --repo phattrongtran15-pixel/ai-delivery-control-kit`. To verify a newer staging candidate, use a scoped reviewed commit that matches the push paths, then inspect the new `GITHUB_SHA` from builder and verifier. Do not merge to `main` merely to enable dispatch.
 
 ## Troubleshooting / handoff
 - If verifier SHA differs: STOP and return `BLOCKED_REVISION_MISMATCH`.
