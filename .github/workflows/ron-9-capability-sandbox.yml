@@ -199,7 +199,7 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p evidence
-          npx --yes @playwright/mcp@0.0.83 --port 8931 --host 127.0.0.1 --browser chrome --no-sandbox --headless --isolated > evidence/mcp-server.log 2>&1 &
+          npx --yes @playwright/mcp@0.0.83 --port 8931 --host 127.0.0.1 --allowed-hosts 127.0.0.1,localhost --browser chrome --no-sandbox --headless --isolated > evidence/mcp-server.log 2>&1 &
           mcp_pid=$!
           trap 'kill "$mcp_pid" 2>/dev/null || true' EXIT
           for n in $(seq 1 50); do
