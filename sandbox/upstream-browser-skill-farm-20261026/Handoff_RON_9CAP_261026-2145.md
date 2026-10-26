@@ -1,0 +1,20 @@
+# Handoff_RON_9CAP_261026-2145.md
+- Work ID: UNKNOWN
+- Shift/Session ID: UNKNOWN
+- Origin: GPT Web (Strategic Architect) / CLOUD_WEB
+- Date UTC: 2026-10-26 (checkpoint receipt)
+- Mission: 9 invariant capability criteria, GitHub-only repo download/run, no local paths.
+- Actions: created sandbox branch, pinned 11 upstreams, source downloaded and archived to 13 GitHub artifacts; installed and exercised real browser adapter and two CLIs; ran 3/6/10/15 concurrent browser contexts and cross-job simulated skill handoff.
+- Run: https://github.com/phattrongtran15-pixel/ai-delivery-control-kit/actions/runs/40342255838 — 13 jobs successful, 13 artifacts.
+- Evidence: `RUN_RECEIPT_20261026.md`, `CAPABILITY_COVERAGE.md`, `upstreams.lock.json`, GH Actions logs/artifacts.
+- Truth Delta: changes confined to `phattrongtran15-pixel/ai-delivery-control-kit` on branch `sandbox/upstream-browser-skill-farm-20261026`; no production branch commit, Windows or Drive write.
+- Authority: STAGING ONLY / CLOUD_ADVISORY / NOT ACCEPTED.
+- Blockers: actual BrowserOS UI, multi-client MCP, autonomous Skill learning, persistent Mem0/n8n, live capability tree and cross-host online service not yet tested. Hosted Actions ephemeral.
+- Rollback: base commit 2d8dc2b3e47edbd39bb4fde76fcdb18d0df308a0; delete/revert sandbox work only.
+- Next actor: Ron (review test evidence; choose CP5 runtime integration order within same nine criteria).
+- Fork A1: existing Browser Use + Playwright MCP staged extension — ON_TRACK.
+- Fork A2: SkillStore + Skills CLI + mem0 adapt without competing SSOT — ON_TRACK.
+- Fork A3: BrowserOS + XYFlow + Stagehand upstream integration tests — ON_TRACK.
+- Fork B: split architecture project or new SkillStore DB — OFF_TRACK.
+- Fork C: claim full 9-class production from cloning — DEAD_END.
+- One Next Action: Review/accept staging receipt before gated real-service integration.

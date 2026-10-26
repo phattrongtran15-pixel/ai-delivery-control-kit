@@ -1,20 +1,21 @@
-# KE_HOACH — GitHub-only upstream browser + skills deployment
-Date: 2026-10-26 | Mode: SANDBOX | Target: GitHub Actions on `phattrongtran15-pixel/ai-delivery-control-kit`.
-Mission: Reuse high-star upstreams; download pinned source into GitHub hosted runner, run repeatable browser + skill interoperability smoke tests, publish evidence artifacts. **No Windows, C:, G:, Google Drive, production browser or real GPT accounts.**
+# KE_HOACH — RON-SHO 9-capability browser/skills GitHub-only rollout
+**Date:** 2026-10-26 | **Scope:** GitHub only | **Main Track:** nine immutable user criteria.
+**GitHub:** https://github.com/phattrongtran15-pixel/ai-delivery-control-kit/tree/sandbox/upstream-browser-skill-farm-20261026
+**Checkpoint:** original branch parent `2d8dc2b3e47edbd39bb4fde76fcdb18d0df308a0`; restore by reverting sandbox commits / deleting only sandbox branch. **No core/production mutations.**
 
 ## 5 checkpoints
-- [x] CP1: Inspect existing successful Browser Use M4 evidence (run 40019468606), upstream stars, pin upstream commits.
-- [x] CP2: Create an isolated branch `sandbox/upstream-browser-skill-farm-20261026`; checkpoint = immutable parent `2d8dc2b3e47edbd39bb4fde76fcdb18d0df308a0`.
-- [ ] CP3: Commit lock manifest, tests and dedicated GitHub Actions workflow, read back exact files.
-- [ ] CP4: Let push-trigger run; retrieve run/job logs and artifacts; classify each tested capability as VERIFIED, FAILED, BLOCKED, UNKNOWN. No fake production claims.
-- [ ] CP5: Ron reviews result; promote **only after approved gates**. Keep original branch untouched.
+- [x] **CP1 RESEARCH:** 11 repositories scored by GitHub stars, pinned commits, license/role assessment. Evidence: `upstreams.lock.json`, `CAPABILITY_COVERAGE.md`.
+- [x] **CP2 CHECKPOINT:** create isolated sandbox branch from existing successful M4 code. Existing M4 historical run 40019468606 independently confirmed.
+- [x] **CP3 DEPLOY STAGING:** GitHub Actions downloads 11 upstream source snapshots (4 full checkouts + 7 sparse root snapshots); installs Browser Use/Playwright, Playwright MCP CLI, Vercel Skills CLI and executes staged script. Evidence: `.github/workflows/ron-9-capability-sandbox.yml`.
+- [x] **CP4 RUN + VERIFY:** run **40342255838** 13/13 jobs successful, 13 artifacts; earlier detailed logs **40342121005** show 3/6/10/15 isolated real browser contexts PASS, M4 verified replay 3/3 PASS, staging skill artifact cross-job handoff PASS. Read-back checked from GitHub jobs/artifacts.
+- [ ] **CP5 ACCEPTANCE + REAL INTEGRATION:** NOT ACCEPTED. Real browser GUI farm, multi-client MCP isolation, OpenAdapt learning, Stagehand runtime cache, Mem0 persistent shared store, n8n service workflow, production RonSkillStore/PolicyGate, interactive capability tree remain unfinished. Ron decides how to provision persistent GitHub-compatible runtime and security gates; never claim implementation from source downloads.
 
-## No branching / safety
-- One implementation track; no other repos created, no forks, no core replacement.
-- Source snapshots: pinned Git commit, GitHub Actions temporary runner plus downloadable artifacts; never auto-run unreviewed upstream postinstall scripts except isolated CLI smoke.
-- Action permission `contents: read`; no secrets or paid APIs; local HTTP fixture only; no internet credentials; no real ChatGPT sessions.
-- CI passing != production deployment. Simulator skill handoff != real cross-vendor AIOS hook.
-- Browserless license is SSPL; AGPL/SSPL/commercial implications must be reviewed before shipping.
-- Rollback: delete staging branch or revert its commits; no production state has changed.
-
-One Next Action: verify CI run result after workflow push and inspect the evidence artifact before further action.
+## Physical acceptance reality
+- **SOURCE_DOWNLOADED:** 11/11 (4 full, 7 sparse).
+- **GITHUB_RUNNER_EXECUTED:** browser-use pinned adapter, Playwright Chromium, Playwright MCP CLI, Vercel Skills CLI, GitHub Action producer/consumer.
+- **VERIFIED (staging-only):** 3/6/10/15 separate Chromium contexts on synthetic local fixture; exact HTTP receipt + cookie isolation; three guarded deterministic replays; mock candidate checks (deny unapproved, wrong role/hash/revoked); cross-job skill artifact retrieval.
+- **NOT VERIFIED:** 15 actual ChatGPT/Gemini sessions, genuine AI-generated skill, MCP multi-client end-to-end, shared persistent memory Local/Cloud, real automation in n8n, production browser dashboard and live growth tree.
+- **AUTHORITY:** None of these tests grants real AIOS execution authority. No real credentials used.
+- **COST:** github-hosted runner resources; no billable API. GitHub Actions usage may be subject to account quotas; artifacts retained only 30 days.
+- **LICENSE:** Review n8n fair-code, BrowserOS AGPL, Browserless SSPL before deploying.
+- **ONE NEXT ACTION:** Ron reviews `RUN_RECEIPT_20261026.md` and accepts the GitHub sandbox checkpoint only, distinct from production acceptance.
