@@ -199,10 +199,20 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p evidence
-          npx --yes @playwright/mcp@0.0.83 --port 8931 --browser chrome --no-sandbox --headless --isolated > evidence/mcp-server.log 2>&1 &
+          npx --yes @playwright/mcp@0.0.83 --port 8931 --host 127.0.0.1 --browser chrome --no-sandbox --headless --isolated > evidence/mcp-server.log 2>&1 &
           mcp_pid=$!
           trap 'kill "$mcp_pid" 2>/dev/null || true' EXIT
-          node sandbox/upstream-browser-skill-farm-20261026/mcp_multiclient.mjs
+          for n in $(seq 1 50); do
+            code=$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:8931/mcp || true)
+            if [ "$code" != "000" ] && [ -n "$code" ]; then break; fi
+            sleep 1
+          done
+          echo "MCP_HTTP_PREFLIGHT_CODE=$code"
+          node sandbox/upstream-browser-skill-farm-20261026/mcp_multiclient.mjs || {
+            echo "---- MCP SERVER STDERR ----"
+            cat evidence/mcp-server.log
+            exit 1
+          }
       - uses: actions/upload-artifact@v4
         if: always()
         with:
