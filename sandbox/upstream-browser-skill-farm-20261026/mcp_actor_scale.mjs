@@ -11,7 +11,7 @@ import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/
 
 const OUT="evidence/actor-farm";fs.mkdirSync(OUT,{recursive:true});
 const transportURL=new URL("http://localhost:8931/mcp");
-const allStages=[6,12,24];
+const allStages=[6,12,24,48];
 const sessions=new Set();const ledger=[];
 const fixture=http.createServer((req,res)=>{
   const u=new URL(req.url,"http://127.0.0.1");
@@ -31,7 +31,7 @@ const fixture=http.createServer((req,res)=>{
     res.writeHead(200,{"Content-Type":"text/html; charset=utf-8"});
     return res.end("<!doctype html><style>body{font:18px Arial;background:#f4f7fa;color:#1b324b;padding:28px}"+
       "table{width:100%;border-collapse:collapse;background:white}td,th{padding:8px;border-bottom:1px solid #e0e5eb;text-align:left}"+
-      "h1{font-size:28px}small{color:#576575}</style><h1>RON-SHO Browser Farm — 24 MCP actors</h1>"+
+      "h1{font-size:28px}small{color:#576575}</style><h1>RON-SHO Browser Farm — 48 MCP actors</h1>"+
       "<small>Real independent MCP client connections; synthetic actor identities, no LLM calls</small>"+
       "<table><tr><th>No.</th><th>Actor</th><th>Batch</th><th>Verified</th><th>Latency</th></tr>"+
       rows+"</table>");
@@ -76,7 +76,7 @@ try{
     const created=[];
     const start=Date.now();const latencies=[];
     try{
-      // Start and test 24 protocol sessions, bounded connection launch rather than 24 simultaneous handshakes.
+      // Start and test real protocol sessions in cohorts up to 48, bounded connection launch rather than 24 simultaneous handshakes.
       await mapLimit(actors,6,async actor=>{
         const client=await clientConnect(actor);
         created.push([actor,client]);
@@ -85,7 +85,7 @@ try{
       for(const name of ["browser_navigate","browser_evaluate"]){
         assert(tools.tools.some(t=>t.name===name),"MISSING_MCP_TOOL:"+name);
       }
-      // 24 real, distinct clients: navigate all first, verify ALL second.
+      // Real, distinct clients: navigate all first, verify ALL second.
       const verification=await mapLimit(created,6,async([actor,c])=>{
         const t=Date.now();
         safeBody(await c.callTool({name:"browser_navigate",
@@ -113,19 +113,19 @@ try{
         elapsed_ms:Date.now()-start,p50_navigation_ms:pct(latencies,.5),
         p95_navigation_ms:pct(latencies,.95),cookie_bleed:0});
       console.log("RON_REAL_MCP_ACTOR_FARM_PASS:"+n,JSON.stringify(summary.groups.at(-1)));
-      if(n===24){
+      if(n===48){
         try{
           safeBody(await cf.callTool({name:"browser_navigate",
             arguments:{url:origin+"/dashboard"}}),"dashboard");
           const shot=await cf.callTool({name:"browser_take_screenshot",
             arguments:{type:"png"}});
           const img=shot.content?.find(c=>c.type==="image" && c.data);
-          if(img){fs.writeFileSync(OUT+"/actor-monitor-24.png",Buffer.from(img.data,"base64"));
-            summary.monitor_screenshot="actor-monitor-24.png";}
+          if(img){fs.writeFileSync(OUT+"/actor-monitor-48.png",Buffer.from(img.data,"base64"));
+            summary.monitor_screenshot="actor-monitor-48.png";}
           else{summary.monitor_screenshot="NOT_AVAILABLE";summary.monitor_screenshot_error="MCP returned no image";}
         }catch(e){summary.monitor_screenshot_error=String(e);}
         // Even without screenshot, preserve the source of the live dashboard actually served to browser.
-        fs.writeFileSync(OUT+"/actor-ledger-24.json",JSON.stringify(ledger,null,2));
+        fs.writeFileSync(OUT+"/actor-ledger-48.json",JSON.stringify(ledger,null,2));
       }
     }finally{
       await mapLimit(created,6,async ([actor,c])=>{await c.close().catch(()=>{});sessions.delete(c)});
