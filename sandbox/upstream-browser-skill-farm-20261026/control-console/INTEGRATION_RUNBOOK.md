@@ -22,3 +22,9 @@
 - `lineage/skill_versions.json`: graph phiên bản skill ví dụ, nguồn run có thật.
 - `adapters/browseros.json` và `adapters/ronskillstore.json`: adapter read-only fail closed.
 - Console snapshot chỉ đọc; không có backend luôn online trên GitHub Actions.
+
+## Actual upstream reconnaissance (2026-10-27)
+- The real Smart SkillStore control kit exists in [RON-AIOS Draft PR #28](https://github.com/phattrongtran15-pixel/RON-AIOS/pull/28); `tooling/smart-skillstore/skillstore_ctl.py` opens existing `AIOS.db` with `mode=ro` / `query_only=ON`. `apply` remains blocked. **It is NOT a deployed HTTP service**.
+- Existing canonical `skill_registry`, `policy_registry`, `capability_registry` are held in AIOS.db and must stay sole truth. Do not upload AIOS.db into GitHub or replicate it into the Console.
+- BrowserOS upstream documents a local AI-centric browser and MCP connections. The Console has **no verified authenticated BrowserOS endpoint, session feed, or local agent identity**. Upstream README alone does not prove live integration.
+- Integration should be delivered as signed / authenticated **read-only projections** from a trusted running RON-SHO gateway, with TTL and source/actor/tenant evidence. Browser session capture must never export real login cookies. Ron / PolicyGate acceptance is required before enabling writes.

@@ -14,5 +14,23 @@
   "claims": [
     "BrowserOS is a local browser with MCP agents according to upstream; no AIOS endpoint was independently verified"
   ],
-  "runtime_status": "BLOCKED_NOT_CONNECTED"
+  "runtime_status": "BLOCKED_NOT_CONNECTED",
+  "verified_source_contract": true,
+  "live_runtime_attestation": false,
+  "upstream_documentation": "https://github.com/browseros-ai/BrowserOS/blob/main/README.md",
+  "integration_contract": {
+    "transport": "authenticated MCP or server-side read-only event bridge REQUIRED",
+    "session_identity": "actor+session+tenant; scoped per principal",
+    "response_fields": [
+      "source",
+      "actor_id",
+      "session_id",
+      "status",
+      "observed_at",
+      "evidence_ref"
+    ],
+    "secret_policy": "never export browser cookies, profiles or auth headers",
+    "max_evidence_age": "explicit TTL required",
+    "role": "monitor, not identity provider"
+  }
 }

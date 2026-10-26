@@ -11,5 +11,18 @@
   "can_publish": false,
   "policygate_connected": false,
   "runtime_status": "BLOCKED_NOT_CONNECTED",
-  "fallback": "staging skill_versions.json is a provenance demonstration only; NEVER second SSOT"
+  "fallback": "staging skill_versions.json is a provenance demonstration only; NEVER second SSOT",
+  "upstream_control_kit": "https://github.com/phattrongtran15-pixel/RON-AIOS/pull/28",
+  "source_file": "tooling/smart-skillstore/skillstore_ctl.py",
+  "source_branch": "feature/smart-skillstore-control-kit-20261026",
+  "canonical_database_logical": "AIOS.db",
+  "read_only_commands": [
+    "inspect",
+    "discover",
+    "compare",
+    "project"
+  ],
+  "writer_state": "APPLY_BLOCKED_FAIL_CLOSED",
+  "verified_source_contract": true,
+  "live_runtime_attestation": false
 }
