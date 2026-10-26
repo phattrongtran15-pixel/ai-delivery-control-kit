@@ -225,6 +225,90 @@ jobs:
 
 
 
+
+  rea-atomizer-and-real-archify:
+    if: github.repository == 'phattrongtran15-pixel/ai-delivery-control-kit'
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    permissions:
+      contents: read
+    env:
+      OPENAI_API_KEY: ''
+      ANTHROPIC_API_KEY: ''
+      GOOGLE_API_KEY: ''
+      DO_NOT_TRACK: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - name: Preflight source G1/G2 — Python/JavaScript, no arbitrary native binaries
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m py_compile sandbox/upstream-browser-skill-farm-20261026/source_atomize_and_archify.py
+          python sandbox/upstream-browser-skill-farm-20261026/source_atomize_and_archify.py
+          test -s evidence/source-graph/rea-source-capability-atoms.json
+          test -s evidence/source-graph/workflow-candidate.json
+      - name: Validate real source citations and deliberately reject tampered evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          python sandbox/upstream-browser-skill-farm-20261026/verify_source_evidence.py \
+            --repo-root . --graph evidence/source-graph/evidence-graph.json \
+            --receipt evidence/source-graph/source-verify.json
+          python - <<'PY'
+          import sys,json
+          from pathlib import Path
+          sys.path.insert(0,"sandbox/upstream-browser-skill-farm-20261026")
+          from verify_source_evidence import validate
+          graph=json.loads(Path("evidence/source-graph/evidence-graph.json").read_text())
+          graph["nodes"][0]["evidence"][0]["sha256"]="0"*64
+          result=validate(Path("."),graph)
+          assert result["status"]=="FAIL" and any("hash mismatch" in s for s in result["errors"]),result
+          Path("evidence/source-graph/negative-tamper-test.json").write_text(json.dumps(result,indent=2))
+          print("ARCHIFY_SOURCE_HASH_TAMPER_REJECTED")
+          PY
+      - name: Checkout pinned upstream Archify 3.2.0 (READ_ONLY staging)
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/ron-archify"
+          git -C "$RUNNER_TEMP/ron-archify" init -q
+          git -C "$RUNNER_TEMP/ron-archify" remote add origin https://github.com/tt-a1i/archify.git
+          git -C "$RUNNER_TEMP/ron-archify" fetch -q --depth=1 origin 81c6be8d87090670c45d08a8f97f9d29c5af0bec
+          git -C "$RUNNER_TEMP/ron-archify" checkout -q --detach FETCH_HEAD
+          test "$(git -C "$RUNNER_TEMP/ron-archify" rev-parse HEAD)" = "81c6be8d87090670c45d08a8f97f9d29c5af0bec"
+          node -e "const p=require(process.argv[1]); if(p.version!=='3.2.0')process.exit(3)" "$RUNNER_TEMP/ron-archify/archify/package.json"
+          echo 'PINNED_ARCHIFY_SOURCE_VERSION_3.2.0_PASS'
+          npm --prefix "$RUNNER_TEMP/ron-archify" ci --no-audit --no-fund
+          npm --prefix "$RUNNER_TEMP/ron-archify/archify" ci --no-audit --no-fund
+      - name: Run REAL upstream Archify finalize + strict/browser check
+        shell: bash
+        run: |
+          set -euo pipefail
+          node "$RUNNER_TEMP/ron-archify/archify/bin/archify.mjs" finalize workflow \
+            evidence/source-graph/workflow-candidate.json \
+            evidence/source-graph/ron-browser-intelligence.html \
+            --repo-root . --quality standard --json \
+            > evidence/source-graph/archify-finalize.json \
+            2> evidence/source-graph/archify-finalize.stderr || {
+            cat evidence/source-graph/archify-finalize.stderr
+            head -c 12000 evidence/source-graph/archify-finalize.json
+            exit 1
+          }
+          test -s evidence/source-graph/ron-browser-intelligence.html
+          echo RON_REAL_ARCHIFY_FINALIZE_PASS
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ron-rea-archify-source-workflow
+          path: evidence/source-graph/
+          retention-days: 30
+          if-no-files-found: warn
+
   scaled-real-mcp-actors:
     if: github.repository == 'phattrongtran15-pixel/ai-delivery-control-kit'
     runs-on: ubuntu-latest
