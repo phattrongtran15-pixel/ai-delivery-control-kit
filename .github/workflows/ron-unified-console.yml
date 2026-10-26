@@ -44,6 +44,12 @@ jobs:
           assert [r['id'] for r in snap['requirements']]==['C'+str(i) for i in range(1,10)]
           assert all(r['accepted'] is False for r in snap['requirements'])
           assert all(r['lineage']['kind']=='DESIGN_RELATION_ONLY' for r in snap['requirements'])
+          assert snap['browseros_adapter']['mode']=='DISCONNECTED'
+          assert snap['ronskillstore_adapter']['mode']=='DISCONNECTED'
+          assert len(snap['openspec_history'])==1 and len(snap['skill_genealogy'])==1
+          assert [v['version'] for v in snap['skill_genealogy'][0]['versions']]==['0.1.0-staging','0.1.1-candidate']
+          assert snap['skill_genealogy'][0]['versions'][1]['status']=='PROPOSED_UNVERIFIED'
+          assert not any(v['accepted_by_ron'] for v in snap['skill_genealogy'][0]['versions'])
           async def go():
             async with async_playwright() as p:
               browser=await p.chromium.launch(headless=True,args=['--no-sandbox'])
@@ -61,9 +67,14 @@ jobs:
               await page.locator('[data-cap="C9"]').click()
               assert 'C9' in await page.locator('#cap-detail').inner_text()
               assert 'Ron ACCEPTED: NO' in await page.locator('#cap-detail').inner_text()
+              assert await page.locator('#genealogy-list > .card').count()==1
+              assert '0.1.0-staging' in await page.locator('#genealogy-list').inner_text()
+              assert '0.1.1-candidate' in await page.locator('#genealogy-list').inner_text()
+              assert 'PROPOSED_UNVERIFIED' in await page.locator('#genealogy-list').inner_text()
               await page.screenshot(path=str(root/'console-lineage.png'),full_page=True)
               await page.locator('[data-view="sessions"]').click()
-              assert 'NOT CONNECTED' in await page.locator('#sessions').inner_text()
+              assert 'DISCONNECTED' in await page.locator('#browseros-status').inner_text()
+              assert 'DISCONNECTED' in await page.locator('#skillstore-status').inner_text()
               await page.locator('[data-view="governance"]').click()
               assert await page.locator('#governance').is_visible()
               await page.locator('[data-view="evidence"]').click()
@@ -74,6 +85,7 @@ jobs:
               await browser.close()
           asyncio.run(go())
           (root/'test-receipt.json').write_text(json.dumps({'state':'PASS','capabilities':9,'gates':5,'tabs':5,
+            'openspec_change_history':1,'skill_versions':2,'browseros':'DISCONNECTED','ronskillstore':'DISCONNECTED',
             'model_backed_agents':0,'evidence_mode':'static_versioned_preview',
             'source_sha':snap['commit'],'G5':'HOLD',
             'not_verified':['live_BrowserOS','real_aios_shared_store','production_policygate']},indent=2)+'\n')
