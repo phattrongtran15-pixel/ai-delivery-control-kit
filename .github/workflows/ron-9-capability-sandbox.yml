@@ -143,13 +143,15 @@ jobs:
         with:
           python-version: '3.12'
       - name: Static validate memory and browser code before installs
-        run: python -m py_compile sandbox/upstream-browser-skill-farm-20261026/skill_memory.py sandbox/upstream-browser-skill-farm-20261026/browser_memory_uat.py
+        run: python -m py_compile sandbox/upstream-browser-skill-farm-20261026/skill_memory.py sandbox/upstream-browser-skill-farm-20261026/browser_memory_uat.py sandbox/upstream-browser-skill-farm-20261026/browser_memory_scale.py
       - name: Install Playwright Chromium for real browser procedure test
         run: |
           python -m pip install --disable-pip-version-check playwright
           python -m playwright install chromium
       - name: Record verified skill, retrieve across actors, reuse action cache, screenshot monitor
         run: python sandbox/upstream-browser-skill-farm-20261026/browser_memory_uat.py
+      - name: Expand memory-assisted browser task pool to 12, 24, 48 independent synthetic actors
+        run: python sandbox/upstream-browser-skill-farm-20261026/browser_memory_scale.py
       - uses: actions/upload-artifact@v4
         if: always()
         with:
