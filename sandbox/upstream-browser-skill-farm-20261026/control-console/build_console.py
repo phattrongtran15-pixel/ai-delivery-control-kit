@@ -33,6 +33,27 @@ UPSTREAM=["BrowserOS (candidate)","Playwright MCP (tested)","OpenAdapt (source o
 "Archify / LikeC4 (tested diagrams), OpenSpec requirements"]
 def read(rel):return (DOSSIER/rel).read_text(encoding="utf8")
 def get_data():
+    # Read-only integration projection. BrowserOS and RonSkillStore default fail closed.
+    changes=json.loads((HERE/"lineage/openspec_changes.json").read_text(encoding="utf8"))
+    skill_lineage=json.loads((HERE/"lineage/skill_versions.json").read_text(encoding="utf8"))
+    browseros=json.loads((HERE/"adapters/browseros.json").read_text(encoding="utf8"))
+    skillstore=json.loads((HERE/"adapters/ronskillstore.json").read_text(encoding="utf8"))
+    assert changes["canonical_change_registry"] is False
+    assert skill_lineage["canonical_store"] is False
+    for source in (browseros,skillstore):
+        assert source["mode"]=="DISCONNECTED" and source["runtime_status"]=="BLOCKED_NOT_CONNECTED"
+    ids={c["change_id"] for c in changes["changes"]}
+    assert len(ids)==len(changes["changes"])
+    for skill in skill_lineage["skills"]:
+        versions={v["version"]:v for v in skill["versions"]}
+        assert len(versions)==len(skill["versions"]),"DUPLICATE_SKILL_VERSION"
+        for version in skill["versions"]:
+            assert version["change_id"] in ids,"OPEN_SPEC_CHANGE_REQUIRED"
+            assert version["parent_version"] != version["version"],"SELF_PARENT_DENIED"
+            assert version["parent_version"] is None or version["parent_version"] in versions,"UNKNOWN_PARENT"
+            assert not version["accepted_by_ron"],"UNAUTHORIZED_ACCEPTANCE"
+            if version["status"]=="PROPOSED_UNVERIFIED":
+                assert version["verifier_run"] is None,"UNVERIFIED_RUN_INVALID"
     gate=json.loads(read("gate_state.json"))
     spec=read("openspec/specs/browser-intelligence/spec.md")
     tests=re.findall(r"^### Requirement: R([1-9]) ([^\n]+)",spec,re.M)
@@ -59,7 +80,9 @@ def get_data():
        "requirements":values,"gate_states":{k:v["state"] for k,v in gate["gates"].items()},
        "canonical_work_id":gate["work_id"],"canonical_asset_id":gate["asset_ref"],
        "design_edges":[["C1","C2"],["C2","C3"],["C3","C4"],["C4","C5"],["C5","C6"],
-                       ["C6","C8"],["C7","C2"],["C8","C9"]]}
+                       ["C6","C8"],["C7","C2"],["C8","C9"]],
+       "openspec_history":changes["changes"],"skill_genealogy":skill_lineage["skills"],
+       "browseros_adapter":browseros,"ronskillstore_adapter":skillstore}
 def render(data):
     raw=json.dumps(data,ensure_ascii=False).replace("<","\\u003c").replace(">","\\u003e").replace("&","\\u0026")
     page=r'''<!doctype html>
@@ -121,7 +144,10 @@ Skill Memory / Cache / AI reuse
 Capability Lineage → 5 Gates</div><p class="hint">Đây là luồng dự kiến được ánh xạ từ OpenSpec; không đồng nghĩa với dịch vụ đã triển khai.</p></div>
 </div></section>
 <section class="section" id="sessions"><div class="card"><h2>BrowserOS adapter — trạng thái</h2>
-<p><span class="pill">NOT CONNECTED</span> BrowserOS chưa được đưa vào runtime điều hành. Không có live session stream hay cookie.</p>
+<p><span class="pill" id="browseros-status">NOT CONNECTED</span> BrowserOS chưa được đưa vào runtime điều hành. Không có live session stream hay cookie.</p>
+<p class="hint" id="browseros-contract"></p>
+<p><b>RonSkillStore:</b> <span class="pill" id="skillstore-status">NOT CONNECTED</span>. Không có quyền publish hoặc gọi PolicyGate từ dashboard.</p>
+<p class="hint" id="skillstore-contract"></p>
 <p><b>MCP UAT:</b> 48 client riêng biệt, kiểm tra cookie isolation; test thuộc GitHub hosted-runner và đã kết thúc.</p>
 <p><a id="sessionsLink" target="_blank" rel="noopener noreferrer">Xem receipt 48 phiên và ảnh dashboard →</a></p>
 <div class="specs">LIVE_AGENTS = 0 confirmed
@@ -129,9 +155,12 @@ LIVE_BROWSER_SESSIONS = UNKNOWN
 HISTORICAL_MCP_CLIENTS = 48
 CREDENTIALS_VISIBLE = NEVER</div>
 </div></section>
-<section class="section" id="lineage"><div class="card"><h2>Cây phả hệ — OpenSpec record + LikeC4 view</h2>
+<section class="section" id="lineage"><div class="card"><h2>Cây phả hệ — OpenSpec → Skill Version → Verify → 5 Gates</h2>
 <p class="hint">Chọn từng nút để xem requirement, nguồn tích hợp, test và trạng thái. Các cạnh thiết kế KHÔNG được đánh đồng với quan hệ kế thừa/version phả hệ đã xác minh.</p>
-<div class="nodegrid" id="node-list"></div><div class="details card" id="cap-detail" aria-live="polite">Chọn một năng lực.</div></div></section>
+<div class="nodegrid" id="node-list"></div><div class="details card" id="cap-detail" aria-live="polite">Chọn một năng lực.</div>
+<div class="card" style="margin-top:14px"><h2>Phả hệ phiên bản từ OpenSpec (có source)</h2>
+<p class="hint">Các version ví dụ được gắn run lịch sử. Không thay thế canonical RonSkillStore hoặc xác nhận một AI thật đã tự học.</p>
+<div id="genealogy-list" aria-label="Skill version lineage"></div></div></div></section>
 <section class="section" id="governance"><div class="grid2">
 <div class="card"><h2>Universal 5 Gates</h2><table id="gate-table"></table><p class="hint">G4 PASS hiện chỉ xác minh dossier cùng SHA; không chứng nhận 9 chức năng production.</p></div>
 <div class="card"><h2>OpenSpec as lineage ledger</h2><p>Yêu cầu R1–R9 đã liên kết C1–C9. Mỗi cải tiến phải có version, cha/con, source commit, scenario và receipt trước khi đưa vào SkillStore.</p><div class="specs">OBSERVED → CANDIDATE → VERIFIED_STAGING
@@ -183,6 +212,32 @@ d.requirements.forEach(r=>{const button=make("button",undefined,"node card");but
   button.append(make("div",r.id+" · "+r.requirement,"num"),make("b",r.title),make("p",r.state,"hint"));
   button.addEventListener("click",()=>selectCap(r));cards.append(button);});
 selectCap(d.requirements[0]);
+// Skill ancestry is built from versioned OpenSpec change records, never from design edges.
+const changes=new Map(d.openspec_history.map(c=>[c.change_id,c]));
+for(const skill of d.skill_genealogy){
+  const box=make("div",undefined,"card");box.style.marginTop="10px";
+  box.append(make("b",skill.skill_ref));
+  for(const ver of skill.versions){
+    const change=changes.get(ver.change_id);
+    if(!change)throw Error("missing change");
+    const row=make("div",undefined,"card");row.style.marginTop="8px";
+    row.append(make("div",ver.version+" · "+ver.status,ver.status.includes("UNVERIFIED")?"status":"pass"));
+    row.append(make("p","OpenSpec: "+change.change_id+" · "+change.spec_requirement+" · "+change.title,"hint"));
+    row.append(make("p","Parent: "+(ver.parent_version??"ROOT")+" | Verifier: "+(ver.verifier_run??"NOT VERIFIED")+" | "+ver.gate,"hint"));
+    row.append(make("p","Ron accepted: "+String(ver.accepted_by_ron).toUpperCase(),"hint"));
+    if(ver.source){
+      const link=make("a","Verifier evidence →");
+      link.href=ver.source;link.target="_blank";link.rel="noopener noreferrer";
+      row.append(link);
+    }
+    box.append(row);
+  }
+  el("genealogy-list").append(box);
+}
+el("browseros-status").textContent=d.browseros_adapter.mode;
+el("skillstore-status").textContent=d.ronskillstore_adapter.mode;
+el("browseros-contract").textContent="BrowserOS: "+d.browseros_adapter.runtime_status+" · Host: "+d.browseros_adapter.host;
+el("skillstore-contract").textContent="RonSkillStore: "+d.ronskillstore_adapter.runtime_status+" · Canonical registry endpoint: UNKNOWN";
 for(const [name,state] of Object.entries(d.gate_states)){
   const row=make("tr");row.append(make("td",name),make("td",state,state.includes("HOLD")?"status":""));
   el("gate-table").append(row);
