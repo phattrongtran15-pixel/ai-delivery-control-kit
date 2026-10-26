@@ -40,7 +40,7 @@ class Fixture(BaseHTTPRequestHandler):
             self.respond(json.dumps(payload).encode())
         elif self.path=="/dashboard":
             with LOCK: records=list(RECEIPT["actors"])
-            rows="".join("<tr><td>"+str(i)+"</td><td>"+a"</td><td>verified browser run</td></tr>" for i,a in enumerate(records,1))
+            rows="".join("<tr><td>"+str(i)+"</td><td>"+a+"</td><td>verified browser run</td></tr>" for i,a in enumerate(records,1))
             html="""<html><style>body{font:20px Arial;padding:32px;background:#f0f3f7;color:#172b43}main{max-width:1000px;margin:auto}
             table{width:100%;border-collapse:collapse;background:white}td,th{padding:12px;border-bottom:1px solid #ddd}
             h1{color:#123a68}.pill{background:#daf5e8;padding:6px 12px;border-radius:8px}</style><main>
