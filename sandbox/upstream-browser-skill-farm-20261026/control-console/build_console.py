@@ -54,6 +54,9 @@ def get_data():
             assert not version["accepted_by_ron"],"UNAUTHORIZED_ACCEPTANCE"
             if version["status"]=="PROPOSED_UNVERIFIED":
                 assert version["verifier_run"] is None,"UNVERIFIED_RUN_INVALID"
+    from lineage_validation import validate as validate_genealogy
+    qualified=validate_genealogy(changes,skill_lineage,browseros,skillstore)
+    assert qualified["status"]=="PASS_STAGING",qualified
     gate=json.loads(read("gate_state.json"))
     spec=read("openspec/specs/browser-intelligence/spec.md")
     tests=re.findall(r"^### Requirement: R([1-9]) ([^\n]+)",spec,re.M)

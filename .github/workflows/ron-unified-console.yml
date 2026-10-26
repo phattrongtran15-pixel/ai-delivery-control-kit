@@ -19,6 +19,11 @@ jobs:
         with: {persist-credentials: false}
       - uses: actions/setup-python@v5
         with: {python-version: '3.12'}
+      - name: Reject forged lineage, fake runtime connections and PolicyGate escalation
+        shell: bash
+        run: |
+          python -m py_compile sandbox/upstream-browser-skill-farm-20261026/control-console/lineage_validation.py sandbox/upstream-browser-skill-farm-20261026/control-console/test_lineage.py
+          python sandbox/upstream-browser-skill-farm-20261026/control-console/test_lineage.py
       - name: Build source-backed single control dashboard and OpenSpec lineage index
         shell: bash
         run: |
