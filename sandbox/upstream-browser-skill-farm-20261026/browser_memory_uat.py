@@ -75,7 +75,7 @@ print(json.dumps(resolve(db,sys.argv[2],sys.argv[3],sys.argv[4],sys.argv[5])))
 
 async def main():
     from playwright.async_api import async_playwright
-    dbpath=OUT/"stage-memory.sqlite3"
+    dbpath=(OUT/"stage-memory.sqlite3").resolve()
     if dbpath.exists():dbpath.unlink()
     db=connect(dbpath)
     server=ThreadingHTTPServer(("127.0.0.1",0),Fixture)
