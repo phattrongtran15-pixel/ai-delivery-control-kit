@@ -31,6 +31,7 @@ jobs:
           python -m py_compile sandbox/upstream-browser-skill-farm-20261026/control-console/build_console.py
           python sandbox/upstream-browser-skill-farm-20261026/control-console/build_console.py
           test -s sandbox/upstream-browser-skill-farm-20261026/control-console/dist/index.html
+          test -s sandbox/upstream-browser-skill-farm-20261026/control-console/dist/phone.html
       - name: Install browser UAT fixture
         run: |
           python -m pip install --disable-pip-version-check 'playwright==1.56.0'
@@ -87,9 +88,31 @@ jobs:
               mobile=await browser.new_page(viewport={'width':390,'height':844},device_scale_factor=1)
               await mobile.goto((root/'index.html').as_uri(),wait_until='load')
               await mobile.screenshot(path=str(root/'console-mobile.png'),full_page=True)
+              phone=await browser.new_page(viewport={'width':390,'height':844},device_scale_factor=1,is_mobile=True,has_touch=True)
+              await phone.goto((root/'phone.html').as_uri(),wait_until='load')
+              assert await phone.locator('#capabilities .item').count()==9
+              assert await phone.locator('.tabs .tab').count()==5
+              assert await phone.locator('#p-home').is_visible()
+              await phone.locator('[data-pane="browser"]').tap()
+              assert await phone.locator('#p-browser').is_visible()
+              assert 'DISCONNECTED' in await phone.locator('#bosState').inner_text()
+              assert 'DISCONNECTED' in await phone.locator('#storeState').inner_text()
+              await phone.locator('[data-pane="tree"]').tap()
+              assert await phone.locator('#p-tree').is_visible()
+              assert '0.1.1-candidate' in await phone.locator('#lineage').inner_text()
+              await phone.locator('#capSelect').select_option('C9')
+              assert 'C9' not in await phone.locator('#selectedCap').inner_text() or 'Capability' in await phone.locator('#selectedCap').inner_text()
+              await phone.screenshot(path=str(root/'phone-lineage.png'),full_page=True)
+              await phone.locator('[data-pane="gates"]').tap()
+              assert 'HOLD' in await phone.locator('#p-gates').inner_text()
+              await phone.locator('[data-pane="evidence"]').tap()
+              assert await phone.locator('#p-evidence').is_visible()
+              await phone.locator('[data-pane="home"]').tap()
+              await phone.screenshot(path=str(root/'phone-home.png'),full_page=True)
+              assert await phone.evaluate('document.documentElement.scrollWidth <= window.innerWidth+1'), 'PHONE_HORIZONTAL_OVERFLOW'
               await browser.close()
           asyncio.run(go())
-          (root/'test-receipt.json').write_text(json.dumps({'state':'PASS','capabilities':9,'gates':5,'tabs':5,
+          (root/'test-receipt.json').write_text(json.dumps({'state':'PASS','capabilities':9,'gates':5,'tabs':5,'phone_tabs':5,'phone_touch_UAT':True,
             'openspec_change_history':1,'skill_versions':2,'browseros':'DISCONNECTED','ronskillstore':'DISCONNECTED',
             'model_backed_agents':0,'evidence_mode':'static_versioned_preview',
             'source_sha':snap['commit'],'G5':'HOLD',
