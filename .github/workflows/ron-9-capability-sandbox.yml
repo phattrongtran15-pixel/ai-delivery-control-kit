@@ -14,7 +14,7 @@ concurrency:
 
 jobs:
   source-download:
-    if: github.repository == 'phattrongtran15-pixel/ai-delivery-control-kit'
+    if: github.repository == 'phattrongtran15-pixel/ai-delivery-control-kit' && (github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[source-refresh]'))
     strategy:
       fail-fast: false
       max-parallel: 3
@@ -142,6 +142,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Static validate memory and browser code before installs
+        run: python -m py_compile sandbox/upstream-browser-skill-farm-20261026/skill_memory.py sandbox/upstream-browser-skill-farm-20261026/browser_memory_uat.py
       - name: Install Playwright Chromium for real browser procedure test
         run: |
           python -m pip install --disable-pip-version-check playwright
