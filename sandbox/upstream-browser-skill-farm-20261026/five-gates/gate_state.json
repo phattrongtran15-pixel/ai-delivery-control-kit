@@ -1,0 +1,55 @@
+{
+  "schema": "RON-SHO.PRODUCT.FIVE_GATES.CANDIDATE.v1",
+  "asset_type": "PRODUCT",
+  "asset_ref": null,
+  "work_id": null,
+  "owner": "Ron",
+  "mission": "All authorized AIOS actors reuse governed browser intelligence under nine mandatory capabilities",
+  "git_source_repo": "phattrongtran15-pixel/ai-delivery-control-kit",
+  "branch": "sandbox/upstream-browser-skill-farm-20261026",
+  "source_evidence_commit": "40ce3365ce755a69eb4de1035a2bb11821784e1f",
+  "historical_run_id": 40354279483,
+  "authority": "STAGING_DOCUMENTATION_ONLY",
+  "accepted": false,
+  "canonical_registry_bound": false,
+  "policygate_bound": false,
+  "successor_ack": false,
+  "production_runtime_verified": false,
+  "gates": {
+    "G1": {
+      "state": "DOCUMENTED_CANDIDATE",
+      "evidence": [
+        "README.md",
+        "SPEC.md",
+        "KE_HOACH.md"
+      ]
+    },
+    "G2": {
+      "state": "DESIGNED_CANDIDATE",
+      "evidence": [
+        "openspec/specs/browser-intelligence/spec.md",
+        "likec4/browser-intelligence.c4"
+      ]
+    },
+    "G3": {
+      "state": "BUILT_STAGING",
+      "evidence": [
+        "https://github.com/phattrongtran15-pixel/ai-delivery-control-kit/actions/runs/40354279483"
+      ]
+    },
+    "G4": {
+      "state": "VERIFY_INDEPENDENT_CURRENT_SHA_PENDING",
+      "evidence": [
+        "EVIDENCE.md"
+      ]
+    },
+    "G5": {
+      "state": "HOLD_OWNER_ACCEPTANCE",
+      "evidence": [
+        "RUNBOOK_HUMAN.md",
+        "RUNBOOK_AI.md"
+      ]
+    }
+  },
+  "one_next_action": "Resolve canonical Work/Asset binding and perform one real Local-compatible + Cloud-compatible model-backed pilot with independent verification; Ron alone accepts G5."
+}

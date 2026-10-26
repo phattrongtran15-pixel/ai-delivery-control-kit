@@ -1,0 +1,45 @@
+// Candidate LikeC4 model for the nine RON-SHO Browser Intelligence requirements.
+// This is a DESIGN view, not a declaration that every service is deployed.
+specification {
+  element actor
+  element system
+  element component
+  element datastore
+}
+model {
+  ron = actor 'Ron (final authority)'
+  localAgent = actor 'Authorized Local AI'
+  cloudAgent = actor 'Authorized Cloud AI'
+  aios = system 'Existing AIOS Core / PolicyGate'
+  browserIntelligence = system 'RON-SHO Browser Intelligence candidate' {
+    monitor = component 'C1: Multi-AI Browser Monitor'
+    mcp = component 'C2: Session-isolated MCP'
+    learning = component 'C3: Skill Learning'
+    recorder = component 'C4: Record / Replay / Verify'
+    cache = component 'C5: Action Cache'
+    memory = datastore 'C6: Searchable Skill Memory'
+    automation = component 'C7: Automation'
+    sharing = component 'C8: Shared Skill Projection'
+    tree = component 'C9: Capability Growth Tree'
+  }
+  ron -> aios 'Approves protected transitions'
+  localAgent -> browserIntelligence.mcp 'Requests isolated session'
+  cloudAgent -> browserIntelligence.mcp 'Requests authorized session'
+  browserIntelligence.mcp -> browserIntelligence.monitor 'Session/readback'
+  browserIntelligence.mcp -> browserIntelligence.recorder 'Browser action trace'
+  browserIntelligence.recorder -> browserIntelligence.learning 'Verified outcome candidate'
+  browserIntelligence.learning -> browserIntelligence.memory 'Propose, do not accept'
+  browserIntelligence.memory -> browserIntelligence.cache 'Approved procedure only'
+  browserIntelligence.cache -> browserIntelligence.mcp 'Reused pre-action guidance'
+  browserIntelligence.memory -> browserIntelligence.sharing 'Versioned sanitized skill'
+  browserIntelligence.sharing -> browserIntelligence.tree 'Source lineage and status'
+  browserIntelligence.automation -> browserIntelligence.mcp 'Scoped workflow trigger'
+  aios -> browserIntelligence.learning 'PolicyGate before publication'
+}
+views {
+  view index {
+    title 'RON-SHO Browser Intelligence | 9 Capabilities (candidate)'
+    include *
+    autoLayout LeftRight
+  }
+}
