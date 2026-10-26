@@ -1,0 +1,15 @@
+{
+  "schema": "RON.READ_ONLY_ADAPTER.v1",
+  "adapter": "RonSkillStore",
+  "mode": "DISCONNECTED",
+  "canonical_registry_url": null,
+  "canonical_asset_ref": null,
+  "identity_binding": "NOT_CONFIGURED",
+  "query_contract": "UNKNOWN_NEEDS_READ_ONLY_REGISTRY_EXPORT",
+  "skills_live": null,
+  "can_write": false,
+  "can_publish": false,
+  "policygate_connected": false,
+  "runtime_status": "BLOCKED_NOT_CONNECTED",
+  "fallback": "staging skill_versions.json is a provenance demonstration only; NEVER second SSOT"
+}

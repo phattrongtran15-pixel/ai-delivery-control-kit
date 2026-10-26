@@ -1,0 +1,24 @@
+{
+  "schema": "RON.OPEN_SPEC_CHANGES.v1",
+  "source": "git-staging-proposals",
+  "scope": "DESIGN_STAGING",
+  "canonical_change_registry": false,
+  "changes": [
+    {
+      "change_id": "os-browser-procedural-memory-001",
+      "title": "Observed safe browser action to versioned reusable skill",
+      "spec_requirement": "R3",
+      "capability": "C3",
+      "status": "PROPOSED",
+      "actor": "synthetic-local-agent",
+      "source_run": 40348875505,
+      "uri": "https://github.com/phattrongtran15-pixel/ai-delivery-control-kit/actions/runs/40348875505",
+      "recorded_utc": "2026-10-26T00:00:00Z",
+      "skill_versions": [
+        "0.1.0-staging",
+        "0.1.1-candidate"
+      ],
+      "production_authority": false
+    }
+  ]
+}

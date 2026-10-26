@@ -1,0 +1,18 @@
+{
+  "schema": "RON.READ_ONLY_ADAPTER.v1",
+  "adapter": "BrowserOS",
+  "upstream": "https://github.com/browseros-ai/BrowserOS",
+  "mode": "DISCONNECTED",
+  "source": "upstream README",
+  "transport": "NO_VERIFIED_ENDPOINT",
+  "host": "LOCAL_REQUIRED",
+  "identity_binding": "NOT_CONFIGURED",
+  "session_feed": null,
+  "authenticated": false,
+  "actor_count_live": null,
+  "credentials_shared": false,
+  "claims": [
+    "BrowserOS is a local browser with MCP agents according to upstream; no AIOS endpoint was independently verified"
+  ],
+  "runtime_status": "BLOCKED_NOT_CONNECTED"
+}

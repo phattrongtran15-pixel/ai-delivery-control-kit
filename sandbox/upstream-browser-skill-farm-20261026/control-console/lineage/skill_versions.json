@@ -1,0 +1,34 @@
+{
+  "schema": "RON.SKILL_LINEAGE.v1",
+  "canonical_store": false,
+  "skills": [
+    {
+      "skill_ref": "staging.browser.procedural-memory",
+      "origin": "synthetic-browser-fixture",
+      "versions": [
+        {
+          "version": "0.1.0-staging",
+          "change_id": "os-browser-procedural-memory-001",
+          "parent_version": null,
+          "status": "STAGING_VERIFIED",
+          "verifier_run": 40348875505,
+          "verifier": "independent-local-http-fixture",
+          "gate": "G4_DOSSIER_ONLY",
+          "accepted_by_ron": false,
+          "source": "https://github.com/phattrongtran15-pixel/ai-delivery-control-kit/actions/runs/40348875505"
+        },
+        {
+          "version": "0.1.1-candidate",
+          "change_id": "os-browser-procedural-memory-001",
+          "parent_version": "0.1.0-staging",
+          "status": "PROPOSED_UNVERIFIED",
+          "verifier_run": null,
+          "verifier": null,
+          "gate": "G1_CANDIDATE",
+          "accepted_by_ron": false,
+          "source": null
+        }
+      ]
+    }
+  ]
+}
