@@ -257,5 +257,9 @@ def main():
     page=render(data)
     assert "__SNAPSHOT__" not in page
     (OUT/"index.html").write_text(page,encoding="utf8")
+    mobile=(HERE/"phone_template.html").read_text(encoding="utf8")
+    assert mobile.count("__SNAPSHOT__")==1
+    (OUT/"phone.html").write_text(mobile.replace("__SNAPSHOT__",json.dumps(data,ensure_ascii=False).replace("<","\\u003c").replace(">","\\u003e").replace("&","\\u0026")),encoding="utf8")
+    assert (OUT/"phone.html").stat().st_size>10000
     print("RON_UNIFIED_CONSOLE_SNAPSHOT_BUILT",data["commit"],len(data["requirements"]))
 if __name__=="__main__":main()
