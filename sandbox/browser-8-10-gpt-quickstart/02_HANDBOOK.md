@@ -1,33 +1,19 @@
-# HANDBOOK — Browser 8-10 GPT
+# HANDBOOK — 1..10 ChatGPT tabs
 
-## What is installed?
-Google Chrome already exists on this machine. The product launches a dedicated Chrome profile, and uses it to open 8 or 10 ChatGPT tabs. BrowserOS Neo is NOT installed as part of this phase.
+## What browser?
+Existing Google Chrome at `C:\Program Files\Google\Chrome\Application\chrome.exe`. This is **not BrowserOS Neo**.
 
-## Folder B
-C:\Users\phatt\AI_OS_TEAM\98_SANDBOX\RON_SHO_BROWSER_8_10_GPT
+## How many?
+Choose any **1 to 10**, not only 8 or 10. Launcher opens one additional guide tab. Example: choose 2 → three total tabs (guide + two ChatGPT).
 
-## Files
-FILE_A_START_BROWSER.cmd = double-click entrypoint.
-LAUNCH_BROWSER.ps1 = launcher implementation.
-START_HERE.html = the help tab which appears first.
-01_SPEC.md = acceptance contract.
-02_HANDBOOK.md = product overview.
-03_RUNBOOK_HUMAN.md = detailed human instructions.
-04_RUNBOOK_AI.md = AI successor instructions.
-05_KICH_BAN_0830.md = exact morning-use scenario.
-EVIDENCE = receipts, no credentials.
-CHROME_PROFILE_RON_SHO = local Chrome account/browser data; PRIVATE, never sync.
+## What is an AI?
+A ChatGPT tab is a browser tab, not an independent autonomous AI agent. All tabs use the same isolated RON-SHO Chrome profile and may share login/session/usage limits. No separate MCP sessions or automatic task routing.
 
-## Expected UI
-A black command window named RON-SHO Browser 8-10 GPT - START.
-Menu: [1] 8 tab GPT; [2] 10 tab GPT; [0] Huy.
-Choose 1 for the first run; Chrome opens a RON-SHO START HERE tab plus eight chatgpt.com tabs.
+## What appears?
+A black command window shows `Nhap so GPT tu 1 den 10 (VD: 1, 2, 8, 10)`, then `Anh muon mo bao nhieu tab GPT? (0-10)`. After a valid choice, Chrome is asked to open the guide and N ChatGPT tabs.
 
-## Interpretation
-Each tab can hold a different conversation when manually opened. Tabs are NOT independent AI accounts or MCP agent sessions. They share profile login, cookies, and usage quota. For real agent concurrency another governed phase is required.
+## Privacy and shutdown
+Do not copy/upload `CHROME_PROFILE_RON_SHO`, which may contain private login data. Close only the dedicated RON-SHO Chrome window. Never disable security checks, bypass login, or expose local browser on a public port.
 
-## Good outcome
-Ron counts the right tabs, signs in directly in Chrome if asked, sends a test to GPT tab 01 and another to GPT tab 02, and sees two distinct chats. If these observations have not been made, the product is NOT human-accepted.
-
-## Shutdown and privacy
-Close only the dedicated RON-SHO Chrome window. Do NOT kill all Chrome processes. Do NOT remove CHROME_PROFILE_RON_SHO without checking whether useful local browser data is inside. Never upload this profile, its cookies or screenshots of private chats without explicit authorization.
+## Where are the actual images?
+`06_VISUAL_EVIDENCE.md` identifies precisely which screenshots exist. Current real screenshot **not available** because desktop capture was blocked; no generic screenshot is passed off as a test.
