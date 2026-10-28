@@ -1,6 +1,6 @@
 param([int]$DryRunCount = 0)
 $ErrorActionPreference = "Stop"
-if ($DryRunCount -notin @(0,8,10)) { Write-Host "[ERROR] DryRunCount must be 0,8,10"; exit 11 }
+if ($DryRunCount -lt 0 -or $DryRunCount -gt 10) { Write-Host "[ERROR] DryRunCount must be 0..10"; exit 11 }
 $base = Split-Path -Parent $MyInvocation.MyCommand.Path
 $chrome = @(
   "$env:ProgramFiles\Google\Chrome\Application\chrome.exe",
@@ -10,13 +10,12 @@ $chrome = @(
 if (-not $chrome) { Write-Host "[ERROR] Khong tim thay Chrome"; exit 10 }
 Write-Host ""
 Write-Host "[RON-SHO] STEP 1/3 - CHON SO TAB GPT" -ForegroundColor Cyan
-Write-Host "[1] 8 tab GPT (khuyen nghi)"
-Write-Host "[2] 10 tab GPT"
-Write-Host "[0] Huy"
-$choice = if ($DryRunCount -eq 8) { "1" } elseif ($DryRunCount -eq 10) { "2" } else { Read-Host "Anh chon 1 / 2 / 0" }
+Write-Host "Nhap so GPT tu 1 den 10 (VD: 1, 2, 8, 10)"
+Write-Host "Nhap 0 de huy"
+$choice = if ($DryRunCount -gt 0) { [string]$DryRunCount } else { Read-Host "Anh muon mo bao nhieu tab GPT? (0-10)" }
 if ($choice -eq "0") { Write-Host "[STOP] Da huy"; exit 0 }
-if ($choice -notin @("1","2")) { Write-Host "[ERROR] Chon 1, 2 hoac 0"; exit 11 }
-$count = if ($choice -eq "1") { 8 } else { 10 }
+$count = 0
+if (-not [int]::TryParse($choice,[ref]$count) -or $count -lt 1 -or $count -gt 10) { Write-Host "[ERROR] Chi nhap so nguyen tu 1 den 10, hoac 0 de huy"; exit 11 }
 $profile = Join-Path $base "CHROME_PROFILE_RON_SHO"
 $startPage = Join-Path $base "START_HERE.html"
 if (-not (Test-Path -LiteralPath $startPage)) { Write-Host "[ERROR] Thieu START_HERE.html"; exit 12 }
