@@ -1,48 +1,47 @@
-# RUNBOOK HUMAN - CẦM TAY CHỈ VIỆC
+# RUNBOOK HUMAN v1.1 — BẰNG CHỮ, TỪNG BƯỚC
 
-## 08:30 - Bước 1 - Vào thư mục B
-Bấm Windows+E. Bấm thanh địa chỉ của File Explorer và dán:
-C:\Users\phatt\AI_OS_TEAM\98_SANDBOX\RON_SHO_BROWSER_8_10_GPT
-Bấm Enter. Trong thư mục này tìm file FILE_A_START_BROWSER.cmd (File A).
+## 08:30 | Bước 1: Mở thư mục
+1. Nhấn `Windows + E`.
+2. Bấm thanh địa chỉ File Explorer.
+3. Dán `C:\Users\phatt\AI_OS_TEAM\98_SANDBOX\RON_SHO_BROWSER_8_10_GPT` và nhấn Enter.
+4. **Anh sẽ thấy** file `FILE_A_START_BROWSER.cmd` (File A).
+5. Nếu không thấy: kiểm tra đường dẫn, không tự tải file lạ.
 
-## Bước 2 - Mở File A
-Nhấp đúp FILE_A_START_BROWSER.cmd. Một cửa sổ lệnh màu đen hiện dòng:
-RON-SHO BROWSER WORKBENCH - BUOC 1: MO 8-10 GPT
-Sau đó menu có ba lựa chọn:
-[1] 8 tab GPT (khuyen nghi)
-[2] 10 tab GPT
-[0] Huy
-Anh chon 1 / 2 / 0:
+## Bước 2: Bấm File A
+1. Nhấp đúp `FILE_A_START_BROWSER.cmd`.
+2. **Anh sẽ thấy** cửa sổ lệnh đen, tiêu đề `RON-SHO Browser 8-10 GPT - START` và dòng `RON-SHO BROWSER WORKBENCH`.
+3. Trên màn hình có: `Nhap so GPT tu 1 den 10 (VD: 1, 2, 8, 10)` và `Anh muon mo bao nhieu tab GPT? (0-10)`.
+4. Nếu không có cửa sổ, chụp thông báo lỗi và dừng; không tắt antivirus.
 
-## Bước 3 - Chọn số GPT
-Lần đầu: gõ số 1 và bấm Enter. Cửa sổ lệnh báo:
-[RON-SHO] STEP 2/3 - MO 8 GPT TABS + 1 START TAB
-Sau đó Chrome được yêu cầu mở.
+## Bước 3: Thử **2 GPT** trước
+1. Gõ `2` và nhấn Enter.
+2. **Anh sẽ thấy** `[RON-SHO] STEP 2/3 - MO 2 GPT TABS + 1 START TAB`.
+3. Chrome được yêu cầu mở 1 tab `RON-SHO START HERE` và 2 tab ChatGPT.
+4. Đếm **3 tab tổng cộng**, không phải 2. Chrome không tự đánh số tab 01/02.
+5. Nếu Chrome không mở: đọc dòng `[ERROR]` trên cửa sổ lệnh; báo lỗi, không tự coi là PASS.
 
-## Bước 4 - Tab hướng dẫn trên Chrome
-Anh quan sát thanh tab: 1 tab RON-SHO START HERE + 8 tab ChatGPT. Nếu chọn 10 thì là 1 + 10.
-Trong tab hướng dẫn, anh sẽ thấy chữ: Chào anh, bắt đầu dùng 8–10 GPT.
-Trang đó có 5 ô đánh dấu. Đánh dấu từng ô bằng tay sau khi thực hiện thành công.
-Chrome tự đặt tiêu đề ChatGPT cho các tab, không gắn sẵn nhãn GPT 01–10; anh đếm thứ tự từ trái sang phải.
+## Bước 4: Đọc tab hướng dẫn
+1. Bấm tab `RON-SHO START HERE`.
+2. **Anh sẽ thấy** tiêu đề `Chào anh, bắt đầu dùng 1–10 GPT` và checklist.
+3. Đọc checklist trước khi sử dụng; nếu trang chưa cập nhật tiêu đề, xem version trong 00_README.
 
-## Bước 5 - Đăng nhập
-Bấm tab ChatGPT đầu tiên. Nếu có Log in / Sign up, anh tự đăng nhập trong browser. Nếu hỏi 2FA/CAPTCHA, anh tự xử lý theo hướng dẫn của website. Không cấp password, token, cookie cho AI/script. Nếu tab khác còn chưa đăng nhập thì nhấn Ctrl+R để reload.
+## Bước 5: Đăng nhập
+1. Bấm tab ChatGPT thứ nhất.
+2. Nếu website hiển thị `Log in`, anh tự đăng nhập. AI không nhận mật khẩu, cookie, OTP hay mã 2FA.
+3. Nếu tab ChatGPT thứ hai chưa cập nhật trạng thái, bấm Ctrl+R.
 
-## Bước 6 - Thử thật hai tab
-Tab GPT thứ nhất: tạo chat mới, gõ Chào GPT 01, Enter. Xác nhận tin nhắn xuất hiện.
-Tab GPT thứ hai: tạo một chat mới khác, gõ Chào GPT 02, Enter. Xác nhận nội dung chat khác với tab đầu.
-Đếm lại 8 tab ChatGPT. Nếu muốn 10, sau khi xác nhận mức 8, đóng cửa sổ Chrome riêng này, chạy File A lại và chọn 2.
+## Bước 6: Hai chat thử
+1. Tab GPT thứ nhất: tạo chat mới và gửi `Chào GPT 01`.
+2. Tab GPT thứ hai: tạo chat mới khác và gửi `Chào GPT 02`.
+3. Chuyển qua lại để xác nhận hai chat khác nhau; nếu không thấy, đánh dấu FAIL/UNKNOWN.
 
-## Bước 7 - Kết thúc
-Đóng cửa sổ Chrome RON-SHO khi xong. Không kill các Chrome khác, không xóa profile.
+## Bước 7: Tăng số lượng
+1. Sau khi 2 tab PASS, đóng **cửa sổ Chrome RON-SHO riêng** (không đóng Chrome cá nhân).
+2. Nhấp lại File A, nhập số `1`, `3`, `8` hoặc `10` tùy ý.
+3. N=8 sẽ có 9 tab tổng cộng; N=10 sẽ có 11 tab tổng cộng.
 
-## Nếu lỗi
-Không thấy Chrome: xem dòng [ERROR] và kiểm tra cài đặt Chrome.
-Có Chrome nhưng không đủ tab: đợi trang tải; đóng cửa sổ RON-SHO và chạy lại chọn 8.
-Chỉ thấy START HERE: Ctrl+R hoặc kiểm tra mạng.
-ChatGPT hỏi Log in: đăng nhập thủ công.
-Script in [OK] nhưng browser không mở: chưa PASS, cần kiểm tra UI.
-Không đăng nhập được: BLOCKED_LOGIN. Có đủ tab nhưng hai chat chưa thử: UAT_PENDING.
+## Bước 8: Báo kết quả
+Ghi: số đã chọn; số tab thật thấy; có yêu cầu login không; GPT 01/02 đã gửi được không; thông báo lỗi; thời gian. Không gửi ảnh chứa mật khẩu hoặc nội dung riêng tư.
 
-## Chốt nghiệm thu
-Chỉ coi bản browser nhỏ này đạt khi anh thật sự thấy đúng số tab, đăng nhập được và thử hai cuộc chat khác nhau. Không tự nghiệm thu các tiêu chí AIOS cao hơn.
+## Ảnh minh họa bắt buộc
+Xem `06_VISUAL_EVIDENCE.md`. **Chưa có ảnh test thật** vì công cụ screen capture báo không có interactive session. Không dùng ảnh minh họa chung để giả làm bằng chứng.
