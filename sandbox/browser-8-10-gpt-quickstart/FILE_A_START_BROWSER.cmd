@@ -6,7 +6,7 @@ echo.
 echo ====================================================
 echo  RON-SHO BROWSER WORKBENCH - BUOC 1: MO 8-10 GPT
 echo ====================================================
-echo  1. Chon 8 hoac 10 tab ChatGPT.
+echo  1. Chon 1 den 10 tab ChatGPT, tuy anh.
 echo  2. Chrome mo profile rieng.
 echo  3. Anh DANG NHAP trong browser neu duoc hoi.
 echo  4. Moi tab la mot chat, CHUA phai AI agent tu dong.
