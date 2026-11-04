@@ -1,0 +1,23 @@
+# Handoff_OpenClaw_GitHub_CP3_041126-1401.md
+
+- **Mission:** Download and test OpenClaw in GitHub sandbox to assess RON-SHO executor failover.
+- **Origin Actor:** GPT Web (Strategic Architect).
+- **Origin Host:** CLOUD_WEB.
+- **Workspace:** phattrongtran15-pixel/ai-delivery-control-kit, branch sandbox/openclaw-cp3-20261104.
+- **Base SHA:** 981c88592c78e908c1ce9c39dec93fa7718c4cd4.
+- **Test commit SHA:** 07c498220ea0f955111f66093f4279da055be2e1.
+- **Upstream source pinned SHA:** 062d5d85481fca84c57014e7c3a128fc4386ea79.
+- **Installed npm package:** openclaw@2026.10.10; runtime shows build 7dc3350 (not proven identical to upstream source commit).
+- **Run:** https://github.com/phattrongtran15-pixel/ai-delivery-control-kit/actions/runs/41788971022
+- **Artifact:** https://github.com/phattrongtran15-pixel/ai-delivery-control-kit/actions/runs/41788971022/artifacts/13302457768
+- **Independent artifact ZIP SHA256:** 574eee17cbcd9375c925b1455991b7e7c8486a71eea756246cca0eda36f93485.
+- **Executed:** Installed package via npm in isolated GitHub Actions runner with lifecycle scripts disabled; checked CLI/version/help, ACP help, plugins help and gateway status; downloaded artifact for read-back.
+- **Verified:** GitHub job success, 16 artifact entries, CLI OpenClaw 2026.10.10, ACP/plugin commands exist.
+- **Negative finding:** `gateway status` returns code 0 while service stopped, connectivity failed and capability unknown. Exit code alone cannot be the readiness gate.
+- **UNKNOWN:** live MCP and n8n, Kilo/OpenCode ACP executor dispatch, model-provider permissions, one-prompt A-Z.
+- **Authority:** CLOUD_ADVISORY; NO production deployment, secrets, model API use, real n8n dispatch or auto ACCEPT.
+- **GO/HOLD:** GO next mock-E2E sandbox only; HOLD production.
+- **Checkpoint/Rollback:** branch from known base, no main change. Revert by deleting sandbox branch only after Ron approval; no production files altered.
+- **Owner Next Action:** Ron choose whether to test fake n8n MCP and Kilo actor via isolated GitHub Actions in CP4.1.
+- **Acceptance:** WAITING_RON.
+- **Closed At UTC:** 2026-11-04T07:01:19Z.
