@@ -181,7 +181,7 @@ async function main(){
   const tmp=fs.mkdtempSync(path.join(os.tmpdir(),"cp41-openclaw-"));
   const config={
    agents:{defaults:{model:{primary:"ronmock/deterministic"},contextInjection:"never"}},
-   models:{providers:{ronmock:{baseUrl:base+"/v1",api:"openai-completions",auth:"none",models:[{id:"deterministic",name:"CP41 Fake Deterministic Model",reasoning:false,input:["text"],contextWindow:16384,maxTokens:512,cost:{input:0,output:0,cacheRead:0,cacheWrite:0}}]}}},
+   models:{providers:{ronmock:{baseUrl:base+"/v1",api:"openai-completions",auth:"api-key",apiKey:"cp41-fake-local-only",models:[{id:"deterministic",name:"CP41 Fake Deterministic Model",reasoning:false,input:["text"],contextWindow:16384,maxTokens:512,cost:{input:0,output:0,cacheRead:0,cacheWrite:0}}]}}},
    tools:{profile:"coding"}
   };
   const configPath=path.join(tmp,"config.json");
