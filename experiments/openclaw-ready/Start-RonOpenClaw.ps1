@@ -18,7 +18,7 @@ function Save([string]$name,[object]$o) {
   if(!(Test-Path $Evidence)){New-Item -ItemType Directory -Force -Path $Evidence|Out-Null}
   $o|ConvertTo-Json -Depth 12|Set-Content -LiteralPath (Join-Path $Evidence $name) -Encoding UTF8
 }
-function Cli([string[]]$parts) {
+function Invoke-OC([string[]]$parts) {
   $old=$ErrorActionPreference
   $ErrorActionPreference="Continue"
   try {$out=(& openclaw --profile $Profile @parts 2>&1|Out-String);$rc=$LASTEXITCODE}
@@ -26,13 +26,13 @@ function Cli([string[]]$parts) {
   return [pscustomobject]@{ok=($rc -eq 0);exit=$rc;output=[string]$out}
 }
 function Need([string[]]$parts) {
-  $r=Cli $parts
+  $r=Invoke-OC $parts
   if(!$r.ok){throw ("OpenClaw command failed: "+($parts -join " ")+" EXIT="+$r.exit+" "+$r.output)}
   return $r
 }
 function Decode([string]$s){try{return $s|ConvertFrom-Json -ErrorAction Stop}catch{return $null}}
 function Healthy {
-  $r=Cli @("health","--json","--timeout","8000")
+  $r=Invoke-OC @("health","--json","--timeout","8000")
   $j=Decode $r.output
   if(!$r.ok -or $null -eq $j){return $false}
   if(($j.PSObject.Properties.Name -contains "status") -and $j.status -eq "starting"){return $false}
@@ -77,8 +77,8 @@ if($Mode -eq "Rollback"){
   if(!(Test-Path $Owner)){throw "Not a RON-SHO owned profile, rollback refused"}
   if(Get-Command openclaw -ErrorAction SilentlyContinue){
     try{$job=Job;if($null -ne $job -and $job.id){$null=Need @("automations","remove",([string]$job.id))}}catch{Write-Warning $_.Exception.Message}
-    $null=Cli @("gateway","stop")
-    $null=Cli @("gateway","uninstall")
+    $null=Invoke-OC @("gateway","stop")
+    $null=Invoke-OC @("gateway","uninstall")
   }
   Save "ROLLBACK.json" @{utc=Utc;result="ROLLBACK_REQUESTED";filesRetained=$true;profile=$Profile}
   Write-Host "ROLLBACK_REQUESTED; run Status for independent verification."
@@ -121,7 +121,7 @@ try{
   $ready=Healthy
   if(!$ready){
     $null=Need @("gateway","install")
-    $null=Cli @("gateway","start")
+    $null=Invoke-OC @("gateway","start")
     for($i=0;$i -lt 15;$i++){Start-Sleep -Seconds 3;if(Healthy){$ready=$true;break}}
   }
   if(!$ready){throw "Gateway not healthy - no automation writes permitted"}
@@ -155,7 +155,7 @@ Write-Output "RONSHO_SAFE_HEALTH_OK"
   Write-Host "SAFE_AUTOMATION_READY"
   Write-Host ("Evidence: "+(Join-Path $Evidence "BOOTSTRAP_RESULT.json"))
   Write-Host "Now login to an existing model provider once: openclaw --profile ronsho-sandbox onboard --classic"
-  if(!$NoBrowser){try{$null=Cli @("dashboard")}catch{}}
+  if(!$NoBrowser){try{$null=Invoke-OC @("dashboard")}catch{}}
 }catch{
   try{Save "BOOTSTRAP_HOLD.json" @{utc=Utc;status="HOLD";stage=$Stage;reason=$_.Exception.Message;defaultProfileUntouched=$true}}catch{}
   Write-Host ("HOLD at "+$Stage+": "+$_.Exception.Message)
