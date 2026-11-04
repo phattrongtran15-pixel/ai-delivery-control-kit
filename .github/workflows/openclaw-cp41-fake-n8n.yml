@@ -1,0 +1,45 @@
+name: OpenClaw CP4.1 fake n8n transport
+on:
+  push:
+    branches: [sandbox/openclaw-cp3-20261104]
+    paths:
+      - .github/workflows/openclaw-cp41-fake-n8n.yml
+      - experiments/openclaw-cp41/**
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  cp41:
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '26.12.1'
+      - name: Install pinned runtime without lifecycle scripts
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          mkdir -p evidence/cp41 "$RUNNER_TEMP/openclaw-cp41-install"
+          npm install --prefix "$RUNNER_TEMP/openclaw-cp41-install" --ignore-scripts --no-audit --no-fund --package-lock=true "openclaw@2026.10.10" > evidence/cp41/npm-install.log 2>&1
+          node "$RUNNER_TEMP/openclaw-cp41-install/node_modules/openclaw/openclaw.mjs" --version | tee evidence/cp41/version.txt
+      - name: Run deterministic OpenClaw agent and six local fake n8n cases
+        timeout-minutes: 6
+        shell: bash
+        env:
+          CP41_EVIDENCE_DIR: evidence/cp41
+        run: |
+          set -Eeuo pipefail
+          export CP41_OPENCLAW_CLI="$RUNNER_TEMP/openclaw-cp41-install/node_modules/openclaw/openclaw.mjs"
+          export CP41_SAFE_HOME="$RUNNER_TEMP/openclaw-cp41-home"
+          mkdir -p "$CP41_SAFE_HOME"
+          node experiments/openclaw-cp41/mock-transport.mjs
+      - name: Upload run-specific evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: openclaw-cp41-fake-n8n-evidence
+          path: evidence/cp41/
+          if-no-files-found: warn
+          retention-days: 7
