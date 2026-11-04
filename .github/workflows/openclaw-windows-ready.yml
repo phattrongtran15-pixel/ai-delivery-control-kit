@@ -36,3 +36,51 @@ jobs:
             if(!$s.Contains($needle)){throw "Missing guard: $needle"}
           }
           Write-Host "STATIC_GUARD_PASS"
+
+  native-automation-ephemeral-smoke:
+    runs-on: windows-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '26.12.1'
+      - name: Install pinned OpenClaw on disposable Windows runner
+        shell: pwsh
+        run: |
+          npm install -g openclaw@2026.10.10 --ignore-scripts --no-audit --no-fund
+          if($LASTEXITCODE -ne 0){exit 1}
+          openclaw --version
+      - name: Run isolated profile/Gateway/native automations bootstrap
+        id: bootstrap
+        shell: powershell
+        continue-on-error: true
+        run: |
+          & ".\experiments\openclaw-ready\Start-RonOpenClaw.ps1" -Mode Install -NoBrowser
+          if($LASTEXITCODE -ne 0){exit 1}
+      - name: Independent read-back via Status and log
+        if: always()
+        shell: powershell
+        run: |
+          $root=Join-Path $env:USERPROFILE ".openclaw-ronsho-sandbox"
+          $dir=Join-Path $root "ronsho-evidence"
+          if(Test-Path $dir){Get-ChildItem $dir | Select-Object Name,Length | Format-Table -AutoSize}
+          if(Test-Path (Join-Path $dir "BOOTSTRAP_HOLD.json")){Get-Content (Join-Path $dir "BOOTSTRAP_HOLD.json")}
+          if(Test-Path (Join-Path $dir "BOOTSTRAP_RESULT.json")){Get-Content (Join-Path $dir "BOOTSTRAP_RESULT.json")}
+          if(Get-Command openclaw -ErrorAction SilentlyContinue){ & ".\experiments\openclaw-ready\Start-RonOpenClaw.ps1" -Mode Status }
+          exit 0
+      - name: Capture receipts without storing config/token
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: openclaw-windows-native-safe-bootstrap-evidence
+          path: ~/\.openclaw-ronsho-sandbox/ronsho-evidence/
+          if-no-files-found: warn
+          retention-days: 7
+      - name: Stop disposable Gateway and owned job
+        if: always()
+        shell: powershell
+        run: |
+          if(Test-Path (Join-Path $env:USERPROFILE ".openclaw-ronsho-sandbox\RONSHO_OWNED.json")){
+            & ".\experiments\openclaw-ready\Start-RonOpenClaw.ps1" -Mode Rollback
+          }
