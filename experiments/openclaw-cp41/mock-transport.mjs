@@ -59,7 +59,7 @@ if(process.argv[2]==="--client"){
 }
 function stateFor(m,scenario,workId){
  const key=scenario+":"+workId;let s=m.get(key);
- if(!s){s={scenario,workId,createRequests:0,uniqueCreates:0,validations:0,tests:0,evidence:0,workflowId:null};m.set(key,s);}
+ if(!s){s={scenario,workId,createRequests:0,uniqueCreates:0,validations:0,tests:0,testRequests:0,testExecutions:0,evidence:0,workflowId:null};m.set(key,s);}
  return s;
 }
 function reply(res,status,data,delayMs=0){
@@ -134,7 +134,8 @@ async function startServer(){
   if(step==="validate"){s.validations=1;return reply(res,200,{valid:true});}
   if(step==="test"){
    if(s.validations!==1)return reply(res,409,{error:"NOT_VALIDATED"});
-   s.tests=1;return reply(res,200,{result:"PASS_MOCK"});
+   s.testRequests++; if(s.tests!==1){s.tests=1;s.testExecutions++;}
+   return reply(res,200,{result:"PASS_MOCK"});
   }
   if(step==="evidence"){
    if(s.tests!==1)return reply(res,409,{error:"NOT_TESTED"});
@@ -175,7 +176,8 @@ async function main(){
        (s?.uniqueCreates||0)<2 &&
        (scenario==="missing_permission"||scenario==="false_ready"?(s?.uniqueCreates||0)===0:true) &&
        (scenario==="timeout_exhausted"?(s?.tests||0)===0:true) &&
-       (scenario==="timeout_recovered"?first.retries===1:true);
+       (scenario==="timeout_recovered"?first.retries===1:true) &&
+       (scenario==="duplicate"?s?.createRequests===2 && s?.testRequests===2 && s?.testExecutions===1:true);
    checks.push({case:scenario,pass:extra,first,second,state:s||null});
   }
   const tmp=fs.mkdtempSync(path.join(os.tmpdir(),"cp41-openclaw-"));
@@ -192,7 +194,7 @@ async function main(){
   agentRun=await spawnCaptured(process.execPath,[cli,"agent","exec",mission,"--config",configPath,"--cwd",process.cwd(),"--code-mode","direct","--json"],{env,timeoutMs:125000});
   let parsed=null;try{parsed=JSON.parse(agentRun.stdout);}catch{}
   const agentState=states.get("success:WORK-CP41-AGENT");
-  checks.push({case:"openclaw_agent_exec_real",pass:agentRun.code===0 && modelCalls.length>=2 && !!agentState && agentState.uniqueCreates===1 && agentState.validations===1 && agentState.tests===1 && agentState.evidence===1,modelCalls:modelCalls.length,agentExit:agentRun.code,agentEnvelope:parsed?{ok:parsed.ok,status:parsed.status,toolSummary:parsed.toolSummary,final:parsed.final}:null,agentState:agentState||null});
+  checks.push({case:"openclaw_agent_exec_real",pass:agentRun.code===0 && modelCalls.length>=2 && !!agentState && agentState.uniqueCreates===1 && agentState.validations===1 && agentState.tests===1 && agentState.testRequests===1 && agentState.testExecutions===1 && agentState.evidence===1,modelCalls:modelCalls.length,agentExit:agentRun.code,agentEnvelope:parsed?{ok:parsed.ok,status:parsed.status,toolSummary:parsed.toolSummary,final:parsed.final}:null,agentState:agentState||null});
   save("agent-stdout.json",{exit:agentRun.code,stdout:agentRun.stdout.slice(0,40000)});
   save("agent-stderr.json",{exit:agentRun.code,stderr:agentRun.stderr.slice(-30000)});
   save("mock-model-requests.json",modelCalls);
