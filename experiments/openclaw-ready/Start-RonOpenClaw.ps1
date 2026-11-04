@@ -140,8 +140,29 @@ Write-Output "RONSHO_SAFE_HEALTH_OK"
   $Stage="REGISTER_JOB"
   $job=Job
   if($null -eq $job){
-    $argv=ConvertTo-Json -InputObject @("powershell.exe","-NoProfile","-NonInteractive","-ExecutionPolicy","Bypass","-File",$TaskScript) -Compress
-    $null=Need @("automations","create","*/30 * * * *","--name",$TaskName,"--command-argv",$argv,"--command-cwd",$Root,"--no-deliver")
+    # PS 5.1 native argument passing loses quotes in JSON when invoking npm .ps1 shim.
+    # Pass exact argv through a single Node subprocess, without shell interpolation.
+    $ocCommand=(Get-Command openclaw -ErrorAction Stop).Source
+    $ocEntry=Join-Path (Split-Path $ocCommand -Parent) "node_modules\openclaw\openclaw.mjs"
+    if(!(Test-Path -LiteralPath $ocEntry)){throw "Unable to locate verified npm CLI entrypoint; HOLD"}
+    $commandArgv=ConvertTo-Json -InputObject @("powershell.exe","-NoProfile","-NonInteractive","-ExecutionPolicy","Bypass","-File",$TaskScript) -Compress
+    $argsFile=Join-Path $Program "cron-argv.json"
+    $argvArray=@("--profile",$Profile,"automations","create","*/30 * * * *","--name",$TaskName,"--command-argv",$commandArgv,"--command-cwd",$Root,"--no-deliver")
+    ConvertTo-Json -InputObject $argvArray -Compress | Set-Content -LiteralPath $argsFile -Encoding UTF8
+    $js=Join-Path $Program "invoke-safe-cli.js"
+    @'
+const fs=require("fs"), cp=require("child_process");
+const [entry, argsFile]=process.argv.slice(2);
+const args=JSON.parse(fs.readFileSync(argsFile,"utf8").replace(/^\uFEFF/,""));
+if(!Array.isArray(args)||args.some(x=>typeof x!=="string"))process.exit(7);
+const r=cp.spawnSync(process.execPath,[entry,...args],{shell:false,encoding:"utf8",windowsHide:true,timeout:45000,maxBuffer:1024*1024});
+if(r.stdout)process.stdout.write(r.stdout);
+if(r.stderr)process.stderr.write(r.stderr);
+process.exit(r.error?8:(r.status===null?9:r.status));
+'@ | Set-Content -LiteralPath $js -Encoding Ascii
+    $call=(& node $js $ocEntry $argsFile 2>&1 | Out-String)
+    if($LASTEXITCODE -ne 0){throw "Exact-argv automation create failed: $call"}
+
     $job=Job
   }
   if($null -eq $job -or !$job.id){throw "Scheduled job not readable after creation"}

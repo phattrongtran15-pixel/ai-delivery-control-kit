@@ -54,7 +54,6 @@ jobs:
       - name: Run isolated profile/Gateway/native automations bootstrap
         id: bootstrap
         shell: powershell
-        continue-on-error: true
         run: |
           & ".\experiments\openclaw-ready\Start-RonOpenClaw.ps1" -Mode Install -NoBrowser
           if($LASTEXITCODE -ne 0){exit 1}
@@ -67,8 +66,19 @@ jobs:
           if(Test-Path $dir){Get-ChildItem $dir | Select-Object Name,Length | Format-Table -AutoSize}
           if(Test-Path (Join-Path $dir "BOOTSTRAP_HOLD.json")){Get-Content (Join-Path $dir "BOOTSTRAP_HOLD.json")}
           if(Test-Path (Join-Path $dir "BOOTSTRAP_RESULT.json")){Get-Content (Join-Path $dir "BOOTSTRAP_RESULT.json")}
-          if(Get-Command openclaw -ErrorAction SilentlyContinue){ & ".\experiments\openclaw-ready\Start-RonOpenClaw.ps1" -Mode Status }
-          exit 0
+          $resultPath=Join-Path $dir "BOOTSTRAP_RESULT.json"
+          if(-not(Test-Path -LiteralPath $resultPath)){throw "No bootstrap success receipt: HOLD"}
+          $state=Get-Content -Raw -LiteralPath $resultPath | ConvertFrom-Json
+          if($state.status -ne "SAFE_AUTOMATION_READY"){throw "Not READY: HOLD"}
+          $effectPath=Join-Path $dir "latest-scheduled-health.json"
+          if(-not(Test-Path -LiteralPath $effectPath)){throw "Missing scheduled effect receipt"}
+          $effect=Get-Content -Raw -LiteralPath $effectPath | ConvertFrom-Json
+          if($effect.kind -ne "RONSHO_SAFE_HEALTH"){throw "Unexpected scheduled receipt"}
+          if(Get-Command openclaw -ErrorAction SilentlyContinue){
+            & ".\experiments\openclaw-ready\Start-RonOpenClaw.ps1" -Mode Status
+            if($LASTEXITCODE -ne 0){throw "Read-back Status returned nonzero"}
+          }
+          Write-Host "VERIFIED_SAFE_AUTOMATION_READY"
       - name: Capture receipts without storing config/token
         if: always()
         uses: actions/upload-artifact@v4
