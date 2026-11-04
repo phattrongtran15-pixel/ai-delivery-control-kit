@@ -1,0 +1,80 @@
+name: OpenClaw CP3 sandbox smoke (no secrets)
+on:
+  push:
+    branches:
+      - sandbox/openclaw-cp3-20261104
+    paths:
+      - .github/workflows/openclaw-cp3-sandbox.yml
+      - experiments/openclaw-cp3/**
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  no-secrets-cli-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Setup supported Node runtime
+        uses: actions/setup-node@v4
+        with:
+          node-version: '26.12.1'
+      - name: Download pinned source manifest and install published OpenClaw
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          mkdir -p evidence
+          export HOME="$RUNNER_TEMP/openclaw-cp3-home"
+          export XDG_CONFIG_HOME="$HOME/.config"
+          export OPENCLAW_STATE_DIR="$RUNNER_TEMP/openclaw-cp3-state"
+          mkdir -p "$HOME" "$OPENCLAW_STATE_DIR"
+          UPSTREAM_SHA=062d5d85481fca84c57014e7c3a128fc4386ea79
+          PACKAGE_VERSION=2026.10.10
+          echo "$UPSTREAM_SHA" > evidence/upstream-commit.txt
+          echo "$PACKAGE_VERSION" > evidence/package-version.txt
+          curl --fail --location --silent --show-error --retry 2 --max-time 45 "https://raw.githubusercontent.com/openclaw/openclaw/$UPSTREAM_SHA/package.json" -o evidence/upstream-package.json
+          node -e 'const f=require("./evidence/upstream-package.json"); if(f.name!=="openclaw"||f.version!=="2026.10.10"){console.error("manifest mismatch"); process.exit(1)}'
+          sha256sum evidence/upstream-package.json > evidence/upstream-package.sha256
+          PREFIX="$RUNNER_TEMP/openclaw-cp3-install"
+          mkdir -p "$PREFIX"
+          if timeout 480s npm install --prefix "$PREFIX" --ignore-scripts --no-audit --no-fund --package-lock=true "openclaw@$PACKAGE_VERSION" > evidence/npm-install.log 2>&1; then
+            echo "INSTALL_PASS" > evidence/install-state.txt
+          else
+            code=$?
+            echo "INSTALL_FAILED: exit=$code" > evidence/install-state.txt
+            tail -n 80 evidence/npm-install.log
+            exit "$code"
+          fi
+          CLI="$PREFIX/node_modules/openclaw/openclaw.mjs"
+          test -f "$CLI"
+          node -e 'const p=require(process.argv[1]); if(p.name!=="openclaw"||p.version!=="2026.10.10")process.exit(2)' "$PREFIX/node_modules/openclaw/package.json"
+          timeout 45s node "$CLI" --version > evidence/cli-version.txt 2>&1
+          timeout 45s node "$CLI" --help > evidence/cli-help.txt 2>&1
+          test -s evidence/cli-version.txt
+          test -s evidence/cli-help.txt
+          if timeout 30s node "$CLI" acp --help > evidence/acp-help.txt 2>&1; then
+            echo "ACP_HELP_PASS" > evidence/acp-state.txt
+          else
+            echo "ACP_HELP_UNAVAILABLE" > evidence/acp-state.txt
+          fi
+          if timeout 30s node "$CLI" plugins --help > evidence/plugins-help.txt 2>&1; then
+            echo "PLUGINS_HELP_PASS" > evidence/plugins-state.txt
+          else
+            echo "PLUGINS_HELP_UNAVAILABLE" > evidence/plugins-state.txt
+          fi
+          if timeout 25s node "$CLI" gateway status > evidence/gateway-status.txt 2>&1; then
+            echo "GATEWAY_STATUS_EXIT_0" > evidence/gateway-state.txt
+          else
+            echo "GATEWAY_STATUS_NONZERO_NO_DAEMON_STARTED" > evidence/gateway-state.txt
+          fi
+          printf 'CLONE=NONE\nSECRETS=NONE\nMODEL_CALLS=NONE\nN8N_CALLS=NONE\nDAEMON_INSTALL=NONE\nMAIN_MUTATION=NONE\n' > evidence/boundaries.txt
+          echo "CLI_SMOKE_PASS" > evidence/receipt.txt
+      - name: Upload diagnostic receipt even on failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: openclaw-cp3-sandbox-receipts
+          path: evidence/
+          if-no-files-found: warn
+          retention-days: 7
