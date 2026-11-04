@@ -1,0 +1,11 @@
+# Handoff_OpenClaw_Strong_Automation_041126.md
+- Mission: One paste to get safe OpenClaw automation working with automatic evidence and status.
+- Host: CLOUD_WEB, GitHub sandbox.
+- Source: experiments/openclaw-ready/Start-RonOpenClaw.ps1.
+- Context: CP4.1 synthetic fake n8n test 7/7 PASS; real n8n MCP and Kilo ACP not verified.
+- Local reachability: Remote Desktop Commander offline and RON-SHO MCP Cloud unavailable; no Windows mutations in chat.
+- Capability: Native Automations command job health check, every 30 minutes, local-only profile.
+- Auth: existing provider sign-in cannot be bypassed; no auto use paid APIs.
+- Security: no external n8n, no messaging, no inbound public Gateway, no tool exec; approval/verification retained.
+- NEXT: Ron runs pinned GitHub PowerShell script once; script returns READY/HOLD and writes on-machine evidence. Any model provider login is a human-only step.
+- Status: WAITING_USER until actual Windows receipt, not auto ACCEPT.

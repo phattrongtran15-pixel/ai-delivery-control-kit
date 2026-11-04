@@ -1,0 +1,36 @@
+name: OpenClaw Windows ready bootstrap static CI
+on:
+  push:
+    branches: [sandbox/openclaw-cp3-20261104]
+    paths:
+      - .github/workflows/openclaw-windows-ready.yml
+      - experiments/openclaw-ready/**
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  pwsh-contract:
+    runs-on: windows-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Parse script in Windows PowerShell and PowerShell 7
+        shell: pwsh
+        run: |
+          $t=$null;$e=$null
+          [System.Management.Automation.Language.Parser]::ParseFile("experiments/openclaw-ready/Start-RonOpenClaw.ps1",[ref]$t,[ref]$e)|Out-Null
+          if($e.Count -gt 0){$e|ForEach-Object {Write-Error $_};exit 1}
+          Write-Host "PARSER_PASS"
+      - name: Run no-side-effect self-test
+        shell: pwsh
+        run: |
+          ./experiments/openclaw-ready/Start-RonOpenClaw.ps1 -Mode SelfTest
+          if($LASTEXITCODE -ne 0){exit 1}
+      - name: Check protected contracts
+        shell: pwsh
+        run: |
+          $s=Get-Content -Raw "experiments/openclaw-ready/Start-RonOpenClaw.ps1"
+          foreach($needle in @('ronsho-sandbox','loopback','SAFE_AUTOMATION_READY','"exec"','"automations","run"','BOOTSTRAP_HOLD.json','--no-deliver','-Mode Rollback','"health","--json"')){
+            if(!$s.Contains($needle)){throw "Missing guard: $needle"}
+          }
+          Write-Host "STATIC_GUARD_PASS"
