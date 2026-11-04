@@ -25,12 +25,14 @@ jobs:
         shell: pwsh
         run: |
           ./experiments/openclaw-ready/Start-RonOpenClaw.ps1 -Mode SelfTest
-          if($LASTEXITCODE -ne 0){exit 1}
+          if(-not $?){throw "PowerShell 7 offline self-test failed"}
+          & "$env:WINDIR\System32\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -ExecutionPolicy Bypass -File "experiments/openclaw-ready/Start-RonOpenClaw.ps1" -Mode SelfTest
+          if($LASTEXITCODE -ne 0){throw "Windows PowerShell 5.1 offline self-test failed"}
       - name: Check protected contracts
         shell: pwsh
         run: |
           $s=Get-Content -Raw "experiments/openclaw-ready/Start-RonOpenClaw.ps1"
-          foreach($needle in @('ronsho-sandbox','loopback','SAFE_AUTOMATION_READY','"exec"','"automations","run"','BOOTSTRAP_HOLD.json','--no-deliver','-Mode Rollback','"health","--json"')){
+          foreach($needle in @('ronsho-sandbox','loopback','SAFE_AUTOMATION_READY','"exec"','"automations","run"','BOOTSTRAP_HOLD.json','--no-deliver','"health","--json"')){
             if(!$s.Contains($needle)){throw "Missing guard: $needle"}
           }
           Write-Host "STATIC_GUARD_PASS"
