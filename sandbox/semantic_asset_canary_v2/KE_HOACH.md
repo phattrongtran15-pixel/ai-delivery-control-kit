@@ -1,52 +1,38 @@
-# KE_HOACH — RON-SHO Semantic Asset Canary V2
+# KẾ HOẠCH — RON-SHO SEMANTIC ASSET INTELLIGENCE V2 (GITHUB ONLY)
 
-## Mission
-Complete one GitHub-only semantic file-purpose and requirement trace canary in one authorized pass. Scope: existing ai-delivery-control-kit sandbox branch. No local laptop, no paid LLM/API, no main mutation, no merge, no production deploy.
+## I. Mission
+Ron yêu cầu thực hiện một lượt trọn gói trên GitHub: kiểm kê file → đọc mô tả nội dung → suy luận vai trò kỹ thuật → nối Requirement/Source/Test → kiểm chứng độc lập theo evidence → bàn giao SPEC và REPORT bằng tiếng Việt.
 
-## Authorization and checkpoint
-- User authorized full bounded implementation and testing on GitHub in one pass (11 Nov 2026).
-- Repo: phattrongtran15-pixel/ai-delivery-control-kit
-- Original main checkpoint: 981c88592c78e908c1ce9c39dec93fa7718c4cd4
-- Pre-V2 sandbox checkpoint: f252688dc692ce668a060c9b78144d99c69ca082
-- Allowed changes: new files under sandbox/semantic_asset_canary_v2/ and a new isolated GitHub Actions workflow under .github/workflows/.
-- Rollback: reset sandbox branch to f252688d or discard branch, subject to explicit rollback request. main must stay on original SHA.
-- Protected authority is not granted to modify Core X, production or secrets.
+## II. Phạm vi ủy quyền
+- **Repo:** phattrongtran15-pixel/ai-delivery-control-kit.
+- **Nhánh sandbox:** sandbox/semantic-asset-canary-20261111.
+- **Main SHA checkpoint:** 981c88592c78e908c1ce9c39dec93fa7718c4cd4.
+- **Sandbox trước V2:** f252688dc692ce668a060c9b78144d99c69ca082.
+- **Checkpoint trước bổ sung tài liệu tiếng Việt:** 1a19aa215acb257384c28ba746b04ffb1a5a6bbf.
+- **Allowed:** Chỉ sửa source canary, workflow và tài liệu trong nhánh sandbox. Không sửa code production, không merge, không tạo phí model.
+- **Rollback:** Hoàn nguyên thay đổi tài liệu/workflow về sandbox checkpoint trên; chỉ dùng cập nhật ref có expected SHA khi có quyền và yêu cầu rollback riêng. Main giữ nguyên.
 
-## Five steps, one authorized execution
-1. [x] Inspect scope and pin main/sandbox SHA; read repo source, tests, schemas and README.
-2. [x] Design evidence contract with four requirements and two deliberate missing/negative paths.
-3. [x] Commit analyzer, independent verifier, manifest, and Actions workflow atomically to sandbox (bc7972955861bd197d8b3aa7278093ea30253722).
-4. [x] Execute GitHub Actions and inspect job logs/artifact (run 42994125057, success; 16 unit tests PASS; negative 3/3 REJECTED).
-5. [x] Review source-only results and publish handoff. Independent status PASS_SOURCE_ONLY, four requirement traces reviewed: two STATIC_TRACE_PRESENT, two HOLD_INCOMPLETE_TRACE. Original intent/LLM/runtime remain NOT_VERIFIED.
+## III. 5 bước hành động trong một ủy quyền
+1. [x] Kiểm tra GitHub repository, source, tests, existing Actions và giữ checkpoint.
+2. [x] Triển khai V2 analyzer, independent verifier, fixture requirements trên nhánh sandbox; có negative test.
+3. [x] Chạy GitHub Actions V2: 16 unit tests PASS, 32 files, 21 SOURCE_DECLARED, 11 UNKNOWN, 7 static imports, trace 2 PASS tĩnh / 2 HOLD, 3/3 fake evidence REJECTED.
+4. [x] Soạn bộ hồ sơ VI: README, SPEC dự án, báo cáo kiểm thử, HANDOFF; thêm generator báo cáo VI trong Actions.
+5. [ ] Chạy GitHub Actions với generator VI; đọc ngược REPORT_V2.md, artifact và xác nhận CI/PR/main trước khi báo Ron.
 
-## Result definitions
-- PASS_SOURCE_ONLY: file SHA, AST symbol, test call and document anchor independently confirmed.
-- STATIC_TRACE_PRESENT: document + source symbol + test invocation exist. NOT runtime behavior.
-- HOLD_INCOMPLETE_TRACE: any required link missing.
-- SOURCE_DECLARED: a literal source description, not proof of original creator intent.
-- INFERENCE: technical role derived from syntax/path; still not accepted.
-- UNKNOWN: unsupported original intent, missing evidence, or unexplained file.
+## IV. Điều kiện nghiệm thu
+- GitHub Actions cuối phải SUCCESS và artifact chứa REPORT_V2.md tiếng Việt, REPORT_V2_VI.md, REPORT_V2_EN.md, SPEC_DU_AN_VI.md, BAO_CAO_KIEM_THU_V2_VI.md, README_VI.md, HANDOFF_V2_VI.md, ASSET_PROFILES_V2.json, VERIFICATION_V2.json.
+- Không sửa main, không merge PR #3.
+- SOURCE_ONLY_PASS không được suy ra ý định tác giả hay LLM semantic verified.
+- Requirement không có đủ evidence vẫn HOLD; UNKNOWN không được suy thành PASS.
 
-## Negative cases
-- Undocumented file must remain UNKNOWN.
-- Misleading docstring may be quoted only as SOURCE_DECLARED, not VERIFIED.
-- Injection-like document text must never override classification.
-- Tampered hash, fabricated PASS trace, and fabricated human acceptance must be rejected by a separate verifier.
+## V. Bằng chứng gốc
+- PR nháp: https://github.com/phattrongtran15-pixel/ai-delivery-control-kit/pull/3
+- Run V2 xác minh trước bước bổ sung tài liệu: https://github.com/phattrongtran15-pixel/ai-delivery-control-kit/actions/runs/42994419698
+- V2 kết quả gốc: 32 file, 21 SOURCE_DECLARED, 11 UNKNOWN, 7 import; 2 STATIC_TRACE_PRESENT, 2 HOLD_INCOMPLETE_TRACE.
+- Các kết quả này là snapshot đã được kiểm chứng tại run nêu trên; workflow sau thay đổi phải kiểm tra bằng run riêng.
 
-## Output
-GitHub Actions artifact contains:
-- ASSET_PROFILES_V2.json
-- REPORT_V2.md
-- VERIFICATION_V2.json
-
-No new model API is invoked; actual neural/LLM semantic understanding and production Core X behavior are outside this canary. The user has authorized this bounded run, not unverified fact claims.
-
-## Read-back receipts (before plan-finalization commit)
-- GitHub Actions V2: https://github.com/phattrongtran15-pixel/ai-delivery-control-kit/actions/runs/42994125057
-- Existing application CI: https://github.com/phattrongtran15-pixel/ai-delivery-control-kit/actions/runs/42994124477
-- V2 artifact ID: 13842608394, name: semantic-asset-v2-evidence
-- Evidence digest: sha256:9c9e2db590bdaefa34b5b2185c07f8c6c41ff3d44c6967d82b52c579c234bf12
-- Source profiles: 32, SOURCE_DECLARED 21, UNKNOWN 11, static import edges 7.
-- Requirements REQ-01 and REQ-02 have STATIC_TRACE_PRESENT; REQ-03 misses test link; REQ-04 misses implementation and test link.
-- This success is restricted to source-only auditing. It does not imply that an LLM inferred historical intent or that RON-SHO Core X has been deployed.
-- Ron's broad authorization is an execution permission, not an evidence substitute.
+## VI. Kết luận
+- **Executed:** đã có baseline PASS cho canary mã nguồn.
+- **Verified:** chỉ trên source-only.
+- **Accepted:** Anh ủy quyền full execution; semantic business outcome vẫn chưa được xác minh độc lập.
+- **Bước cuối:** read-back artifact tiếng Việt, giữ PR draft để review.

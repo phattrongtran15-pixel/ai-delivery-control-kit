@@ -27,7 +27,7 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Compile offline analyzer and verifier
+      - name: Compile offline analyzer, verifier and Vietnamese report generator
         run: python -m compileall -q sandbox/semantic_asset_canary_v2
 
       - name: Existing application unit tests
@@ -47,7 +47,13 @@ jobs:
             --manifest sandbox/semantic_asset_canary_v2/requirements.json \
             --artifact-dir out/semantic-asset-v2
 
-      - name: Upload inspectable evidence, no repository write
+      - name: Sinh báo cáo tiếng Việt và đóng gói SPEC
+        run: |
+          python sandbox/semantic_asset_canary_v2/generate_report_vi.py \
+            --artifact-dir out/semantic-asset-v2 \
+            --docs-dir sandbox/semantic_asset_canary_v2
+
+      - name: Upload inspectable evidence and Vietnamese documentation
         if: always()
         uses: actions/upload-artifact@v4
         with:
