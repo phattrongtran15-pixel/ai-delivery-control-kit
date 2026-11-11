@@ -2,7 +2,7 @@
 **Ngày:** 11/11/2026  
 **Phạm vi:** GitHub-only source canary, không chạy RON-SHO runtime  
 **Trạng thái:** SOURCE-ONLY VERIFIED / SEMANTIC PURPOSE HOLD  
-**Bằng chứng chính:** https://github.com/phattrongtran15-pixel/ai-delivery-control-kit/actions/runs/42994419698
+**Bằng chứng chính:** https://github.com/phattrongtran15-pixel/ai-delivery-control-kit/actions/runs/42996277058
 
 ## 1. Tóm tắt cho Ron
 PoC chạy thật trên GitHub Actions và xuất artifact. Verifier tách riêng đọc lại source và kiểm tra chống báo cáo giả. **Không có bằng chứng cho kết luận “AI đã hiểu đúng mục đích kinh doanh của từng file”** vì V2 không dùng mô hình LLM, cũng không có chứng thực ý định ban đầu của tác giả.
@@ -58,3 +58,9 @@ PoC chạy thật trên GitHub Actions và xuất artifact. Verifier tách riên
 
 ## 8. Local fix tối thiểu khi tiếp tục
 Không thêm tool mới trước. Cần có một bộ câu hỏi chuẩn và ground truth cho mỗi file: trách nhiệm kỹ thuật, nhu cầu tạo ra, owner, thời điểm, Work/PR, tác động, evidence. Sau đó mới đánh giá AI sinh diễn giải và tỷ lệ sai.
+
+## 9. Kiểm thử tài liệu tiếng Việt (11/11/2026)
+- Workflow generator chạy PASS trên GitHub Actions #42996277058.
+- Đã mở artifact ZIP và xác nhận REPORT_V2.md chứa tiêu đề tiếng Việt và 32 hồ sơ file; SPEC_DU_AN_VI.md và BAO_CAO_KIEM_THU_V2_VI.md có nội dung thực.
+- Không có thay đổi dữ liệu đo: 16 test PASS, 21 SOURCE_DECLARED, 11 UNKNOWN, 7 static imports, 2 static traces/2 HOLD.
+- Bản báo cáo xuất động trong artifact mang SHA của chính lần chạy; không dùng tài liệu tĩnh này để giả làm dữ liệu real-time.

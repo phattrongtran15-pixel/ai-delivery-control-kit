@@ -128,7 +128,7 @@ def generate(folder: Path, repo_docs: Path) -> None:
     shutil.copyfile(previous, folder / "REPORT_V2_EN.md")
     previous.write_text(content, encoding="utf-8")
     (folder / "REPORT_V2_VI.md").write_text(content, encoding="utf-8")
-    for filename in ("SPEC_DU_AN_VI.md", "BAO_CAO_KIEM_THU_V2_VI.md", "README_VI.md", "HANDOFF_V2_VI.md"):
+    for filename in ("SPEC_DU_AN_VI.md", "BAO_CAO_KIEM_THU_V2_VI.md", "README_VI.md", "HANDOFF_V2_VI.md", "KE_HOACH.md"):
         source = repo_docs / filename
         if not source.is_file():
             raise FileNotFoundError(str(source))

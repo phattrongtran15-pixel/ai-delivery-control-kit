@@ -17,7 +17,7 @@ Ron yêu cầu thực hiện một lượt trọn gói trên GitHub: kiểm kê 
 2. [x] Triển khai V2 analyzer, independent verifier, fixture requirements trên nhánh sandbox; có negative test.
 3. [x] Chạy GitHub Actions V2: 16 unit tests PASS, 32 files, 21 SOURCE_DECLARED, 11 UNKNOWN, 7 static imports, trace 2 PASS tĩnh / 2 HOLD, 3/3 fake evidence REJECTED.
 4. [x] Soạn bộ hồ sơ VI: README, SPEC dự án, báo cáo kiểm thử, HANDOFF; thêm generator báo cáo VI trong Actions.
-5. [ ] Chạy GitHub Actions với generator VI; đọc ngược REPORT_V2.md, artifact và xác nhận CI/PR/main trước khi báo Ron.
+5. [x] Đã chạy GitHub Actions có generator tiếng Việt, tải và mở artifact, đối chiếu REPORT_V2.md/SPEC/README/HANDOFF, xác nhận CI PASS; sau bổ sung KE_HOACH.md vào artifact phải đọc ngược run cuối.
 
 ## IV. Điều kiện nghiệm thu
 - GitHub Actions cuối phải SUCCESS và artifact chứa REPORT_V2.md tiếng Việt, REPORT_V2_VI.md, REPORT_V2_EN.md, SPEC_DU_AN_VI.md, BAO_CAO_KIEM_THU_V2_VI.md, README_VI.md, HANDOFF_V2_VI.md, ASSET_PROFILES_V2.json, VERIFICATION_V2.json.
@@ -36,3 +36,9 @@ Ron yêu cầu thực hiện một lượt trọn gói trên GitHub: kiểm kê 
 - **Verified:** chỉ trên source-only.
 - **Accepted:** Anh ủy quyền full execution; semantic business outcome vẫn chưa được xác minh độc lập.
 - **Bước cuối:** read-back artifact tiếng Việt, giữ PR draft để review.
+
+## VII. Bằng chứng hồ sơ tiếng Việt
+- Run kiểm tra tiếng Việt: https://github.com/phattrongtran15-pixel/ai-delivery-control-kit/actions/runs/42996277058 (SUCCESS).
+- Artifact ID: 13844256092, SHA256: 8385d88a948afb5c97660990a56b9739af28ea4818ebb70286d009a8d1432887.
+- Đã mở ZIP kiểm chứng có REPORT_V2.md tiếng Việt, REPORT_V2_VI.md, SPEC_DU_AN_VI.md, BAO_CAO_KIEM_THU_V2_VI.md, README_VI.md, HANDOFF_V2_VI.md và 2 JSON evidence.
+- Bản cuối bổ sung KE_HOACH.md vào artifact để hồ sơ tải xuống đầy đủ.

@@ -10,7 +10,7 @@
 - **Rollback:** bỏ nhánh sandbox/rollback scoped change theo lease, không thay main.
 
 ## Công việc đã được chứng minh
-- V2 Actions run 42994419698 SUCCESS; 16 unit tests PASS, 32 file, 21 khai báo mô tả, 11 UNKNOWN, 7 import tĩnh.
+- V2 Actions run 42996277058 SUCCESS; 16 unit tests PASS, 32 file, 21 khai báo mô tả, 11 UNKNOWN, 7 import tĩnh.
 - Truy vết 4 requirement: 2 có static trace; 2 HOLD.
 - 3 ca giả mạo bị verifier bác bỏ; kết quả là PASS_SOURCE_ONLY.
 
@@ -31,3 +31,8 @@
 
 ## One Next Action
 Mở PR #3 → Files changed → README_VI.md / SPEC_DU_AN_VI.md / BAO_CAO_KIEM_THU_V2_VI.md. Khi muốn xem output thực thi: mở Actions V2 mới nhất → Artifacts → semantic-asset-v2-evidence → REPORT_V2.md.
+
+## Chỉnh sửa hồ sơ tiếng Việt
+- Tài liệu README/SPEC/REPORT/PLAN/HANDOFF đã có trong nhánh sandbox.
+- Actions #42996277058 đã sinh REPORT_V2.md tiếng Việt và artifact hợp lệ.
+- Kết quả 2 requirement HOLD không được nâng thành PASS chỉ vì báo cáo tiếng Việt.
