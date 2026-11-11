@@ -1,0 +1,57 @@
+name: RON-SHO Semantic Asset V2 GitHub-Only
+
+on:
+  push:
+    branches:
+      - sandbox/semantic-asset-canary-20261111
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ronsho-semantic-v2-sandbox
+  cancel-in-progress: true
+
+jobs:
+  source-and-independent-verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Checkout sandbox without persisted credentials
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile offline analyzer and verifier
+        run: python -m compileall -q sandbox/semantic_asset_canary_v2
+
+      - name: Existing application unit tests
+        env:
+          PYTHONPATH: src
+        run: python -m unittest discover -s tests -p 'test_*.py' -v
+
+      - name: Read-only source purpose, dependency and requirement trace
+        run: |
+          python sandbox/semantic_asset_canary_v2/analyzer.py \
+            --spec sandbox/semantic_asset_canary_v2/requirements.json \
+            --out out/semantic-asset-v2
+
+      - name: Separate source read-back and adversarial verification
+        run: |
+          python sandbox/semantic_asset_canary_v2/independent_verify.py \
+            --manifest sandbox/semantic_asset_canary_v2/requirements.json \
+            --artifact-dir out/semantic-asset-v2
+
+      - name: Upload inspectable evidence, no repository write
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: semantic-asset-v2-evidence
+          path: out/semantic-asset-v2/
+          retention-days: 14
+          if-no-files-found: warn
