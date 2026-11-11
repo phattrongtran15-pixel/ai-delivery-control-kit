@@ -80,9 +80,14 @@ jobs:
                   except SyntaxError: continue
                   for node in ast.walk(tree):
                       module=node.module if isinstance(node,ast.ImportFrom) else None
-                      if module and module.startswith("ai_delivery_control"):
-                          target="src/"+module.replace(".","/")+".py"
-                          if target in tracked:
+                      if module is not None:
+                          if node.level and p.startswith("src/ai_delivery_control/"):
+                              module="ai_delivery_control"+("." + module if module else "")
+                          if module=="ai_delivery_control":
+                              target="src/ai_delivery_control/__init__.py"
+                          else:
+                              target="src/"+module.replace(".","/")+".py"
+                          if module.startswith("ai_delivery_control") and target in tracked:
                               edges.append(dict(source=p,target=target,line=node.lineno,relation="STATIC_IMPORT",runtime_verified=False))
           counts=dict(Counter(r["state"] for r in inventory))
           assert any(r["path"].startswith("src/") for r in inventory)
