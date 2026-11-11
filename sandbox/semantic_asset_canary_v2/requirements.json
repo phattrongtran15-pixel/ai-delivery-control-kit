@@ -1,0 +1,68 @@
+{
+  "schema_version": "RON-SHO-SEMANTIC-CANARY-V2-MANIFEST",
+  "mission_id": "FIXTURE-GITHUB-SOURCE-INTELLIGENCE",
+  "mission_statement": "Demonstrate evidence-backed file purpose and requirement-to-code-to-test trace without paid model APIs.",
+  "requirements": [
+    {
+      "id": "REQ-01",
+      "statement": "Assess whether Gateway centralization is justified from observable signals.",
+      "evidence_document": {
+        "path": "README.md",
+        "contains": "Gateway-necessity assessment CLI"
+      },
+      "implementation": {
+        "path": "src/ai_delivery_control/assessment.py",
+        "symbol": "assess_gateway_need"
+      },
+      "test": {
+        "path": "tests/test_assessment.py",
+        "test": "test_pre_value_prefers_inline_controls"
+      }
+    },
+    {
+      "id": "REQ-02",
+      "statement": "Reject protected Work Packages without an approval reference.",
+      "evidence_document": {
+        "path": "README.md",
+        "contains": "Work Package validator that requires"
+      },
+      "implementation": {
+        "path": "src/ai_delivery_control/work_package.py",
+        "symbol": "validate_work_package"
+      },
+      "test": {
+        "path": "tests/test_work_package.py",
+        "test": "test_protected_action_requires_approval_reference"
+      }
+    },
+    {
+      "id": "REQ-03",
+      "statement": "Provide a CLI for assessment and work-package validation.",
+      "evidence_document": {
+        "path": "README.md",
+        "contains": "The installed command is also available as"
+      },
+      "implementation": {
+        "path": "src/ai_delivery_control/cli.py",
+        "symbol": "main"
+      },
+      "test": {
+        "path": "tests/test_cli_contract.py",
+        "test": "test_cli_assess_from_spec"
+      }
+    },
+    {
+      "id": "REQ-04",
+      "statement": "Verify original author intent from signed provenance.",
+      "evidence_document": {
+        "path": "docs/evidence-model.md",
+        "contains": "The toolkit uses explicit claim states"
+      },
+      "implementation": {
+        "path": "src/ai_delivery_control/assessment.py",
+        "symbol": "signed_original_author_intent_proof"
+      },
+      "test": null
+    }
+  ]
+}

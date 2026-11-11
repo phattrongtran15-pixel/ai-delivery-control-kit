@@ -1,0 +1,116 @@
+name: RON-SHO File Purpose Canary
+on:
+  push:
+    branches:
+      - sandbox/semantic-asset-canary-20261111
+permissions:
+  contents: read
+jobs:
+  semantic-source-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Inventory content and negative canary
+        shell: bash
+        run: |
+          python - <<'PY'
+          import ast, hashlib, json, pathlib, re, subprocess, tomllib
+          from collections import Counter
+          root=pathlib.Path.cwd()
+          commit=subprocess.check_output(["git","rev-parse","HEAD"],text=True).strip()
+          paths=subprocess.check_output(["git","ls-files","-z"]).split(b"\0")
+          tracked=sorted({p.decode("utf-8") for p in paths if p})
+          extensions={".py",".md",".json",".toml",".yml",".yaml"}
+          def describe(path,text):
+              lines=text.splitlines()
+              result={"state":"UNKNOWN","description":"UNKNOWN","line":None,"basis":"NONE"}
+              try:
+                  if path.endswith(".py"):
+                      t=ast.parse(text)
+                      d=ast.get_docstring(t)
+                      if d:
+                          result=dict(state="SOURCE_DECLARED",description=" ".join(d.split())[:220],line=t.body[0].lineno,basis="DOCSTRING")
+                  elif path.endswith(".md"):
+                      for i,s in enumerate(lines[:80],1):
+                          s=s.strip()
+                          if len(s)>=25 and not s.startswith(("#",">","-","*","|","[","!","<","~~","1.","2.")):
+                              result=dict(state="SOURCE_DECLARED",description=s[:220],line=i,basis="DOCUMENT_TEXT")
+                              break
+                  elif path.endswith(".json"):
+                      j=json.loads(text)
+                      if isinstance(j,dict) and isinstance(j.get("description"),str) and j["description"].strip():
+                          result=dict(state="SOURCE_DECLARED",description=j["description"][:220],line=next((i for i,s in enumerate(lines,1) if '"description"' in s),None),basis="JSON_DESCRIPTION")
+                  elif path.endswith(".toml"):
+                      d=tomllib.loads(text).get("project",{}).get("description")
+                      if isinstance(d,str) and d.strip():
+                          result=dict(state="SOURCE_DECLARED",description=d[:220],line=next((i for i,s in enumerate(lines,1) if "description" in s),None),basis="PACKAGE_DESCRIPTION")
+                  elif path.endswith((".yml",".yaml")):
+                      for i,s in enumerate(lines[:60],1):
+                          m=re.match(r"^name:\s*(.+)",s)
+                          if m:
+                              result=dict(state="SOURCE_DECLARED",description="Named workflow: "+m.group(1)[:180],line=i,basis="WORKFLOW_NAME")
+                              break
+              except (ValueError,SyntaxError,TypeError) as e:
+                  result["basis"]="PARSE_ERROR_"+type(e).__name__
+              return result
+          assert describe("mystery.py","def f():\n    return 1\n")["state"]=="UNKNOWN"
+          assert describe("only-heading.md","# Heading\n")["state"]=="UNKNOWN"
+          assert describe("documented.py",'"""Describes a test module."""\n')["state"]=="SOURCE_DECLARED"
+          selected=[p for p in tracked if pathlib.Path(p).suffix.lower() in extensions][:120]
+          inventory=[]; edges=[]
+          for p in selected:
+              file=root/p
+              if file.is_symlink() or not file.is_file() or file.stat().st_size>200000:
+                  continue
+              try:
+                  data=file.read_bytes(); text=data.decode("utf-8")
+              except (UnicodeError,OSError):
+                  continue
+              c=describe(p,text)
+              assert c["state"] in {"SOURCE_DECLARED","UNKNOWN"}
+              inventory.append(dict(path=p,bytes=len(data),sha256=hashlib.sha256(data).hexdigest(),commit=commit,creator_intent="UNKNOWN",accepted=False,**c))
+              if p.endswith(".py"):
+                  try: tree=ast.parse(text)
+                  except SyntaxError: continue
+                  for node in ast.walk(tree):
+                      module=node.module if isinstance(node,ast.ImportFrom) else None
+                      if module is not None:
+                          if node.level and p.startswith("src/ai_delivery_control/"):
+                              module="ai_delivery_control"+("." + module if module else "")
+                          if module=="ai_delivery_control":
+                              target="src/ai_delivery_control/__init__.py"
+                          else:
+                              target="src/"+module.replace(".","/")+".py"
+                          if module.startswith("ai_delivery_control") and target in tracked:
+                              edges.append(dict(source=p,target=target,line=node.lineno,relation="STATIC_IMPORT",runtime_verified=False))
+          counts=dict(Counter(r["state"] for r in inventory))
+          assert any(r["path"].startswith("src/") for r in inventory)
+          assert any(r["path"].startswith("tests/") for r in inventory)
+          assert counts.get("UNKNOWN",0)>0 and counts.get("SOURCE_DECLARED",0)>0
+          out=root/"out"/"semantic-canary"; out.mkdir(parents=True,exist_ok=True)
+          payload=dict(repo_commit=commit,tracked_count=len(tracked),scanned_count=len(inventory),counts=counts,profiles=inventory,edges=edges,negative_canaries="PASS",creator_intent="UNKNOWN",runtime_verification="NOT_RUN",human_acceptance="NOT_ACCEPTED")
+          (out/"ASSET_PROFILES.json").write_text(json.dumps(payload,ensure_ascii=False,indent=2))
+          rows=["# Semantic File Purpose Canary","","Commit: "+commit,"", "Source-declared: "+str(counts.get("SOURCE_DECLARED",0)),"Unknown: "+str(counts.get("UNKNOWN",0)),"Static edges: "+str(len(edges)),"","|File|State|Purpose claim|Evidence line|","|---|---|---|---|"]
+          for r in inventory[:40]:
+              rows.append("|"+r["path"]+"|"+r["state"]+"|"+r["description"].replace("|","/")+"|"+str(r["line"])+"|")
+          rows+=["","Original creator intent: UNKNOWN.","Static references are NOT proof of runtime behavior.","No LLM inference or external API was used.","The owner has NOT accepted this report."]
+          (out/"REPORT.md").write_text("\n".join(rows),encoding="utf-8")
+          print("NEGATIVE_CANARY_PASS")
+          print("SOURCE_ONLY_COUNTS="+json.dumps(dict(scanned=len(inventory),states=counts,edges=len(edges))))
+          print("REPORT_ARTIFACT=out/semantic-canary")
+          print("STATUS=SOURCE_ONLY_NOT_ACCEPTED")
+          PY
+      - name: Upload evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: semantic-asset-evidence
+          path: out/semantic-canary/
+          if-no-files-found: warn
+          retention-days: 7
