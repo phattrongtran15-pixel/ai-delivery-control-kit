@@ -15,9 +15,9 @@ Complete one GitHub-only semantic file-purpose and requirement trace canary in o
 ## Five steps, one authorized execution
 1. [x] Inspect scope and pin main/sandbox SHA; read repo source, tests, schemas and README.
 2. [x] Design evidence contract with four requirements and two deliberate missing/negative paths.
-3. [ ] Commit analyzer, independent verifier, manifest, and Actions workflow atomically to sandbox.
-4. [ ] Execute GitHub Actions with existing unit tests, syntax/static extraction and adversarial verification; read job logs and artifact.
-5. [ ] Read back main SHA, consolidate evidence and publish the final human-readable handoff; no implicit human acceptance of unverified claims.
+3. [x] Commit analyzer, independent verifier, manifest, and Actions workflow atomically to sandbox (bc7972955861bd197d8b3aa7278093ea30253722).
+4. [x] Execute GitHub Actions and inspect job logs/artifact (run 42994125057, success; 16 unit tests PASS; negative 3/3 REJECTED).
+5. [x] Review source-only results and publish handoff. Independent status PASS_SOURCE_ONLY, four requirement traces reviewed: two STATIC_TRACE_PRESENT, two HOLD_INCOMPLETE_TRACE. Original intent/LLM/runtime remain NOT_VERIFIED.
 
 ## Result definitions
 - PASS_SOURCE_ONLY: file SHA, AST symbol, test call and document anchor independently confirmed.
@@ -40,3 +40,13 @@ GitHub Actions artifact contains:
 - VERIFICATION_V2.json
 
 No new model API is invoked; actual neural/LLM semantic understanding and production Core X behavior are outside this canary. The user has authorized this bounded run, not unverified fact claims.
+
+## Read-back receipts (before plan-finalization commit)
+- GitHub Actions V2: https://github.com/phattrongtran15-pixel/ai-delivery-control-kit/actions/runs/42994125057
+- Existing application CI: https://github.com/phattrongtran15-pixel/ai-delivery-control-kit/actions/runs/42994124477
+- V2 artifact ID: 13842608394, name: semantic-asset-v2-evidence
+- Evidence digest: sha256:9c9e2db590bdaefa34b5b2185c07f8c6c41ff3d44c6967d82b52c579c234bf12
+- Source profiles: 32, SOURCE_DECLARED 21, UNKNOWN 11, static import edges 7.
+- Requirements REQ-01 and REQ-02 have STATIC_TRACE_PRESENT; REQ-03 misses test link; REQ-04 misses implementation and test link.
+- This success is restricted to source-only auditing. It does not imply that an LLM inferred historical intent or that RON-SHO Core X has been deployed.
+- Ron's broad authorization is an execution permission, not an evidence substitute.
